@@ -1,4 +1,4 @@
-# test-institution
+# test-institutions
 
 ## Project setup
 ```
