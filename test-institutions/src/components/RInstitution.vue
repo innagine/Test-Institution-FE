@@ -1,6 +1,6 @@
 <template>
-  <div class="PD">
-    <div class="PDcontent">
+  <div class="RI">
+    <div class="RIcontent">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -60,39 +60,6 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <el-form-item label="选择周期">
-          <el-col :span="11">
-            <el-form-item prop="date1">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="ruleForm.date"
-                :picker-options="pickerOptions"
-                style="width: 100%"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2" style="text-align: center">至</el-col>
-          <el-col :span="11">
-            <el-form-item prop="date2">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="ruleForm.date"
-                :picker-options="pickerOptions"
-                style="width: 100%"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="需求描述" prop="desc">
-          <el-input
-            type="textarea"
-            v-model="ruleForm.desc"
-            maxlength="2000"
-            show-word-limit
-          ></el-input>
-        </el-form-item>
         <el-form-item label="添加文件" prop="grade">
           <el-upload action="#" list-type="picture-card" :auto-upload="false">
             <i slot="default" class="el-icon-plus"></i>
@@ -272,18 +239,19 @@ export default {
 
 
 <style>
-.PD {
-  display: flex;
+.RI {
+  width: 100%;
+  /* display: flex; */
   /* margin: 30px 30px; */
-  justify-content: center;
-  align-items: center;
-  /* padding: 40px 0; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  padding:20px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.PDcontent {
+.RIcontent {
   height: 100%;
   width: 100%;
-  margin: 50px auto;
+  margin: 20px auto;
 }
 .el-upload--picture-card {
   width: 60px !important;

@@ -1,10 +1,12 @@
 <template>
   <div class="content">
     <div class="register">
-      <div class="choose1">
-        <!-- <h4>个人注册|</h4>
-        <h4>工厂注册|</h4>
-        <h4>机构申请</h4> -->
+      <div class="choose">
+        <div class="choose1">个人注册</div>
+        <div class="choose2">工厂注册</div>
+        <div class="choose3">机构申请</div>
+      </div>
+      <div class="choosebox">
         <r-institution></r-institution>
     </div>
     </div>
@@ -3398,19 +3400,44 @@ export default {
 }
 
 .register {
-  height: 50%;
+  height: 60%;
   /* display: flex; */
   width: 50%;
   /* margin: 0 auto; */
   background-color: #fff;
 }
 
+.choose{
+  width: 50%;
+  height: 7%;
+  margin: 0 auto;
+  background-color: blue;
+  display: flex;
+  align-items: center; /*定义body的元素垂直居中*/
+  justify-content: center; /*定义body的里的元素水平居中*/
+
+}
 .choose1{
-  /* width: 50%; */
+  text-align: center;
+  background: pink;
+  width: 33%;
+}
+.choose2{
+  text-align: center;
+  background: yellow;
+  width: 33%;
+}
+.choose3{
+  text-align: center;
+  background:red;
+  width: 33%;
+}
+
+.choosebox{
+  width: 100%;
+  display: flex;
   /* margin: 0 auto; */
   /* background-color: blue; */
-  display: flex;
-  justify-content: center; /*定义body的里的元素水平居中*/
 }
 
 .btn {
