@@ -146,7 +146,7 @@
 // import axios from "axios";
 
 export default {
-  name: "PostDemand",
+  name: "RInstitution",
   //   props:['User'],
   data() {
     return {

@@ -34,7 +34,7 @@
       <el-menu-item index="10" style="float: right">
         <el-button size="small" @click="PostDemand">发布需求</el-button>
       </el-menu-item>
-      <el-menu-item index="11" style="float: right">imagine</el-menu-item>
+      <el-menu-item index="11" style="float: right" @click="Login">imagine</el-menu-item>
       <el-menu-item index="12" style="float: right">
         <div>
           <el-avatar :src="url"></el-avatar>
@@ -102,7 +102,7 @@ export default {
     // 重新登陆
     Login() {
       this.$router.push({
-        path: "/",
+        path: "/login",
       });
     },
 
