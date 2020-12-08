@@ -274,15 +274,15 @@ export default {
 <style>
 .PD {
   display: flex;
-  margin: 30px 30px;
+  /* margin: 30px 30px; */
   justify-content: center;
   align-items: center;
-  padding: 40px 0;
+  /* padding: 40px 0; */
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .PDcontent {
   height: 100%;
-  width: 80%;
+  width: 100%;
   margin: 50px auto;
 }
 .el-upload--picture-card {

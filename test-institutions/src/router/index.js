@@ -28,12 +28,6 @@ const routes = [
     name:'Login',
     component: () => import('../views/Login.vue')
   },
-  {
-    path:'/register/rinstitution',
-    name:'RInstitution',
-    component: () => import('../components/RInstitution.vue')
-  },
-  
 ]
 
 const router = new VueRouter({

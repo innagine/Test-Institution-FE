@@ -2,10 +2,10 @@
   <div class="content">
     <div class="register">
       <div class="choose1">
-      <router-link to="">个人注册</router-link>|
-      <router-link to="/register/rinstitution">机构注册</router-link>|
-      <router-link to="">工厂注册</router-link>
-      <router-view>!!!</router-view>
+        <!-- <h4>个人注册|</h4>
+        <h4>工厂注册|</h4>
+        <h4>机构申请</h4> -->
+        <r-institution></r-institution>
     </div>
     </div>
     <svg
@@ -3357,12 +3357,12 @@
 </template>
 
 <script>
-// import RInstitutoin from '@/components/RInstitution.vue'
-// export default {
-//   components:{
-//     RInstitution
-//   }
-// }
+import RInstitution from '../components/RInstitution.vue'
+export default {
+  components:{
+    RInstitution
+  }
+}
 </script>
 
 <style>
@@ -3406,8 +3406,8 @@
 }
 
 .choose1{
-  width: 50%;
-  margin: 0 auto;
+  /* width: 50%; */
+  /* margin: 0 auto; */
   /* background-color: blue; */
   display: flex;
   justify-content: center; /*定义body的里的元素水平居中*/
