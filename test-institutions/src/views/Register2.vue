@@ -7,8 +7,8 @@
         mode="horizontal"
         @select="handleSelect"
       >
-        <el-menu-item index="1">用户注册</el-menu-item>
-        <el-menu-item index="2">工厂注册</el-menu-item>
+        <el-menu-item index="1" @click="RPSHOW">用户注册</el-menu-item>
+        <el-menu-item index="2" @click="RFSHOW">工厂注册</el-menu-item>
       </el-menu>
       <!-- <div class="choose">
         <div class="choose1">个人注册</div>
@@ -16,8 +16,8 @@
         <div class="choose3">机构申请</div>
       </div> -->
       <div class="choosebox">
-        <RFactory v-if="false"></RFactory>
-        <RPerson></RPerson>
+        <RFactory v-if="RFshow"></RFactory>
+        <RPerson  v-if="RPshow"></RPerson>
       </div>
     </div>
     <svg
@@ -3380,12 +3380,23 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      RFshow:false,
+      RPshow:true,
     };
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    RFSHOW(){
+      this.RFshow=true;
+      this.RPshow=false;
+
+    },
+    RPSHOW(){
+      this.RFshow=false;
+      this.RPshow=true;
+    }
   },
 };
 </script>
@@ -3427,7 +3438,8 @@ export default {
   /* display: flex; */
   width: 50%;
   /* margin: 0 auto; */
-  /* background-color: #fff; */
+  background-color: white;
+  
 }
 
 .choosebox {
@@ -3435,6 +3447,7 @@ export default {
   display: flex;
   /* margin: 0 auto; */
   /* background-color: blue; */
+  
 }
 
 .btn {

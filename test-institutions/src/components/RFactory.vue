@@ -45,16 +45,26 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="12">
-            <el-form-item label="预算范围" prop="scope">
-              <el-input
-                v-model="ruleForm.scope"
-                maxlength="30"
-                show-word-limit
-              ></el-input> </el-form-item
-          ></el-col>
-        </el-row> -->
+        <el-row>
+            <el-col :span="12">
+          <el-form-item label="密码" prop="password">
+            <el-input
+              v-model="ruleForm.password"
+              maxlength="30"
+              show-word-limit
+            ></el-input>
+          </el-form-item>
+            </el-col>
+            <el-col :span="12">
+          <el-form-item label="确认密码" prop="Rpassword">
+            <el-input
+              v-model="ruleForm.Rpassword"
+              maxlength="30"
+              show-word-limit
+            ></el-input>
+          </el-form-item>
+            </el-col>
+        </el-row>
         <el-form-item label="营业执照" prop="grade">
           <el-upload action="#" list-type="picture-card" :auto-upload="false">
             <i slot="default" class="el-icon-plus"></i>
@@ -94,9 +104,9 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
-            >提交需求</el-button
-          >
+            >注册</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button >返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -120,6 +130,8 @@ export default {
         number: "",
         email: "",
         ID: "",
+        password:'',
+        Rpassword:'',
       },
       rules: {
         email: [
@@ -141,6 +153,24 @@ export default {
         ],
         ID: [
           { required: true, message: "请输入联系人身份证号", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "长度在 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "长度在 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        Rpassword: [
+          { required: true, message: "请再次输入密码", trigger: "blur" },
           {
             min: 18,
             max: 18,
@@ -218,6 +248,7 @@ export default {
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  /* border-radius: 20px; */
 }
 .RFcontent {
   height: 100%;

@@ -45,9 +45,18 @@
             ></el-input>
           </el-form-item>
         </el-row>
+        <el-row>
+          <el-form-item label="确认密码" prop="Rpassword">
+            <el-input
+              v-model="ruleForm.Rpassword"
+              maxlength="30"
+              show-word-limit
+            ></el-input>
+          </el-form-item>
+        </el-row>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
-            >提交需求</el-button
+            >注册</el-button
           >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
@@ -74,6 +83,7 @@ export default {
         email: "",
         ID: "",
         password:'',
+        Rpassword:'',
       },
       rules: {
         email: [
@@ -94,7 +104,16 @@ export default {
           },
         ],
         password: [
-          { required: true, message: "请输入联系人身份证号", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "长度在 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        Rpassword: [
+          { required: true, message: "请再次输入密码", trigger: "blur" },
           {
             min: 18,
             max: 18,
@@ -172,6 +191,7 @@ export default {
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  /* border-radius: 20px; */
 }
 .RPcontent {
   height: 100%;
