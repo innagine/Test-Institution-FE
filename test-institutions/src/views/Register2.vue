@@ -1,14 +1,24 @@
 <template>
   <div class="content">
     <div class="register">
-      <div class="choose">
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+      >
+        <el-menu-item index="1">用户注册</el-menu-item>
+        <el-menu-item index="2">工厂注册</el-menu-item>
+      </el-menu>
+      <!-- <div class="choose">
         <div class="choose1">个人注册</div>
         <div class="choose2">工厂注册</div>
         <div class="choose3">机构申请</div>
-      </div>
+      </div> -->
       <div class="choosebox">
-        <r-institution></r-institution>
-    </div>
+        <RFactory v-if="false"></RFactory>
+        <RPerson></RPerson>
+      </div>
     </div>
     <svg
       class="SVG1"
@@ -3359,12 +3369,25 @@
 </template>
 
 <script>
-import RInstitution from '../components/RInstitution.vue'
+
+import RFactory from "../components/RFactory.vue";
+import RPerson from "../components/RPerson.vue";
 export default {
-  components:{
-    RInstitution
-  }
-}
+  components: {
+    RFactory,
+    RPerson
+  },
+  data() {
+    return {
+      activeIndex: "1",
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+  },
+};
 </script>
 
 <style>
@@ -3404,36 +3427,10 @@ export default {
   /* display: flex; */
   width: 50%;
   /* margin: 0 auto; */
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
-.choose{
-  width: 50%;
-  height: 7%;
-  margin: 0 auto;
-  background-color: blue;
-  display: flex;
-  align-items: center; /*定义body的元素垂直居中*/
-  justify-content: center; /*定义body的里的元素水平居中*/
-
-}
-.choose1{
-  text-align: center;
-  background: pink;
-  width: 33%;
-}
-.choose2{
-  text-align: center;
-  background: yellow;
-  width: 33%;
-}
-.choose3{
-  text-align: center;
-  background:red;
-  width: 33%;
-}
-
-.choosebox{
+.choosebox {
   width: 100%;
   display: flex;
   /* margin: 0 auto; */

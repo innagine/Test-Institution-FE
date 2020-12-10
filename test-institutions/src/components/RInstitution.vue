@@ -37,20 +37,15 @@
               ></el-input> </el-form-item
           ></el-col>
           <el-col :span="12">
-            <el-form-item
-              label="样品数量"
-              prop="total"
-              :inline="true"
-              v-model="ruleForm.total"
-            >
+            <el-form-item label="身份证号码" prop="ID">
               <el-input
-                v-model="ruleForm.version"
-                maxlength="30"
+                v-model="ruleForm.ID"
+                maxlength="18"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="12">
             <el-form-item label="预算范围" prop="scope">
               <el-input
@@ -59,8 +54,8 @@
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
-        </el-row>
-        <el-form-item label="添加文件" prop="grade">
+        </el-row> -->
+        <el-form-item label="营业执照" prop="grade">
           <el-upload action="#" list-type="picture-card" :auto-upload="false">
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
@@ -117,21 +112,14 @@ export default {
   //   props:['User'],
   data() {
     return {
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() < Date.now();
-        },
-      },
-
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
       ruleForm: {
         name: "",
         number: "",
         email: "",
-        total: "",
-        scope: "",
-        desc: "",
-        date1: "",
-        date2: "",
+        ID: "",
       },
       rules: {
         email: [
@@ -151,26 +139,12 @@ export default {
             trigger: "blur",
           },
         ],
-        date1: [
+        ID: [
+          { required: true, message: "请输入联系人身份证号", trigger: "blur" },
           {
-            type: "date",
-            // required: true,
-            message: "请选择开始日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            // required: true,
-            message: "请选择结束日期",
-            trigger: "change",
-          },
-        ],
-        desc: [
-          {
-            required: true,
-            message: "需求尽量详细，以便更精确的匹配到合适的测试项目",
+            min: 18,
+            max: 18,
+            message: "长度在 18 个字符",
             trigger: "blur",
           },
         ],
@@ -245,7 +219,8 @@ export default {
   /* margin: 30px 30px; */
   /* justify-content: center; */
   /* align-items: center; */
-  padding:20px;
+  padding: 20px;
+  background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .RIcontent {
