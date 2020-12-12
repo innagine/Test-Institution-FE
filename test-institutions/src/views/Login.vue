@@ -36,7 +36,7 @@
         </g>
     </g>
 </svg>
-        <h1>ISSUE系统</h1>
+        <h1>环保开拓者</h1>
         <el-input
           placeholder="请输入账号"
           v-model="account"

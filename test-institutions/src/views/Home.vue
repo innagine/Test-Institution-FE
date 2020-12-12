@@ -7,9 +7,9 @@
       background-color="#FFFFFF"
       text-color="#6fb7ff"
       active-text-color="#409EFF"
-      @select="selectMenu"
+      @select="handleSelect"
     >
-      <el-menu-item index="1" @click="Show">环保开拓者</el-menu-item>
+      <el-menu-item index="1">环保开拓者</el-menu-item>
       <el-submenu index="2"
         ><template slot="title">环境监测</template>
         <el-menu-item index="2-1">环评监测</el-menu-item>
@@ -22,27 +22,28 @@
       <el-menu-item index="4">环保工程</el-menu-item>
       <el-menu-item index="5">治理设备</el-menu-item>
       <el-menu-item index="6">危废处理</el-menu-item>
-      <el-menu-item index="9" class="prevent">
+      <el-menu-item index="7" class="prevent">
         <el-input
           v-model="input"
           placeholder="请输入搜索内容"
           class="changestyle"
         ></el-input>
-        <el-button size="small">搜索</el-button>
+        <el-button size="small" type="blue">搜索</el-button>
       </el-menu-item>
 
-      <el-menu-item index="10" style="float: right">
-        <el-button size="small" @click="PostDemand">发布需求</el-button>
+      <el-menu-item index="8" style="float: right">
+        <el-button size="small" @click="PostDemand" type="blue">发布需求</el-button>
       </el-menu-item>
-      <el-menu-item index="11" style="float: right" @click="Login">imagine</el-menu-item>
-      <el-menu-item index="12" style="float: right">
+      <el-menu-item index="9" style="float: right" @click="Login">imagine</el-menu-item>
+      <el-menu-item index="10" style="float: right">
         <div>
           <el-avatar :src="url"></el-avatar>
         </div>
       </el-menu-item>
     </el-menu>
-    <RotationChart v-if="show"></RotationChart>
-    <PostDemand v-if="showPD"></PostDemand>
+    <RotationChart v-if="indexlist[1].index"></RotationChart>
+    <PostDemand v-if="indexlist[8].index"></PostDemand>
+    <MyInfo v-if="indexlist[10].index"></MyInfo>
   </div>
 </template>
 
@@ -53,24 +54,31 @@
 // import axios from "axios";
 import RotationChart from "@/components/RotationChart.vue"
 import PostDemand from "@/components/PostDemand.vue"
+import MyInfo from "@/views/MyInfo.vue"
 
 export default {
   name: "Home",
   components: {
     RotationChart,
-    PostDemand
+    PostDemand,
+    MyInfo
   },
   data() {
     return {
       // 按钮显示
-      indexlisyt: [
+      indexlist: [
+        { index: true },
+        { index: true },
+        { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
         { index: false },
         { index: false },
         { index: false },
         { index: false },
       ],
-
-      list: [],
       url:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       name: "",
@@ -85,12 +93,6 @@ export default {
 
   
   methods: {
-
-    //展示首页
-    Show(){
-      this.showPD=false;
-      this.show=true;
-    },
 
     // 注册
     Register() {
@@ -111,6 +113,15 @@ export default {
       this.showPD=true;
       this.show=false;
     },
+
+    // 选择页面展示
+    handleSelect(key, keyPath) {
+      for(let i=0; i<this.indexlist.length; i++){
+        if(i==key){ this.indexlist[i].index=true; continue;}
+        this.indexlist[i].index=false;
+      }
+        console.log(key, keyPath);
+      }
 
   },
 };
@@ -135,7 +146,7 @@ export default {
   transition: all 0.5s;
 }
 
-.el-button {
+.el-button--blue {
   background-color: #409eff !important;
   color: white !important;
 }

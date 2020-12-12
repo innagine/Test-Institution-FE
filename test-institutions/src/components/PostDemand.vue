@@ -131,7 +131,7 @@
           </el-dialog>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button type="blue" @click="submitForm('ruleForm')"
             >提交需求</el-button
           >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -150,6 +150,11 @@ export default {
   //   props:['User'],
   data() {
     return {
+
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false,
+
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() < Date.now();
@@ -266,6 +271,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
   },
 };
 </script>
