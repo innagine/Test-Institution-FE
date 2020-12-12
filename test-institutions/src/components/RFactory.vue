@@ -103,7 +103,7 @@
           </el-dialog>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button type="blue" @click="submitForm('ruleForm')"
             >注册</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
           <el-button >返回</el-button>
