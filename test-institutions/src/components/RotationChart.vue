@@ -15,10 +15,10 @@ export default {
   data() {
     return {
       list: [
-          {"URl":require("../assets/institution1.jpg")},
-          {"URl":require("../assets/institution1.jpg")},
-          {"URl":require("../assets/institution2.jpg")},
-          {"URl":require("../assets/institution3.jpg")},
+          {"URl":require("../assets/institution4.jpg")},
+          {"URl":require("../assets/institution5.jpg")},
+          {"URl":require("../assets/institution6.jpg")},
+          {"URl":require("../assets/institution5.jpg")},
       ],
     };
   },
@@ -47,5 +47,8 @@ export default {
 .IMG{
   // max-height: 100%;
   width: 100%;
+  // height: 100%;
+  // max-width: 100%;
+  //   height: auto;
 }
 </style>

@@ -51,6 +51,7 @@
     <RotationChart v-if="indexlist[1].index"></RotationChart>
     <PostDemand v-if="indexlist[8].index"></PostDemand>
     <MyInfo v-if="indexlist[10].index"></MyInfo>
+    <Choose v-if="indexlist[1].index"></Choose>
   </div>
 </template>
 
@@ -61,6 +62,7 @@
 // import axios from "axios";
 import RotationChart from "@/components/RotationChart.vue"
 import PostDemand from "@/components/PostDemand.vue"
+import Choose from "@/components/Choose.vue"
 import MyInfo from "@/views/MyInfo.vue"
 
 export default {
@@ -68,7 +70,8 @@ export default {
   components: {
     RotationChart,
     PostDemand,
-    MyInfo
+    MyInfo,
+    Choose
   },
   data() {
     return {
