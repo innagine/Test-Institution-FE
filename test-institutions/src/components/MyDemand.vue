@@ -29,6 +29,17 @@
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-dialog
+                  title="检测进度"
+                  :visible.sync="dialogVisible"
+                  width="80%"
+                  :before-close="handleClose">
+                  <Progress></Progress>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                  </span>
+              </el-dialog>
           </template>
         </el-table-column>
       </el-table>
@@ -52,19 +63,28 @@
 </style>
 
 <script>
+import Progress from "@/components/Progress.vue"
+
+
 export default {
   name: "MyDemand",
+  components:{
+    Progress,
+  },
   methods: {
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.dialogVisible = true
       },
-      handleDelete(index, row) {
+    handleDelete(index, row) {
         console.log(index, row);
-    }
+    },
+
   },
   data() {
     return {
+      dialogVisible: false,
       tableData: [
         {
           order_id: 11273913 ,

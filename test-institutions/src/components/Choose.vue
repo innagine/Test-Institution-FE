@@ -1,5 +1,5 @@
 <template>
-<div class="box">
+<div class="CHcontent">
     <el-row :gutter="40">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
             <div class="grid-content bg-purple" @click="sentFather(1)">
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style>
-.box {
+.CHcontent {
     margin: 50px auto;
     width: 80%;
 }
@@ -89,6 +89,9 @@ export default {
 
 .link{
     margin-bottom: 10px;
+}
+.link:hover{
+    color: #409eff;
 }
 
 .word,

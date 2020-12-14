@@ -52,6 +52,7 @@
     <PostDemand v-if="indexlist[8].index"></PostDemand>
     <MyInfo v-if="indexlist[10].index"></MyInfo>
     <Choose v-if="indexlist[1].index"></Choose>
+    <div>1</div>
   </div>
 </template>
 

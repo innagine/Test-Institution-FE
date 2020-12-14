@@ -14,11 +14,11 @@
           </el-menu-item>
           <el-menu-item index="2" >
             <i class="el-icon-document"></i>
-            <span slot="title">我的任务</span>
+            <span slot="title">机构认证</span>
           </el-menu-item>
           <el-menu-item index="3" >
             <i class="el-icon-setting"></i>
-            <span slot="title">我的信息</span>
+            <span slot="title">工厂认证</span>
           </el-menu-item>
           <el-menu-item index="4" >
             <i class="el-icon-pie-chart"></i>
@@ -27,7 +27,8 @@
         </el-menu>
       </el-col>
       <el-col :span="21">
-        <MyDemand></MyDemand>
+        <MyDemand v-if="indexlist[1].index"></MyDemand>
+        <DemandChart v-if="indexlist[4].index"></DemandChart>
       </el-col>
     </el-row>
   </div>
@@ -36,6 +37,7 @@
 <script>
 // 导进页面模块
 import MyDemand from '@/components/MyDemand.vue';
+import DemandChart from '@/components/DemandChart.vue';
 
 export default {
   name: "MyInfo",
@@ -44,6 +46,7 @@ export default {
   // 声明导进页面模块
   components:{
     MyDemand,
+    DemandChart,
   },
   
   data() {
@@ -60,9 +63,7 @@ export default {
   },
 
 
-  // created() {
-  //   console.log("1287313817313+++++++"+this.User.userId)
-  // },
+
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -71,7 +72,11 @@ export default {
       console.log(key, keyPath);
     },
     handleSelect(key, keyPath){
-      console.log(key, keyPath);
+      for(let i=0; i<this.indexlist.length; i++){
+        if(i==key){ this.indexlist[i].index=true; continue;}
+        this.indexlist[i].index=false;
+      }
+        console.log(key, keyPath);
     }
   },
 };
