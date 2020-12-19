@@ -233,7 +233,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import IssueModify from "@/views/IssueModify.vue";
 
 //表格
@@ -241,7 +241,7 @@ export default {
   name: "TastIssueList",
   props:['User'],
   components: {
-    IssueModify
+    // IssueModify
   },
   data() {
     return {
@@ -305,39 +305,39 @@ export default {
         return row.status === value;
     },
 
-    getData(index,pagesize) {
-      axios({
-        method: "post",
-        url: "http://localhost:8999/searchIssue",
-        data:{
-          userId:null,
-          issueId:0,
-          status:null,
-          createMan:null,
-          updateMan:this.User.userName,
-          createDate:null,
-          updateDate:null,
-          date2:null,
-          date4:null,
-          pageIndex:index,
-          pageSize:pagesize  
-        }
-      })
-        .then((res) => {
-          // console.log(data);
-          // 将数据赋值给tableData
-          this.tableData = res.data.issue;
-          // console.log(res.data.issue);
-          // 将数据的长度赋值给totalCount
-          this.totalCount = res.data.total;
-          // console.log(this.tableData);
-          console.log("!!!!!!!!"+this.totalCount);
-          this.currentPage=index;
-        })
-        .catch((err) => {
-          console.log("error...", err);
-        });
-    },
+    // getData(index,pagesize) {
+    //   axios({
+    //     method: "post",
+    //     url: "http://localhost:8999/searchIssue",
+    //     data:{
+    //       userId:null,
+    //       issueId:0,
+    //       status:null,
+    //       createMan:null,
+    //       updateMan:this.User.userName,
+    //       createDate:null,
+    //       updateDate:null,
+    //       date2:null,
+    //       date4:null,
+    //       pageIndex:index,
+    //       pageSize:pagesize  
+    //     }
+    //   })
+    //     .then((res) => {
+    //       // console.log(data);
+    //       // 将数据赋值给tableData
+    //       this.tableData = res.data.issue;
+    //       // console.log(res.data.issue);
+    //       // 将数据的长度赋值给totalCount
+    //       this.totalCount = res.data.total;
+    //       // console.log(this.tableData);
+    //       console.log("!!!!!!!!"+this.totalCount);
+    //       this.currentPage=index;
+    //     })
+    //     .catch((err) => {
+    //       console.log("error...", err);
+    //     });
+    // },
     // 分页
     // 每页显示的条数
     handleSizeChange(val) {
