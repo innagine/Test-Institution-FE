@@ -376,49 +376,49 @@ export default {
     //弹窗
     getTagDetail(n) {
       this.dialogTableVisible = true;
-      console.log("+++++++++++++++++++++"+n)
-      axios({
-        method: "post",
-        url: "http://localhost:8999/searchIssue",
-        data:{
-          issueId: n,
-          status:null,
-          createMan:null,
-          updateMan:null,
-          createDate:null,
-          updateDate:null,
-          date2:null,
-          date4:null,
-          pageIndex:1,
-          pageSize:20  
-        }
-      })
-        .then((res) => {
-          console.log(res.data.issue[0]);
-          this.issue_name = res.data.issue[0].issueName;
-          this.issue_id = res.data.issue[0].issueId;
-          this.create_man = res.data.issue[0].createMan;
-          this.beta = res.data.issue[0].beta;
-          this.create_date = res.data.issue[0].createDate;
-          this.update_date = res.data.issue[0].updateDate;
-          this.final_date = res.data.issue[0].finalDate;
-          this.step = res.data.issue[0].step;
-          if(res.data.issue[0].level==1){
-            res.data.issue[0].level="低";
-          }else if(res.data.issue[0].level==2){
-            res.data.issue[0].level="一般";
-          }else if(res.data.issue[0].level==3){
-            res.data.issue[0].level="较高";
-          }else if(res.data.issue[0].level==4){
-            res.data.issue[0].level="最高";
-          }
-          this.level = res.data.issue[0].level;
-          this.modifyA = res.data.issue[0].solution;
-          this.getData(this.currentPage,20);
-        })
-        .catch((err) => {
-          console.log("error...", err);
-        });
+      // console.log("+++++++++++++++++++++"+n)
+      // axios({
+      //   method: "post",
+      //   url: "http://localhost:8999/searchIssue",
+      //   data:{
+      //     issueId: n,
+      //     status:null,
+      //     createMan:null,
+      //     updateMan:null,
+      //     createDate:null,
+      //     updateDate:null,
+      //     date2:null,
+      //     date4:null,
+      //     pageIndex:1,
+      //     pageSize:20  
+      //   }
+      // })
+      //   .then((res) => {
+      //     console.log(res.data.issue[0]);
+      //     this.issue_name = res.data.issue[0].issueName;
+      //     this.issue_id = res.data.issue[0].issueId;
+      //     this.create_man = res.data.issue[0].createMan;
+      //     this.beta = res.data.issue[0].beta;
+      //     this.create_date = res.data.issue[0].createDate;
+      //     this.update_date = res.data.issue[0].updateDate;
+      //     this.final_date = res.data.issue[0].finalDate;
+      //     this.step = res.data.issue[0].step;
+      //     if(res.data.issue[0].level==1){
+      //       res.data.issue[0].level="低";
+      //     }else if(res.data.issue[0].level==2){
+      //       res.data.issue[0].level="一般";
+      //     }else if(res.data.issue[0].level==3){
+      //       res.data.issue[0].level="较高";
+      //     }else if(res.data.issue[0].level==4){
+      //       res.data.issue[0].level="最高";
+      //     }
+      //     this.level = res.data.issue[0].level;
+      //     this.modifyA = res.data.issue[0].solution;
+      //     this.getData(this.currentPage,20);
+      //   })
+      //   .catch((err) => {
+      //     console.log("error...", err);
+      //   });
     },
     //隐藏
     childByValue(show){
