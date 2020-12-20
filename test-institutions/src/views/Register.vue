@@ -3373,6 +3373,7 @@
 import RFactory from "../components/RFactory.vue";
 import RPerson from "../components/RPerson.vue";
 export default {
+  name: "Register",
   components: {
     RFactory,
     RPerson
