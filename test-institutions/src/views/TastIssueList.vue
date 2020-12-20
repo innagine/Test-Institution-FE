@@ -228,20 +228,20 @@
         </el-footer>
       </el-container>
     </div>
-    <IssueModify v-if="showMotify" :modifyId="modifyId" v-on:childByValue="childByValue" ></IssueModify>
+    
   </div>
 </template>
 
 <script>
 // import axios from "axios";
-import IssueModify from "@/views/IssueModify.vue";
+
 
 //表格
 export default {
   name: "TastIssueList",
   props:['User'],
   components: {
-    // IssueModify
+  
   },
   data() {
     return {
