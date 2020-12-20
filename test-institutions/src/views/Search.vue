@@ -177,8 +177,7 @@ export default {
           return false;
         }
       });
-      // this.$refs.child.getData();
-      // this.resetForm(formName);
+
     },
     
     resetForm(formName) {
