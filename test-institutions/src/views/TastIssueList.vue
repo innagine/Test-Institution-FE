@@ -376,7 +376,6 @@ export default {
     //弹窗
     getTagDetail(n) {
       this.dialogTableVisible = true;
-      // console.log("+++++++++++++++++++++"+n)
       // axios({
       //   method: "post",
       //   url: "http://localhost:8999/searchIssue",
