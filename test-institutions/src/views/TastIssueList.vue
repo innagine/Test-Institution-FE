@@ -4,7 +4,7 @@
       <el-container class="home-containar">
         <el-main>
           <div class="main">
-            <!--  -->
+
             <!-- 表格属性设置 -->
             <el-table
               ref="multipleTable"
