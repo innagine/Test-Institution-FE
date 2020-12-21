@@ -421,7 +421,7 @@ export default {
     },
     //隐藏
     childByValue(show){
-      console.log("@@@@@@@@@@"+show+"*********");
+      // console.log("@@@@@@@@@@"+show+"*********");
       this.showIssueList = show.showIssueList;
       this.showMotify = show.showMotify;
     }
