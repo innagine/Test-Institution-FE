@@ -45,16 +45,7 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="12">
-            <el-form-item label="预算范围" prop="scope">
-              <el-input
-                v-model="ruleForm.scope"
-                maxlength="30"
-                show-word-limit
-              ></el-input> </el-form-item
-          ></el-col>
-        </el-row> -->
+
         <el-form-item label="营业执照" prop="grade">
           <el-upload action="#" list-type="picture-card" :auto-upload="false">
             <i slot="default" class="el-icon-plus"></i>
@@ -92,6 +83,83 @@
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
         </el-form-item>
+
+        <el-form-item label="资质认定证书" prop="grade">
+          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleDownload(file)"
+                >
+                  <i class="el-icon-download"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+        </el-form-item>
+
+        <el-form-item label="认证证书附表" prop="grade">
+          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleDownload(file)"
+                >
+                  <i class="el-icon-download"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >提交需求</el-button
@@ -214,18 +282,16 @@ export default {
 
 <style>
 .RI {
-  width: 100%;
   /* display: flex; */
-  /* margin: 30px 30px; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  padding: 20px;
-  background-color: #fff;
+  margin: 30px 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .RIcontent {
   height: 100%;
-  width: 100%;
+  width: 80%;
   margin: 20px auto;
 }
 .el-upload--picture-card {

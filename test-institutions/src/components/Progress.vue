@@ -1,6 +1,6 @@
 <template>
   <div class="PRcontent">
-    <el-steps :space="200" :active="2" finish-status="success" class="steps">
+    <el-steps :space="200" :active="3" finish-status="success" class="steps">
       <el-step title="待提交"></el-step>
       <el-step title="已提交"></el-step>
       <el-step title="审核中"></el-step>

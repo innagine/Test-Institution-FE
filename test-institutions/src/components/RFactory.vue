@@ -45,26 +45,7 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <el-row>
-            <el-col :span="12">
-          <el-form-item label="密码" prop="password">
-            <el-input
-              v-model="ruleForm.password"
-              maxlength="30"
-              show-word-limit
-            ></el-input>
-          </el-form-item>
-            </el-col>
-            <el-col :span="12">
-          <el-form-item label="确认密码" prop="Rpassword">
-            <el-input
-              v-model="ruleForm.Rpassword"
-              maxlength="30"
-              show-word-limit
-            ></el-input>
-          </el-form-item>
-            </el-col>
-        </el-row>
+        
         <el-form-item label="营业执照" prop="grade">
           <el-upload action="#" list-type="picture-card" :auto-upload="false">
             <i slot="default" class="el-icon-plus"></i>
@@ -244,15 +225,16 @@ export default {
 
 <style>
 .RF {
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
+  /* display: flex; */
+  margin: 30px 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  /* border-radius: 20px; */
 }
 .RFcontent {
   height: 100%;
-  width: 100%;
+  width: 80%;
   margin: 20px auto;
 }
 .el-upload--picture-card {
