@@ -3691,7 +3691,6 @@ export default {
 
 .btn {
   font-size: 16px;
-  /*margin: 15px auto;*/
   text-align: center;
   width: 100%;
   background-image: linear-gradient(to right, #51a4db, #a8e4fa);
