@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div class="header">
-      <svg t="1607850361489" class="icon1" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6814" width="50" height="50"><path d="M860.567968 414.342629h-63.74502v63.74502h63.74502v-63.74502z m-318.725099 0h-63.74502v63.74502h63.74502v-63.74502z m-318.7251 0H159.372749v63.74502h63.74502v-63.74502z m733.05753-95.617529V31.87251A31.858231 31.858231 0 0 0 924.29259 0h-191.214662a31.858231 31.858231 0 0 0-31.882709 31.87251V318.7251H637.450199V31.87251A31.854151 31.854151 0 0 0 605.587888 0h-191.255458a31.854151 31.854151 0 0 0-31.86231 31.87251V318.7251h-63.74502V31.87251A31.858231 31.858231 0 0 0 286.84239 0H95.627729a31.858231 31.858231 0 0 0-31.882709 31.87251V318.7251A63.824574 63.824574 0 0 0 0 382.47012V509.960159a63.824574 63.824574 0 0 0 63.74502 63.74502V892.430279a127.49004 127.49004 0 0 0 254.98008 0V573.705179h63.74502V892.430279a127.49004 127.49004 0 0 0 254.980079 0V573.705179h63.74502V892.430279a127.49004 127.49004 0 0 0 254.98008 0V573.705179A63.824574 63.824574 0 0 0 1019.920319 509.960159v-127.490039a63.824574 63.824574 0 0 0-63.74502-63.74502zM764.940239 63.74502h127.49004V127.49004H764.940239V63.74502z m0 127.49004h127.49004v127.49004H764.940239v-127.49004z m-318.7251-127.49004h127.49004V127.49004h-127.49004V63.74502z m0 127.49004h127.49004v127.49004h-127.49004v-127.49004zM127.49004 63.74502H254.98008V127.49004H127.49004V63.74502z m0 127.49004H254.98008v127.49004H127.49004v-127.49004zM254.98008 892.430279a63.74502 63.74502 0 0 1-127.49004 0V573.705179H254.98008V892.430279z m318.725099 0a63.74502 63.74502 0 0 1-127.49004 0V573.705179h127.49004V892.430279z m318.7251 0a63.74502 63.74502 0 0 1-127.49004 0V573.705179h127.49004V892.430279zM956.175299 509.960159H63.74502v-127.490039h892.430279V509.960159z" p-id="6815" fill="#1296db"></path></svg>
-      <h1 class="title">环保开拓者</h1>
-    </div> -->
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -60,7 +56,7 @@
     <Demands v-if="indexlist[12].index"></Demands>
     <InstitutionApplication v-if="indexlist[13].index"></InstitutionApplication>
     <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
-    <div>0</div>
+    <Payment></Payment>
   </div>
 </template>
 
@@ -77,6 +73,7 @@ import Search from "@/views/Search.vue"
 import Demands from "@/views/Demands.vue"
 import FactoryApplication from "@/views/FactoryApplication.vue"
 import InstitutionApplication from "@/views/InstitutionApplication.vue"
+import Payment from "@/components/Payment.vue"
 
 export default {
   name: "Home",
@@ -88,7 +85,8 @@ export default {
     Search,
     Demands,
     InstitutionApplication,
-    FactoryApplication
+    FactoryApplication,
+    Payment
   },
 
   created(){
@@ -201,12 +199,6 @@ export default {
 .el-submenu__title,
 .template {
   font-size: 16px !important;
-}
-
-/* 搜索框长度长度变换 */
-.changestyle {
-  padding-right: 10px;
-  transition: all 0.5s;
 }
 
 .el-button--blue {
