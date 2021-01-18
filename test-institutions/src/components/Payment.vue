@@ -36,7 +36,7 @@
         </el-col>
       </el-row>
 
-      <div class="explain"><div ref="explain"></div></div>
+      <div class="explain"><div ref="explain">现金支付是交易中最简单的价款支付方式</div></div>
     </div>
   </div>
 </template>
