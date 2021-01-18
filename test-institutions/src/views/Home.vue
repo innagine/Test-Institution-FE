@@ -39,7 +39,7 @@
       </el-menu-item>
 
       <el-menu-item index="8" v-if="showUser" style="float: right">
-        <el-button size="small" @click="PostDemand" type="blue">发布需求</el-button>
+        <el-button size="small"  type="blue">发布需求</el-button>
       </el-menu-item>
       <el-menu-item index="9" style="float: right" @click="Login">imagine</el-menu-item>
       <el-menu-item index="10" style="float: right">
@@ -56,7 +56,7 @@
     <Demands v-if="indexlist[12].index"></Demands>
     <InstitutionApplication v-if="indexlist[13].index"></InstitutionApplication>
     <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
-    <Payment></Payment>
+    <Payment v-if="indexlist[1].index"></Payment>
   </div>
 </template>
 
