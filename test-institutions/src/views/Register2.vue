@@ -3554,9 +3554,10 @@ export default {
             method: "post",
             url: "http://localhost:8556/verify",
             data: {
-              additionalProp1: this.ruleForm.userNumber,
-              additionalProp2: this.ruleForm.email,
-              additionalProp3: this.ruleForm.pass
+              user_name:this.ruleForm.userName,
+              code:this.ruleForm.userNumber,
+              user_email: this.ruleForm.email,
+              user_password: this.ruleForm.pass,
             },
           })
             .then((res) => {
@@ -3570,7 +3571,7 @@ export default {
                type: "success",
                });
                 this.$router.push({
-                  path: "/",
+                  path: "/login",
                   query: {
                     user: res.data,
                   },

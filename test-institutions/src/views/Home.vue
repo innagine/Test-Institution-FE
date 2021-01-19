@@ -35,7 +35,7 @@
           placeholder="请输入搜索内容"
           class="changestyle"
         ></el-input>
-        <el-button size="small" type="blue">搜索</el-button>
+        <el-button size="small" type="blue" class="H-search">搜索</el-button>
       </el-menu-item>
 
       <el-menu-item index="8" v-if="showUser" style="float: right">
@@ -57,6 +57,7 @@
     <InstitutionApplication v-if="indexlist[13].index"></InstitutionApplication>
     <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
     <Payment v-if="indexlist[1].index"></Payment>
+    <environment-test v-if="indexlist[3].index"></environment-test>
   </div>
 </template>
 
@@ -74,6 +75,7 @@ import Demands from "@/views/Demands.vue"
 import FactoryApplication from "@/views/FactoryApplication.vue"
 import InstitutionApplication from "@/views/InstitutionApplication.vue"
 import Payment from "@/components/Payment.vue"
+import EnvironmentTest from './Environment-test/Environment-test.vue'
 
 export default {
   name: "Home",
@@ -86,7 +88,8 @@ export default {
     Demands,
     InstitutionApplication,
     FactoryApplication,
-    Payment
+    Payment,
+    EnvironmentTest
   },
 
   created(){
@@ -204,5 +207,9 @@ export default {
 .el-button--blue {
   background-color: #409eff !important;
   color: white !important;
+}
+
+.H-search{
+margin-left: 10px !important;
 }
 </style>

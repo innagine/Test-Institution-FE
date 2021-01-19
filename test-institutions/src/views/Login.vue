@@ -1046,26 +1046,15 @@
 
 <script>
 // 导入axios
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "Login",
 
   data() {
     return {
-      list: [],
       account: "",
       password: "",
-
-      // user:{
-      //   userid:this.password,
-      //   password:this.password
-      // },
-      formLabelAlign: {
-        name: "",
-        region: "",
-        type: "",
-      },
     };
   },
 
@@ -1077,7 +1066,7 @@ export default {
       if(!this.account){
         this.$notify({
            title: "消息",
-           message: "请输入账号",
+           message: "请输入邮箱",
            type: "warning",
            });
         return 
@@ -1093,62 +1082,52 @@ export default {
 
 
 
-      // 发送get请求，请求用户匹配
-    //   axios({
-    //     method: "post",
-    //     url: "http://localhost:8999/login",
-    //     data: {userId:this.account,password:this.password}
-    //   })
-    //     .then((res) => {
-    //       console.log("data..", res.data);
-    //       console.log(typeof(res.data))
-    //       if(res.data.identity=="不存在"){
-    //        this.$notify({
-    //        title: "消息",
-    //        message: "该用户不存在",
-    //        type: "warning",
-    //        });
-    //         this.$router.push({path: "/",});
-    //       }
-    //       else if(res.data.identity=="错误"){
-    //         this.$notify({
-    //        title: "消息",
-    //        message: "密码错误",
-    //        type: "warning",
-    //        });
-    //         this.$router.push({path: "/",});
-    //       }
-    //       else if(res.data.identity=="注销"){
-    //         this.$notify({
-    //        title: "消息",
-    //        message: "用户已注销",
-    //        type: "warning",
-    //        });
-    //         this.$router.push({path: "/",});
-    //       }else{
-    //         // 转跳到主页
-    //       this.$router.push({
-    //       path: "/home",
-    //       query:{
-    //           user:res.data
-    //         }
-    //       });
-    //       }
+    //   发送get请求，请求用户匹配
+      axios({
+        method: "post",
+        url: "http://localhost:8556/login",
+        data: {
+            user_email:this.account,
+            user_password:this.password
+            }
+      })
+        .then((res) => {
+          console.log("data..", res.data);
+          console.log(typeof(res.data))
+          if(res.data===-1){
+           this.$notify({
+           title: "消息",
+           message: "该用户不存在",
+           type: "warning",
+           });
+            this.$router.push({path: "/",});
+          }
+          else if(res.data===-2){
+            this.$notify({
+           title: "消息",
+           message: "密码错误",
+           type: "warning",
+           });
+            this.$router.push({path: "/",});
+          }
+          else if(res.data===0){
+            this.$notify({
+           title: "消息",
+           message: "用户已登陆",
+           type: "warning",
+           });
+            this.$router.push({path: "/",});
+          }else{
+            // 转跳到主页
+          this.$router.push({
+          path: "/",
+          });
+          }
           
-    //     })
-    //     .catch((err) => {
-    //       console.log("error...", err);
-    //     });
-
-      
-
-      //转跳到主页
-      // this.$router.push({
-      //   path: "/home",
-      //   query:{
-      //     name:this.list[0]
-      //   }
-      // });
+        })
+        .catch((err) => {
+          console.log("error...", err);
+        });
     },
 
     //注册操作
