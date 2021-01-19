@@ -24,6 +24,10 @@
           <item-rang></item-rang>
         </div>
       </div>
+      <div class="e-serve-items">
+        <div class="environment-title"><h1>服务项目</h1></div>
+        <serve-items></serve-items>
+      </div>
     </div>
   </div>
 </template>
@@ -77,11 +81,13 @@
 <script>
 import Carousel from "../Environment-test/components/Carousel";
 import ItemRang from './components/ItemRang.vue';
+import ServeItems from './components/ServeItems.vue';
 export default {
   name: "Environment-test",
   components: {
     Carousel,
     ItemRang,
+    ServeItems,
   },
 };
 </script>
