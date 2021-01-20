@@ -204,6 +204,7 @@ export default {
   font-size: 16px !important;
 }
 
+/* 设置按钮颜色 */
 .el-button--blue {
   background-color: #409eff !important;
   color: white !important;

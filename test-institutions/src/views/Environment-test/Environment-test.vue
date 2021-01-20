@@ -28,6 +28,14 @@
         <div class="environment-title"><h1>服务项目</h1></div>
         <serve-items></serve-items>
       </div>
+      <div class="e-order-progress">
+        <div class="environment-title"><h1>下单步骤</h1></div>
+        <order-progress></order-progress>
+      </div>
+      <div class="e-submit-demand">
+        <div class="environment-title"><h1>提交需求</h1></div>
+        <submit-demand></submit-demand>
+      </div>
     </div>
   </div>
 </template>
@@ -76,18 +84,37 @@
 .e-rang{
   background-color: rgb(250, 248, 248);
 }
+
+/* 服务项目模块的样式 */
+.e-serve-items{
+  padding-bottom: 40px;
+}
+
+/* 下单步骤模块的样式 */
+.e-order-progress{
+  background-color: rgb(250, 248, 248);
+  padding-bottom: 40px;
+}
+.e-submit-demand{
+  padding-bottom: 40px;
+}
+
 </style>
 
 <script>
 import Carousel from "../Environment-test/components/Carousel";
 import ItemRang from './components/ItemRang.vue';
+import OrderProgress from './components/OrderProgress.vue';
 import ServeItems from './components/ServeItems.vue';
+import SubmitDemand from './components/SubmitDemand.vue';
 export default {
   name: "Environment-test",
   components: {
     Carousel,
     ItemRang,
     ServeItems,
+    OrderProgress,
+    SubmitDemand,
   },
 };
 </script>
