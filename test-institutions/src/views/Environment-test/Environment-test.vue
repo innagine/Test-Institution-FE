@@ -85,7 +85,7 @@
   background-color: rgb(250, 248, 248);
 }
 
-/* 服务项目模块的样式 */
+/* 服务项目模块的样式。*/
 .e-serve-items{
   padding-bottom: 40px;
 }
