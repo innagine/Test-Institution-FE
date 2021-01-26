@@ -90,7 +90,7 @@
   padding-bottom: 40px;
 }
 
-/* 下单步骤模块的样式 */
+/* 下单步骤模块的样式。*/
 .e-order-progress{
   background-color: rgb(250, 248, 248);
   padding-bottom: 40px;
