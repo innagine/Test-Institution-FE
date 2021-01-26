@@ -80,7 +80,7 @@
     height: 90px;
 }
 
-/* 业务范围模块的样式 */
+/* 业务范围模块的样式。*/
 .e-rang{
   background-color: rgb(250, 248, 248);
 }
