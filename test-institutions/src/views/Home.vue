@@ -58,6 +58,7 @@
     <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
     <Payment v-if="indexlist[1].index"></Payment>
     <environment-test v-if="indexlist[3].index"></environment-test>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -76,6 +77,7 @@ import FactoryApplication from "@/views/FactoryApplication.vue"
 import InstitutionApplication from "@/views/InstitutionApplication.vue"
 import Payment from "@/components/Payment.vue"
 import EnvironmentTest from './Environment-test/Environment-test.vue'
+import Footer from '@/components/Footer.vue'
 
 export default {
   name: "Home",
@@ -89,7 +91,8 @@ export default {
     InstitutionApplication,
     FactoryApplication,
     Payment,
-    EnvironmentTest
+    EnvironmentTest,
+    Footer,
   },
 
   created(){
