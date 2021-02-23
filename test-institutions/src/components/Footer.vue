@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-02-22 17:03:15
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-22 18:27:09
+ * @LastEditTime: 2021-02-23 10:23:33
 -->
 <template>
   <div class="footer">
@@ -25,12 +25,12 @@
       </div>
       <div class="right">
         <div class="logo">
-          <div class="QRcode"></div>
-          <div class="text">关注环保开拓者公众号</div>
+          <img class="QRcode" src="../../public/images/qrcode_01.png"/>
+          <div class="text" >关注环保开拓者公众号</div>
         </div>
         <div class="logo">
-          <div class="QRcode"></div>
-          <div class="text">进入测试万事屋</div>
+          <img class="QRcode interval" src="../../public/images/qrcode_01.png"/>
+          <div class="text interval" >进入测试万事屋</div>
         </div>
       </div>
     </div>
@@ -81,12 +81,17 @@
       }
     }
     .right{
-      flex: 1;
-      background-color: blue;
       display: flex;
       justify-items: center;
       .logo{
-        background-color: rgb(153, 47, 47);
+        text-align: center;
+        .QRcode{
+          width: 180px;
+          height: 180px;
+        }
+        .interval{
+          padding-left: 80px;
+        }
       }
     }
   }
