@@ -1,5 +1,12 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2020-12-07 15:58:15
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-02-24 14:32:01
+-->
 <template>
-  <el-carousel :interval="5000" arrow="always" height="600px">
+  <el-carousel :interval="5000" arrow="always" height="500px">
     <el-carousel-item v-for="(item,index) in list" :key="index">
       <img :src="item.URl" class="IMG" />
     </el-carousel-item>
@@ -28,14 +35,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-  height: 880px;
-}
 
 .el-carousel__item:nth-child(2n) {
   background-color: #fff;

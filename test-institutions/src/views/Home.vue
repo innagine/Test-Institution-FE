@@ -58,6 +58,8 @@
     <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
     <Payment v-if="indexlist[1].index"></Payment>
     <environment-test v-if="indexlist[3].index"></environment-test>
+    <treatment-equipment v-if="indexlist[5].index"></treatment-equipment>
+    <waste-treatment v-if="indexlist[6].index"></waste-treatment>
     <Footer></Footer>
   </div>
 </template>
@@ -76,8 +78,10 @@ import Demands from "@/views/Demands.vue"
 import FactoryApplication from "@/views/FactoryApplication.vue"
 import InstitutionApplication from "@/views/InstitutionApplication.vue"
 import Payment from "@/components/Payment.vue"
-import EnvironmentTest from './Environment-test/Environment-test.vue'
+import EnvironmentTest from '@/views/Environment-test/environment-test.vue'
 import Footer from '@/components/Footer.vue'
+import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
+import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 
 export default {
   name: "Home",
@@ -93,6 +97,8 @@ export default {
     Payment,
     EnvironmentTest,
     Footer,
+    TreatmentEquipment,
+    WasteTreatment,
   },
 
   created(){

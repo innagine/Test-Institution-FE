@@ -1,6 +1,14 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2021-01-19 14:58:44
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-02-24 11:35:25
+-->
 <template>
-  <el-carousel indicator-position="outside" height="600px">
-    <el-carousel-item v-for="item in 1" :key="item">
+  <el-carousel indicator-position="outside" height="500px">
+    <el-carousel-item v-for="item in list" :key="item">
+      <img :src="item.URl" class="IMG" />
       <h3>{{ item }}</h3>
     </el-carousel-item>
   </el-carousel>
@@ -13,6 +21,10 @@
     opacity: 0.75;
     line-height: 300px;
     margin: 0;
+  }
+  .el-carousel__item img{
+    width: 100%;
+    height: 500px;
   }
   
   .el-carousel__item:nth-child(2n) {
@@ -27,5 +39,12 @@
 <script>
 export default {
     name:'Carousel',
+    data(){
+      return{
+        list: [
+          {"URl":require("../images/enviroment.jpg")},
+      ],
+      }
+    }
 }
 </script>

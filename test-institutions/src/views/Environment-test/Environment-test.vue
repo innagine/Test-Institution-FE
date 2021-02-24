@@ -73,6 +73,9 @@
     text-align: center;
     border-right: 2px solid rgb(219, 219, 219);
 }
+.advantage-item:nth-child(4){
+    border-right: 2px solid transparent;
+}
 .advantage-item p{
   color: rgb(148, 148, 148);
     padding: 40px;
