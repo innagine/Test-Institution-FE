@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 14:18:47
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 17:11:29
+ * @LastEditTime: 2021-02-24 17:21:59
 -->
 <template>
   <div class="treatment-equipment">
@@ -37,8 +37,7 @@
     cursor: pointer;
   }
   .t-option:hover {
-    color: #409eff;
-    font-weight: 600;
+    color: #76b9fc;
   }
 }
 
@@ -47,7 +46,7 @@
   width: 70%;
   margin: 20px auto;
   padding: 0 20px;
-  border: 2px solid #a8e4fa;
+  border: 2px solid #16befc;
   display: flex;
   align-items: center;
   .text{
