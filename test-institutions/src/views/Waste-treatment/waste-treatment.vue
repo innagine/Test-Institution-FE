@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 17:00:17
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 18:09:19
+ * @LastEditTime: 2021-02-25 11:30:32
 -->
 <template>
   <div class="waste-treatment">
@@ -51,6 +51,10 @@
     height: 90px;
 }
 
+/* 服务内容模块样式 */
+.service-content{
+  background-color: rgb(250, 248, 248);
+}
 </style>
 
 <script>
