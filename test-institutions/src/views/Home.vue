@@ -60,6 +60,7 @@
     <environment-test v-if="indexlist[3].index"></environment-test>
     <treatment-equipment v-if="indexlist[5].index"></treatment-equipment>
     <waste-treatment v-if="indexlist[6].index"></waste-treatment>
+    <environment-protection v-if="indexlist[4].index"></environment-protection>
     <Footer></Footer>
   </div>
 </template>
@@ -82,6 +83,7 @@ import EnvironmentTest from '@/views/Environment-test/environment-test.vue'
 import Footer from '@/components/Footer.vue'
 import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
 import WasteTreatment from './Waste-treatment/waste-treatment.vue'
+import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 
 export default {
   name: "Home",
@@ -99,6 +101,7 @@ export default {
     Footer,
     TreatmentEquipment,
     WasteTreatment,
+    EnvironmentProtection,
   },
 
   created(){

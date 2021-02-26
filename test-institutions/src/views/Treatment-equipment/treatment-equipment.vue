@@ -1,9 +1,9 @@
 <!--
- * @Description: file contentIMAGINE
+ * @Description: file 治理设备
  * @Author: IMAGINE
  * @Date: 2021-02-24 14:18:47
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 17:21:59
+ * @LastEditTime: 2021-02-26 16:35:21
 -->
 <template>
   <div class="treatment-equipment">

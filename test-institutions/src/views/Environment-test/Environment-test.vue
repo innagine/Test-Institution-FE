@@ -1,3 +1,10 @@
+<!--
+ * @Description: file 环境测试页面
+ * @Author: IMAGINE
+ * @Date: 2021-02-24 17:00:17
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-02-26 16:36:17
+-->
 <template>
   <div class="enviroment">
     <div class="e-carousel">

@@ -1,9 +1,9 @@
 <!--
- * @Description: file 危废处理内容
+ * @Description: file 危废处理页面
  * @Author: IMAGINE
  * @Date: 2021-02-24 17:00:17
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-25 11:30:32
+ * @LastEditTime: 2021-02-26 16:35:35
 -->
 <template>
   <div class="waste-treatment">

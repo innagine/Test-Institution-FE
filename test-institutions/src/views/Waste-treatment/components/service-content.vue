@@ -3,13 +3,13 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 17:46:26
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-26 15:50:39
+ * @LastEditTime: 2021-02-26 16:21:14
 -->
 <template>
   <div class="service-content">
     <div class="service-item" v-for="(item,index) in serviceList" :key="index">
       <div class="left">
-        <img src="../images/background.png" alt="" class="background-icon">
+        <img :src="item.backgroundUrl" alt="" class="background-icon">
         <div class="service-title">{{item.title}}</div>
         <div class="service-explain">{{item.explain}}</div>
       </div>
@@ -116,6 +116,7 @@ export default {
     return {
       serviceList:[
         {
+          backgroundUrl:require('../images/background.png'),
           title:'实验室危废处理',
           explain:'实验室危险化学废物的分类、验室化学废液的收集、收集周转桶上的标示说明、废试剂(液)转运要求',
           labels:['土壤','土壤','土壤','土壤'],
@@ -123,24 +124,28 @@ export default {
           advantages:['环保一站式服务','量身订造','经验丰富','售后贴心'],
         },
         {
+          backgroundUrl:require('../images/background.png'),
           title:'线路板厂电镀危废处理',
           explain:'实验室危险化学废物的分类、验室化学废液的收集、收集周转桶上的标示说明、废试剂(液)转运要求',
           labels:['土壤','土壤','土壤','土壤'],
           content:'有机废液类,无机废液类,剧毒类废液,实验室固态废物',
           advantages:['环保一站式服务','量身订造','经验丰富','售后贴心'],
         },{
+          backgroundUrl:require('../images/background.png'),
           title:'医药、医疗制造危废处理',
           explain:'实验室危险化学废物的分类、验室化学废液的收集、收集周转桶上的标示说明、废试剂(液)转运要求',
           labels:['土壤','土壤','土壤','土壤'],
           content:'有机废液类,无机废液类,剧毒类废液,实验室固态废物',
           advantages:['环保一站式服务','量身订造','经验丰富','售后贴心'],
         },{
+          backgroundUrl:require('../images/background.png'),
           title:'废包装桶危废处理',
           explain:'实验室危险化学废物的分类、验室化学废液的收集、收集周转桶上的标示说明、废试剂(液)转运要求',
           labels:['土壤','土壤','土壤','土壤'],
           content:'有机废液类,无机废液类,剧毒类废液,实验室固态废物',
           advantages:['环保一站式服务','量身订造','经验丰富','售后贴心'],
         },{
+          backgroundUrl:require('../images/background.png'),
           title:'危废打包分拣服务',
           explain:'实验室危险化学废物的分类、验室化学废液的收集、收集周转桶上的标示说明、废试剂(液)转运要求',
           labels:['土壤','土壤','土壤','土壤'],
