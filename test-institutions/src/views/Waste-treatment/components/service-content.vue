@@ -3,12 +3,13 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 17:46:26
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-26 13:04:54
+ * @LastEditTime: 2021-02-26 15:50:39
 -->
 <template>
   <div class="service-content">
     <div class="service-item" v-for="(item,index) in serviceList" :key="index">
       <div class="left">
+        <img src="../images/background.png" alt="" class="background-icon">
         <div class="service-title">{{item.title}}</div>
         <div class="service-explain">{{item.explain}}</div>
       </div>
@@ -41,14 +42,23 @@
       flex:1;
       background-color: pink;
       color: white;
-      padding-left: 20px;
-      padding-right: 20px;
+      position: relative;
       .service-title{
+        position: absolute;
+        top: 0;
         font-size: 24px;
         margin-top: 40px;
+        margin-left: 20px;
+        margin-right: 20px;
       }
       .service-explain{
-        margin-top: 20px;
+        position: absolute;
+        top: 100px;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      .background-icon{
+        width: 100%;
       }
     }
     .right{
