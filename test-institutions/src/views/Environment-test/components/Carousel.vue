@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-01-19 14:58:44
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 11:35:25
+ * @LastEditTime: 2021-03-01 11:39:22
 -->
 <template>
   <el-carousel indicator-position="outside" height="500px">
-    <el-carousel-item v-for="item in list" :key="item">
+    <el-carousel-item v-for="(item,index) in list" :key="index">
       <img :src="item.URl" class="IMG" />
       <h3>{{ item }}</h3>
     </el-carousel-item>
