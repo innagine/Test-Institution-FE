@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-07 15:58:15
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 14:32:01
+ * @LastEditTime: 2021-03-03 19:38:47
 -->
 <template>
   <el-carousel :interval="5000" arrow="always" height="500px">
@@ -16,18 +16,20 @@
 <script>
 export default {
   name: "RotationChart",
-  props: {
-    msg: String,
-  },
+  props: ['urlList'],
   data() {
     return {
       list: [
           {"URl":require("../assets/institution4.jpg")},
           {"URl":require("../assets/institution5.jpg")},
           {"URl":require("../assets/institution6.jpg")},
-          {"URl":require("../assets/institution5.jpg")},
       ],
     };
+  },
+  mounted(){
+    if(this.urlList){
+      this.list=this.urlList;
+    }
   },
 };
 </script>

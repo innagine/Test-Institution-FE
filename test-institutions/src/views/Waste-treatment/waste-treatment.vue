@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 17:00:17
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-26 16:35:35
+ * @LastEditTime: 2021-03-03 19:50:49
 -->
 <template>
   <div class="waste-treatment">
-    <rotation-chart></rotation-chart>
+    <rotation-chart :urlList="list"></rotation-chart>
     <div class="our-advantage">
         <div class="w-title"><h2>我们的优势</h2></div>
         <div class="w-advantage">
@@ -68,7 +68,7 @@ export default {
   },
   data(){
     return{
-
+      list:[{"URl":require("./images/rubbish.png")},],
     }
   },
 }

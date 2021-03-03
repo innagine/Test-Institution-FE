@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-02-26 16:33:38
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-01 11:18:51
+ * @LastEditTime: 2021-03-03 18:00:16
 -->
 <template>
   <div class="environment-protection">
-    <rotation-chart></rotation-chart>
+    <rotation-chart :urlList="list"></rotation-chart>
     <div class="service-scope">
         <div class="protection-title">
           <h1>业务范围</h1>
@@ -48,5 +48,10 @@ export default {
     RotationChart,
     ServiceScope,
   },
+  data(){
+    return{
+      list:[{"URl":require("./images/factory.png")},],
+    }
+  }
 }
 </script>

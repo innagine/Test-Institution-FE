@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 14:18:47
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-26 16:35:21
+ * @LastEditTime: 2021-03-03 19:27:02
 -->
 <template>
   <div class="treatment-equipment">
-    <rotation-chart></rotation-chart>
+    <rotation-chart :urlList="list"></rotation-chart>
     <div class="t-select">
         <div class="t-option">废气治理设备</div>
         <div class="t-option">废水处理设备</div>
@@ -77,6 +77,11 @@ export default {
   components:{
     RotationChart,
     Equipments,
-  }
+  },
+    data(){
+    return{
+      list:[{"URl":require("./images/machine.png")},],
+    }
+  },
 }
 </script>
