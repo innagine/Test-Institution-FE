@@ -41,8 +41,11 @@
       <el-menu-item index="8" v-if="showUser" style="float: right">
         <el-button size="small"  type="blue">发布需求</el-button>
       </el-menu-item>
-      <el-menu-item index="9" style="float: right" @click="Login">imagine</el-menu-item>
-      <el-menu-item index="10" style="float: right">
+      <el-menu-item index="9" style="float: right" @click="Login">
+        <div v-if="!user1">请登录</div>
+        <div v-if="user1">{{user1.user_name}}</div>
+      </el-menu-item>
+      <el-menu-item index="10" style="float: right" v-if="user1">
         <div>
           <el-avatar :src="url"></el-avatar>
         </div>
@@ -84,6 +87,7 @@ import Footer from '@/components/Footer.vue'
 import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
 import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
+import { mapState } from 'vuex';
 
 export default {
   name: "Home",
@@ -107,15 +111,25 @@ export default {
   created(){
 
     //权限判定
-    if(this.user.role==1){
+    if(this.user1.user_role=='USER'){ // 普通用户
       this.showUser=true;
-    }else if(this.user.role==2){
+      this.showStaff=false;
+    }else if(this.user1.user_role=='CUSTOMER_SERVICE'){ // 客服
+      this.showUser=false;
       this.showStaff=true;
-    }else if(this.user.role==3){
+    }else if(this.user1.user_role=='ADMINISTRATORS'){ // 管理员
+      this.showUser=false;
       this.showStaff=true;
-    }else if(this.user.role==4){
+    }else if(this.user1.user_role=='INSTITUTION'){ // 机构
+      this.showUser=true;
+    }else if(this.user1.user_role=='FACTORY'){ // 工厂
+      this.showUser=true;
+    }else if(this.user1.user_role=='DOUBLE'){ // 工厂和机构双重身份
       this.showUser=true;
     }
+    console.log(this.user1)
+    //735723058@qq.com
+    //@weAre19502
   },
 
 
@@ -145,7 +159,7 @@ export default {
       role: "",
       input: "",
       activeIndex: "",
-      showUser:false,
+      showUser:true,
       showStaff:false,
       user:{
         id:'12345678',
@@ -168,9 +182,12 @@ export default {
 
     // 重新登陆
     Login() {
-      this.$router.push({
-        path: "/login",
-      });
+      if(!this.user1){
+        this.$router.push({path: "/login",});
+      }
+      if(this.user1){
+        this.indexlist[10].index=true;
+      }
     },
 
     // 选择页面展示
@@ -183,6 +200,9 @@ export default {
       }
 
   },
+  computed:{
+    ...mapState(['user1',]),
+  }
 };
 </script>
 

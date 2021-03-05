@@ -1047,6 +1047,7 @@
 <script>
 // 导入axios
 import axios from "axios";
+import { mapMutations } from 'vuex';
 
 export default {
   name: "Login",
@@ -1059,6 +1060,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['LOGIN',]),
     // 登陆验证
     Login() {
 
@@ -1085,43 +1087,39 @@ export default {
     //   发送get请求，请求用户匹配
       axios({
         method: "post",
-        url: "http://localhost:8556/login",
+        url: "http://26.140.221.230:8556/login",
         data: {
             user_email:this.account,
             user_password:this.password
             }
       })
         .then((res) => {
-          console.log("data..", res.data);
+          console.log("登陆data..", res.data);
           console.log(typeof(res.data))
-          if(res.data===-1){
+          if(res.data.ret===-1){
            this.$notify({
            title: "消息",
-           message: "该用户不存在",
+           message: res.data.msg,
            type: "warning",
            });
-            this.$router.push({path: "/",});
           }
-          else if(res.data===-2){
+          else if(res.data.ret===-2){
             this.$notify({
            title: "消息",
            message: "密码错误",
            type: "warning",
            });
-            this.$router.push({path: "/",});
           }
-          else if(res.data===0){
-            this.$notify({
+          else if(res.data.ret===0){
+           this.$notify({
            title: "消息",
            message: "用户已登陆",
            type: "warning",
            });
-            this.$router.push({path: "/",});
           }else{
+            this.LOGIN(res.data.data1)
             // 转跳到主页
-          this.$router.push({
-          path: "/",
-          });
+            this.$router.push({path: "/",});
           }
           
         })

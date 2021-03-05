@@ -1,6 +1,13 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2021-03-05 14:22:51
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-03-05 14:47:02
+-->
 <template>
-  <div class="PD">
-    <div class="PDcontent">
+<div class="PD1">
+    <div class="PDcontent1">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -130,12 +137,12 @@
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-button type="blue" @click="submitForm('ruleForm')"
             >提交需求</el-button
           >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </div>
   </div>
@@ -263,18 +270,18 @@ export default {
 
 
 <style>
-.PD {
+.PD1 {
   display: flex;
-  margin: 30px 30px;
+  /* margin: 30px 30px; */
   justify-content: center;
   align-items: center;
   padding: 40px 0;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
 }
-.PDcontent {
-  height: 100%;
+.PDcontent1 {
+  /* height: 100%; */
   width: 80%;
-  margin: 50px auto;
+  /* margin: 50px auto; */
 }
 .el-upload--picture-card {
   width: 60px !important;

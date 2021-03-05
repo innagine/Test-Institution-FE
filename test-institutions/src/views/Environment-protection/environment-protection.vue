@@ -52,6 +52,6 @@ export default {
     return{
       list:[{"URl":require("./images/factory.png")},],
     }
-  }
+  },
 }
 </script>

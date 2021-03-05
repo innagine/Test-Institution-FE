@@ -36,6 +36,10 @@
             <i class="el-icon-menu"></i>
             <span slot="title">任务列表</span>
           </el-menu-item>
+          <el-menu-item index="8" >
+            <i class="el-icon-help"></i>
+            <span slot="title">退出登陆</span>
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="21">
@@ -45,6 +49,7 @@
         <RInstitution v-if="indexlist[2].index"></RInstitution>
         <MyCheckList v-if="indexlist[7].index"></MyCheckList>
         <Myorder v-if="indexlist[5].index"></Myorder>
+        <Logout v-if="indexlist[8].index"></Logout>
       </el-col>
     </el-row>
   </div>
@@ -58,6 +63,8 @@ import RFactory from '@/components/RFactory.vue';
 import RInstitution from '@/components/RInstitution.vue';
 import MyCheckList from '@/components/MyCheckList.vue';
 import Myorder from '@/components/Myorder.vue';
+import { mapState } from 'vuex';
+import Logout from '@/components/Logout.vue';
 
 export default {
   props:['User'],
@@ -71,19 +78,21 @@ export default {
     RFactory,
     RInstitution,
     MyCheckList,
-    Myorder
+    Myorder,
+    Logout
   },
 
 
+ 
   created(){
     //权限判定
-    if(this.User.role==1){
+    if(this.user1.user_role=='USER'){ // 普通用户
       this.showUser=true;
-    }else if(this.User.role==2){
+    }else if(this.user1.user_role=='CUSTOMER_SERVICE'){ // 客服
       this.showStaff=true;
-    }else if(this.User.role==3){
+    }else if(this.user1.user_role=='ADMINISTRATORS'){ // 管理员
       this.showStaff=true;
-    }else if(this.User.role==4){
+    }else if(this.user1.user_role=='INSTITUTION'){ // 机构
       this.showInstitution=true;
     }
 
@@ -101,6 +110,7 @@ export default {
         { index: false },
         { index: false },
         { index: true },
+        { index: false },
       ],
       showUser:false,
       showStaff:false,
@@ -126,8 +136,14 @@ export default {
         console.log(this.User)
     }
   },
+  computed:{
+    ...mapState(['user1',]),
+  }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.myInfo{
+  height: 680px;
+}
 </style>

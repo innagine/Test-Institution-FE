@@ -3552,7 +3552,7 @@ export default {
           // 发送post请求，请求注册
           axios({
             method: "post",
-            url: "http://localhost:8556/verify",
+            url: "http://26.140.221.230:8556/verify",
             data: {
               user_name:this.ruleForm.userName,
               code:this.ruleForm.userNumber,
@@ -3562,8 +3562,8 @@ export default {
           })
             .then((res) => {
               console.log("data..", res.data);
-              // console.log(typeof(res.data))
-              if (res.data == "1") {
+              console.log(res);
+              if (res.data.ret == '1') {
                 //转跳到登录页面
                this.$notify({
                title: "消息",
@@ -3577,17 +3577,17 @@ export default {
                   },
                 });
               }
-              else if(res.data == "-1"){
+              else if(res.data.ret == "-1"){
                            this.$notify({
                title: "消息",
-               message: "注册失败",
+               message: "验证码不符合",
                type: "warning",
                });
               }
-              else if(res.data == "0"){
+              else if(res.data.ret == "-2"){
                            this.$notify({
                title: "消息",
-               message: "用户ID已存在",
+               message: "注册失败",
                type: "warning",
                });
               }
@@ -3620,14 +3620,14 @@ export default {
     sendEmail() {
       axios({
         method: "post",
-        url: "http://localhost:8556//register",
+        url: "http://26.140.221.230:8556/register",
         data: {
           user_email: this.ruleForm.email
         },
       }).then((res) => {
         console.log(res)
         console.log(this.ruleForm.email)
-        if (res.data == "1") {
+        if (res.data.ret == "1") {
           //转跳到登录页面
           this.$notify({
             title: "消息",
@@ -3635,7 +3635,7 @@ export default {
             type: "success",
           });
           
-        } else if (res.data == "0") {
+        } else if (res.data.ret == "-1") {
           this.$notify({
             title: "消息",
             message: "邮件发送失败",
