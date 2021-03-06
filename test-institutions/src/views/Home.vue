@@ -122,10 +122,13 @@ export default {
       this.showStaff=true;
     }else if(this.user1.user_role=='INSTITUTION'){ // 机构
       this.showUser=true;
+      this.showStaff=true;
     }else if(this.user1.user_role=='FACTORY'){ // 工厂
       this.showUser=true;
+      this.showStaff=true;
     }else if(this.user1.user_role=='DOUBLE'){ // 工厂和机构双重身份
       this.showUser=true;
+      this.showStaff=true;
     }
     console.log(this.user1)
     //735723058@qq.com
