@@ -5,15 +5,15 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="order_id" label="订单编号" width="180"></el-table-column>
-        <el-table-column prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="180"></el-table-column>
-        <el-table-column prop="institution" label="检测机构"> </el-table-column>
-        <el-table-column prop="state" label="状态"> 
+        <el-table-column prop="demand_id" label="订单编号" width="180"></el-table-column>
+        <el-table-column prop="create_time" label="日期" width="180"></el-table-column>
+        <el-table-column prop="matter" label="检测项目" width="180">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
+        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.state === '已完成' ? 'success' : (scope.row.state === '已退回' ? 'danger':'') "
-              disable-transitions>{{scope.row.state}}</el-tag>
+              :type="scope.row.demand_state === 7 ? 'success' : (scope.row.demand_state === 1 ? 'danger':'') "
+              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '审核中':(scope.row.demand_state === 4 ? '待操作' : (scope.row.demand_state===5?'待检测':(scope.row.demand_state===6?'检测中':(scope.row.demand_state===7?'已完成':(scope.row.demand_state===1?'已退回':''))))))}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作"> 
@@ -43,36 +43,53 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          :pager-count="11"
+          :page-size="10"
+          :current-page.sync="currentPage"
+          @current-change="handleCurrentChange"
+          layout="prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .MD {
   /* display: flex; */
   margin: 30px 30px;
   justify-content: center;
   align-items: center;
-  padding: 40px 0;
+  padding-top: 40px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .MDcontent {
   margin: 0 30px;
+}
+.pagination{
+  width: 80%;
+  margin-top: 40px;
 }
 
 </style>
 
 <script>
 import Progress from "@/components/Progress.vue"
-
+import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
   name: "Demands",
   components:{
     Progress,
   },
+  computed:{
+    ...mapState(['user1',]),
+  },
   methods: {
-
     handleEdit(index, row) {
         console.log(index, row);
         this.dialogVisible = true
@@ -80,47 +97,94 @@ export default {
     handleDelete(index, row) {
         console.log(index, row);
     },
-
+    handleClose(index, row){
+      console.log(index, row);
+    },
+    // 转换时间戳函数
+    getLocalTime(nS) { 
+       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    },
+    // 当前页处理函数
+    handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.RequestList();
+    },
+    // 请求列表数据函数
+    RequestList(){
+      // 获取需求列表
+      axios({
+        method:'post',
+        url:'http://26.140.221.230:8556/search/demandAll',
+        data:{
+          page:this.currentPage,
+          size:10,
+          where: { demand_state:[2]}
+        },
+        headers: {
+        'token': this.user1.token,
+        },
+      }).then((res)=>{
+        console.log("个人需求列表信息获取成功",res);
+  
+        // 去除返回数据数组中的末尾
+        this.total = res.data.data1.pop().value;
+        
+        //将数据时间戳转换成日期
+        let length = res.data.data1.length;
+        for(let i=0; i<length; i++){
+          res.data.data1[i].create_time = this.getLocalTime(res.data.data1[i].create_time/1000);
+        }
+        //将处理好的数据赋值给tableData
+        this.tableData = res.data.data1;
+      }).catch((err)=>{
+        console.log("个人需求列表信息获取失败",err);
+      })
+    },
   },
   data() {
     return {
-      dialogVisible: false,
+      dialogVisible: false, // 控制弹窗显示
+      total: 0, // 数据总数
+      currentPage: 1, // 当前页码
       tableData: [
         {
-          order_id: 11273913 ,
-          date: "2016-05-02",
+          demand_id: 11273913 ,
+          create_time: "2016-05-02",
           matter: "水",
-          institution: "未匹配",
-          state:'待审核'
+          choice: "未匹配",
+          demand_state:'待审核'
         },
         {
-          order_id: 11273914 ,
-          date: "2016-05-02",
+          demand_id: 11273914 ,
+          create_time: "2016-05-02",
           matter: "土",
-          institution: "未匹配",
-          state:'待审核'
+          choice: "未匹配",
+          demand_state:'待审核'
         },{
-          order_id: 11273915 ,
-          date: "2016-05-02",
+          demand_id: 11273915 ,
+          create_time: "2016-05-02",
           matter: "气",
-          institution: "未匹配",
-          state:'待审核'
+          choice: "未匹配",
+          demand_state:'待审核'
         },{
-          order_id: 11273916 ,
-          date: "2016-05-02",
+          demand_id: 11273916 ,
+          create_time: "2016-05-02",
           matter: "大米",
-          institution: "未匹配",
-          state:'待审核'
+          choice: "未匹配",
+          demand_state:'待审核'
         },
         {
-          order_id: 11273917 ,
-          date: "2016-05-02",
+          demand_id: 11273917 ,
+          create_time: "2016-05-02",
           matter: "大米",
-          institution: "未匹配",
-          state:'待审核'
+          choice: "未匹配",
+          demand_state:'待审核'
         },
       ],
     };
   },
+  created(){
+    this.RequestList();//调用请求函数函数
+  }
 };
 </script>

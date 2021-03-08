@@ -3648,7 +3648,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .SVG1 {
   position: fixed;
   bottom: 30px;

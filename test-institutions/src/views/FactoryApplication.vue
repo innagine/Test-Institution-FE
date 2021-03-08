@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .MD {
   /* display: flex; */
   margin: 30px 30px;

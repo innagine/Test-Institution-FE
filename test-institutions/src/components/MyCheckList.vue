@@ -5,16 +5,16 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="order_id" label="订单编号" width="180"></el-table-column>
-        <el-table-column prop="date" label="日期" width="120"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="120"></el-table-column>
-        <el-table-column prop="institution" label="检测机构"> </el-table-column>
-        <el-table-column prop="checkMan" label="审核人"> </el-table-column>
-        <el-table-column prop="state" label="状态"> 
+        <el-table-column prop="demand_id" label="订单编号"></el-table-column>
+        <el-table-column prop="create_time" label="日期"></el-table-column>
+        <el-table-column prop="matter" label="检测项目">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
+        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <!-- <el-table-column prop="checkMan" label="审核人"> </el-table-column> -->
+        <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.state === '已完成' ? 'success' : (scope.row.state === '已退回' ? 'danger':'') "
-              disable-transitions>{{scope.row.state}}</el-tag>
+              :type="scope.row.demand_state === 7 ? 'success' : (scope.row.demand_state === 1||0 ? 'danger':'') "
+              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '审核中':(scope.row.demand_state === 4 ? '待操作' : (scope.row.demand_state===5?'待检测':(scope.row.demand_state===6?'检测中':(scope.row.demand_state===7?'已完成':(scope.row.demand_state===1?'已退货':''))))))}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作" width="250"> 
@@ -98,26 +98,34 @@ export default {
     ...mapState(['user1',]),
   },
   methods: {
-
-    handleEdit(index, row) { // 控制编辑窗口显示
+    // 控制编辑窗口显示函数
+    handleEdit(index, row) { 
         console.log(index, row);
         this.dialogVisible = true;
-      },
-    handleDelete(index, row) { // 控制删除窗口显示
+    },
+    // 控制删除窗口显示函数
+    handleDelete(index, row) { 
         this.row = row;
         this.index = index;
         console.log(index, row);
         this.dialogVisible2 = true;
         console.log("删除该行");
     },
-    deleteItem(){ // 确认删除任务
+    // 确认删除任务函数
+    deleteItem(){ 
         this.dialogVisible2 = false;
         this.tableData.splice(this.index,1)
     },
-    handleProgress(index, row){ // 控制进度窗口
+    // 控制进度窗口函数
+    handleProgress(index, row){ 
       console.log(index, row);
       this.dialogVisible1 = true;
-    }
+    },
+
+    // 转换时间戳函数
+    getLocalTime(nS) { 
+       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    },
 
   },
   data() {
@@ -129,42 +137,37 @@ export default {
       row:null,   //当前操作行的信息
       tableData: [
         {
-          order_id: 11273913 ,
-          date: "2016-05-02",
+          demand_id: 11273913 ,
+          create_time: "2016-05-02",
           matter: "水",
-          institution: "上海市普陀区五邑大学",
-          state:'已提交',
-          checkMan:'imagine'
+          choice: "上海市普陀区五邑大学",
+          demand_state:'已提交',
         },
         {
-          order_id: 11273914 ,
-          date: "2016-05-02",
+          demand_id: 11273914 ,
+          create_time: "2016-05-02",
           matter: "土",
-          institution: "上海市普陀区五邑大学",
-          state:'已退回',
-          checkMan:'imagine'
+          choice: "上海市普陀区五邑大学",
+          demand_state:'已退回',
         },{
-          order_id: 11273915 ,
-          date: "2016-05-02",
+          demand_id: 11273915 ,
+          create_time: "2016-05-02",
           matter: "气",
-          institution: "上海市普陀区五邑大学",
-          state:'检测中',
-          checkMan:'imagine'
+          choice: "上海市普陀区五邑大学",
+          demand_state:'检测中',
         },{
-          order_id: 11273916 ,
-          date: "2016-05-02",
+          demand_id: 11273916 ,
+          create_time: "2016-05-02",
           matter: "大米",
-          institution: "上海市普陀区五邑大学",
-          state:'已完成',
-          checkMan:'imagine'
+          choice: "上海市普陀区五邑大学",
+          demand_state:'已完成',
         },
         {
-          order_id: 11273917 ,
-          date: "2016-05-02",
+          demand_id: 11273917 ,
+          create_time: "2016-05-02",
           matter: "大米",
-          institution: "上海市普陀区五邑大学",
-          state:'审核中',
-          checkMan:'imagine'
+          choice: "上海市普陀区五邑大学",
+          demand_state:'审核中',
         },
       ],
     };
@@ -180,6 +183,17 @@ export default {
       },
     }).then((res)=>{
       console.log("个人需求列表信息获取成功",res);
+
+      // 去除返回数据数组中的末尾
+      res.data.data1.pop();
+      
+      //将数据时间戳转换成日期
+      let length = res.data.data1.length;
+      for(let i=0; i<length; i++){
+        res.data.data1[i].create_time = this.getLocalTime(res.data.data1[i].create_time/1000);
+      }
+      //将处理好的数据赋值给tableData
+      this.tableData = res.data.data1;
     }).catch((err)=>{
       console.log("个人需求列表信息获取失败",err);
     })

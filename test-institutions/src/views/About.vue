@@ -1,9 +1,9 @@
 <!--
  * @Description: file contentIMAGINE
  * @Author: IMAGINE
- * @Date: 2020-12-07 14:56:18
+ * @Date: 2021-03-08 16:16:37
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-04 16:14:52
+ * @LastEditTime: 2021-03-08 16:16:37
 -->
 <template>
   <div class="about">

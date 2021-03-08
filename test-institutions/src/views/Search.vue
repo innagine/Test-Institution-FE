@@ -193,7 +193,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .Search {
   height: 100%;
   width: 80%;

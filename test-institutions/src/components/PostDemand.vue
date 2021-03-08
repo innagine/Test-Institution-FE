@@ -14,7 +14,7 @@
             ><el-form-item label="联系人" prop="name">
               <el-input
                 v-model="ruleForm.name"
-                maxlength="80"
+                maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -22,7 +22,7 @@
             <el-form-item label="联系号码" prop="number">
               <el-input
                 v-model="ruleForm.number"
-                maxlength="30"
+                maxlength="11"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -32,7 +32,7 @@
             ><el-form-item label="电子邮箱" prop="email">
               <el-input
                 v-model="ruleForm.email"
-                maxlength="30"
+                maxlength="20"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -45,7 +45,7 @@
             >
               <el-input
                 v-model="ruleForm.version"
-                maxlength="30"
+                maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -55,7 +55,7 @@
             <el-form-item label="预算范围" prop="scope">
               <el-input
                 v-model="ruleForm.scope"
-                maxlength="30"
+                maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -174,18 +174,18 @@ export default {
       rules: {
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 20, message: "长度最多 20 个字符", trigger: "blur" },
         ],
         number: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 11, message: "长度最多 11 个字符", trigger: "blur" },
         ],
         name: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
           {
-            min: 8,
-            max: 80,
-            message: "长度在 8 到 80 个字符",
+            min: 2,
+            max: 10,
+            message: "长度在 1 到 10 个字符",
             trigger: "blur",
           },
         ],
@@ -230,7 +230,7 @@ export default {
               tel: this.ruleForm.number, // 联系人电话号码
               email: this.ruleForm.email, // 联系人电子邮箱
               quantity: this.ruleForm.total, // 样品数量
-              budget: this.ruleForm.name, // 预算范围
+              budget: this.ruleForm.budget, // 预算范围
               cycle: this.ruleForm.date2, // 完成周期
               describes: this.ruleForm.desc, // 描述
             },
@@ -239,6 +239,14 @@ export default {
             }
           }).then((res)=>{
             console.log("需求发布成功res...", res); 
+            
+            //成功信息提醒
+            if(res.data.ret===1){
+              this.$notify({title: "消息",message: res.data.msg,type: "success",});
+            }
+            else{
+              this.$notify({title: "消息",message: res.data.msg,type: "warning",});
+            }
           }).catch((err)=>{
             console.log("需求发布错误error...", err); 
           })
