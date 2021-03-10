@@ -1,3 +1,10 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2021-03-09 16:11:27
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-03-09 16:35:28
+-->
 <template>
   <div class="MD">
     <div class="MDcontent">
@@ -20,11 +27,11 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">查看详情</el-button>
+              @click="handleEdit(scope.$index, scope.row)">推荐机构</el-button>
             <el-button
               size="mini"
               type="blue"
-              @click="handlePass(scope.$index, scope.row)">通过</el-button>
+              @click="handleShow(scope.$index, scope.row)">详情</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -32,7 +39,8 @@
               <el-dialog
                   title="检测进度"
                   :visible.sync="dialogVisible"
-                  width="80%">
+                  width="80%"
+                  :before-close="handleClose">
                   <Progress></Progress>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -81,7 +89,7 @@ import { mapState } from 'vuex';
 import axios from 'axios';
 
 export default {
-  name: "Demands",
+  name: "choice-institution",
   components:{
     Progress,
   },
@@ -95,8 +103,8 @@ export default {
         this.dialogVisible = true;
       },
 
-    // 通过需求任务审核函数
-    handlePass(index, row) {
+    // 查看需求函数
+    handleShow(index, row) {
         console.log(index, row);
         let stateUrl = 'demand/setAudited'; // 改变状态为待审核URL
         this.RequestState(stateUrl,row.demand_id,index); // 调用改变状态需求状态函数
@@ -105,7 +113,7 @@ export default {
     // 退回需求任务审核函数
     handleBack(index, row){
       console.log(index, row);
-      let stateUrl = 'demand/setSubmit'; // 改变状态为待审核URL
+      let stateUrl = 'demand/setSubmited'; // 改变状态为待审核URL
       this.RequestState(stateUrl,row.demand_id,index); // 调用改变状态需求状态函数
     },
 
@@ -134,7 +142,7 @@ export default {
         data:{
           page:this.currentPage,
           size:10,
-          where: { demand_state:2}
+          where: { demand_state:4}
         },
         headers: {
         'token': this.user1.token,

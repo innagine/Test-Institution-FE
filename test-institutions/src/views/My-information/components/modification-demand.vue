@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-05 14:47:02
+ * @LastEditTime: 2021-03-09 20:15:46
 -->
 <template>
 <div class="PD1">
@@ -275,7 +275,7 @@ export default {
   /* margin: 30px 30px; */
   justify-content: center;
   align-items: center;
-  padding: 40px 0;
+  padding: 20px 0;
   /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
 }
 .PDcontent1 {

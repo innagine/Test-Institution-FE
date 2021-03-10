@@ -14,7 +14,7 @@
             ><el-form-item label="联系人" prop="name">
               <el-input
                 v-model="ruleForm.name"
-                maxlength="80"
+                maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -22,7 +22,7 @@
             <el-form-item label="联系号码" prop="number">
               <el-input
                 v-model="ruleForm.number"
-                maxlength="30"
+                maxlength="11"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -32,7 +32,7 @@
             ><el-form-item label="电子邮箱" prop="email">
               <el-input
                 v-model="ruleForm.email"
-                maxlength="30"
+                maxlength="20"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -87,7 +87,7 @@
           <el-button type="blue" @click="submitForm('ruleForm')"
             >注册</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
-          <el-button >返回</el-button>
+          <el-button >查看进度</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -96,11 +96,14 @@
 
 <script>
 // 导入axios
-// import axios from "axios";
+import axios from "axios";
+import { mapState } from 'vuex';
 
 export default {
   name: "RFactory",
-  //   props:['User'],
+  computed:{
+    ...mapState(['user1','baseUrl',]),
+  },
   data() {
     return {
       dialogImageUrl: "",
@@ -121,14 +124,14 @@ export default {
         ],
         number: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 11, message: "长度最多 11 个字符", trigger: "blur" },
         ],
         name: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
           {
-            min: 8,
-            max: 80,
-            message: "长度在 8 到 80 个字符",
+            min: 2,
+            max: 10,
+            message: "长度在 2 到 10 个字符",
             trigger: "blur",
           },
         ],
@@ -141,83 +144,47 @@ export default {
             trigger: "blur",
           },
         ],
-        password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          {
-            min: 18,
-            max: 18,
-            message: "长度在 18 个字符",
-            trigger: "blur",
-          },
-        ],
-        Rpassword: [
-          { required: true, message: "请再次输入密码", trigger: "blur" },
-          {
-            min: 18,
-            max: 18,
-            message: "长度在 18 个字符",
-            trigger: "blur",
-          },
-        ],
       },
     };
   },
   methods: {
+
+    // 提交表单数据函数
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          //       console.log("AAAAAAAAAAAA"+this.User.userId);
-          //   // 发送post请求
-          //       axios({
-          //     method: "post",
-          //     url: "http://localhost:8999/createIssue",
-          //     data: {
-          //       issueName:this.ruleForm.name,
-          //       createMan:this.User.userName,
-          //       level:this.ruleForm.grade,
-          //       type:this.ruleForm.type2,
-          //       beta:this.ruleForm.version,
-          //       userId:this.User.userId,
-          //       updateMan:this.ruleForm.person,
-          //       step:this.ruleForm.desc,
-          //       solution:this.ruleForm.solution,
-          //       planDate:this.ruleForm.date
-          //     }
-          //   })
-          //     .then((res) => {
-          //       console.log("data..", res.data);
-          //       if(res.data==1){
-          //       this.$notify({
-          //        title: "消息",
-          //        message: "IUSSUE创建成功，可以继续创建",
-          //        type: "success",
-          //        });
-          //       }
-          //       else{
-          //         this.$notify({
-          //        title: "消息",
-          //        message: "IUSSUE创建失败,指派人不存在",
-          //        type: "warning",
-          //        });
-          //       }
-          //     })
-          //     .catch((err) => {
-          //       console.log("error...", err);
-          //     });
+          // let url = 'upload/f_apply'; // 发送表单基本数据接口
+          // let sendData = { // 发送的数据
+
+          //   contacts_tel:'', // 联系人电话
+          // }; 
+          this.requestSend()
         } else {
           console.log("error submit!!");
-          this.$notify({
-            title: "消息",
-            message: "请将信息填写完整",
-            type: "warning",
-          });
+          this.$notify({title: "消息",message: "请将信息填写完整",type: "warning",});
           return false;
         }
       });
     },
+
+    // 重置表单数据函数
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
+    // 请求发送函数
+    requestSend(sendUrl,sendData){
+      axios({
+        method:'post',
+        url:this.baseUrl+sendUrl,
+        headers: {'token': this.user1.token,},
+        data:sendData,
+      }).then((res)=>{
+        console.log('工厂页面请求发送成功',res);
+      }).catch((err)=>{
+        console.log('工厂页面请求发送失败',err);
+      })
+    }
   },
 };
 </script>

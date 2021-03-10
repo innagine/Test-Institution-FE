@@ -27,8 +27,9 @@
       <el-menu-item index="6" v-if="showUser">危废处理</el-menu-item>
       <el-menu-item index="11" v-if="showStaff">检索机构</el-menu-item>
       <el-menu-item index="12" v-if="showStaff">需求列表</el-menu-item>
-      <el-menu-item index="13" v-if="showStaff">机构申请</el-menu-item>
-      <el-menu-item index="14" v-if="showStaff">工厂申请</el-menu-item>
+      <el-menu-item index="13" v-if="showStaff">匹配机构</el-menu-item>
+      <el-menu-item index="14" v-if="showStaff">机构申请</el-menu-item>
+      <el-menu-item index="15" v-if="showStaff">工厂申请</el-menu-item>
       <el-menu-item index="7" v-if="showUser" class="prevent">
         <el-input
           v-model="input"
@@ -57,13 +58,14 @@
     <Choose v-if="indexlist[1].index"></Choose>
     <Search v-if="indexlist[11].index"></Search>
     <Demands v-if="indexlist[12].index"></Demands>
-    <InstitutionApplication v-if="indexlist[13].index"></InstitutionApplication>
-    <FactoryApplication v-if="indexlist[14].index"></FactoryApplication>
+    <InstitutionApplication v-if="indexlist[14].index"></InstitutionApplication>
+    <FactoryApplication v-if="indexlist[15].index"></FactoryApplication>
     <Payment v-if="indexlist[1].index"></Payment>
     <environment-test v-if="indexlist[3].index"></environment-test>
     <treatment-equipment v-if="indexlist[5].index"></treatment-equipment>
     <waste-treatment v-if="indexlist[6].index"></waste-treatment>
     <environment-protection v-if="indexlist[4].index"></environment-protection>
+    <choice-institution v-if="indexlist[13].index"></choice-institution>
     <Footer></Footer>
   </div>
 </template>
@@ -88,6 +90,7 @@ import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
 import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 import { mapState } from 'vuex';
+import ChoiceInstitution from './Choice-institution/choice-institution.vue'
 
 export default {
   name: "Home",
@@ -106,10 +109,11 @@ export default {
     TreatmentEquipment,
     WasteTreatment,
     EnvironmentProtection,
+    ChoiceInstitution,
   },
 
   created(){
-
+    if(!this.user1) return ;
     //权限判定
     if(this.user1.user_role=='USER'){ // 普通用户
       this.showUser=true;
@@ -142,6 +146,7 @@ export default {
       indexlist: [
         { index: true },
         { index: true },
+        { index: false },
         { index: false },
         { index: false },
         { index: false },

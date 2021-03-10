@@ -81,6 +81,10 @@ export default {
         console.log(index, row);
     },
 
+    //弹窗关闭执行函数
+    handleClose(){
+
+    },
   },
   data() {
     return {
