@@ -45,9 +45,16 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        
+
         <el-form-item label="营业执照" prop="grade">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+          <el-upload
+            action="http://26.140.221.230:8556/upload/f_license"
+            :headers="{token: this.user1.token}"
+            list-type="picture-card"
+            :auto-upload="true"
+            :file-list="fileList"
+            :on-success="handleSuccess"
+          >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
               <img
@@ -65,13 +72,6 @@
                 <span
                   v-if="!disabled"
                   class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
                   @click="handleRemove(file)"
                 >
                   <i class="el-icon-delete"></i>
@@ -85,9 +85,10 @@
         </el-form-item>
         <el-form-item>
           <el-button type="blue" @click="submitForm('ruleForm')"
-            >注册</el-button>
+            >注册</el-button
+          >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
-          <el-button >查看进度</el-button>
+          <el-button>查看进度</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -97,34 +98,34 @@
 <script>
 // 导入axios
 import axios from "axios";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   name: "RFactory",
-  computed:{
-    ...mapState(['user1','baseUrl',]),
+  computed: {
+    ...mapState(["user1", "baseUrl"])
   },
   data() {
     return {
-      dialogImageUrl: "",
-      dialogVisible: false,
+      dialogImageUrl: "", // 查看上传文件
+      dialogVisible: false, // 查看文件上传弹窗
       disabled: false,
+      documentUrl: "http://26.140.221.230:8556/upload/f_license", // 上传工厂文件专用链接
+      fileList: [], // 上传资料对象数组
       ruleForm: {
         name: "",
         number: "",
         email: "",
-        ID: "",
-        password:'',
-        Rpassword:'',
+        ID: ""
       },
       rules: {
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 30, message: "长度最多 30 个字符", trigger: "blur" }
         ],
         number: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
-          { max: 11, message: "长度最多 11 个字符", trigger: "blur" },
+          { max: 11, message: "长度最多 11 个字符", trigger: "blur" }
         ],
         name: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
@@ -132,8 +133,8 @@ export default {
             min: 2,
             max: 10,
             message: "长度在 2 到 10 个字符",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         ID: [
           { required: true, message: "请输入联系人身份证号", trigger: "blur" },
@@ -141,27 +142,33 @@ export default {
             min: 18,
             max: 18,
             message: "长度在 18 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   methods: {
-
     // 提交表单数据函数
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          // let url = 'upload/f_apply'; // 发送表单基本数据接口
-          // let sendData = { // 发送的数据
-
-          //   contacts_tel:'', // 联系人电话
-          // }; 
-          this.requestSend()
+          let url = "upload/f_apply"; // 发送表单基本数据接口
+          let sendData = {
+            // 发送的数据
+            factory_contacts: this.ruleForm.name, // 联系人名字
+            contacts_id: this.ruleForm.ID, // 联系人身份证
+            contacts_tel: this.ruleForm.number, // 联系人电话
+            factory_email: this.ruleForm.email // 联系人email
+          };
+          this.requestSend(url, sendData); // 请求发送
         } else {
           console.log("error submit!!");
-          this.$notify({title: "消息",message: "请将信息填写完整",type: "warning",});
+          this.$notify({
+            title: "消息",
+            message: "请将信息填写完整",
+            type: "warning"
+          });
           return false;
         }
       });
@@ -173,19 +180,47 @@ export default {
     },
 
     // 请求发送函数
-    requestSend(sendUrl,sendData){
+    requestSend(sendUrl, sendData) {
       axios({
-        method:'post',
-        url:this.baseUrl+sendUrl,
-        headers: {'token': this.user1.token,},
-        data:sendData,
-      }).then((res)=>{
-        console.log('工厂页面请求发送成功',res);
-      }).catch((err)=>{
-        console.log('工厂页面请求发送失败',err);
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
       })
-    }
-  },
+        .then(res => {
+          console.log("工厂页面请求发送成功", res);
+        })
+        .catch(err => {
+          console.log("工厂页面请求发送失败", err);
+        });
+    },
+    
+    // 删除上传文件
+    handleRemove(file) {
+      // 通过循环找出被选中文件对象
+      let len = this.fileList.length;
+      let index = 0;
+      for(let i = 0; i<len; i++){
+        if(this.fileList[i].uid === file.uid){
+          index = i;
+        }
+      }
+      // 清除前端文件数组中被选中的对象
+      this.fileList.splice(index,1); 
+    },
+
+    // 查看上传文件函数
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+
+    // 文件上传成功执行函数
+    handleSuccess(response, file, fileList){
+      this.fileList.push(file);
+      console.log(response, file, fileList);
+    },
+  }
 };
 </script>
 

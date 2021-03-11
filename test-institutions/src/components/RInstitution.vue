@@ -14,7 +14,7 @@
             ><el-form-item label="联系人" prop="name">
               <el-input
                 v-model="ruleForm.name"
-                maxlength="80"
+                maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -22,7 +22,7 @@
             <el-form-item label="联系号码" prop="number">
               <el-input
                 v-model="ruleForm.number"
-                maxlength="30"
+                maxlength="11"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
@@ -47,7 +47,14 @@
         </el-row>
 
         <el-form-item label="营业执照" prop="grade">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+          <el-upload
+            action="http://26.140.221.230:8556/upload/i_license"
+            list-type="picture-card"
+            :headers="{token: this.user1.token}"
+            :auto-upload="true"
+            :file-list="fileList1"
+            :on-success="handleSuccess1"
+          >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
               <img
@@ -65,14 +72,7 @@
                 <span
                   v-if="!disabled"
                   class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
+                  @click="handleRemove(file,1)"
                 >
                   <i class="el-icon-delete"></i>
                 </span>
@@ -85,7 +85,14 @@
         </el-form-item>
 
         <el-form-item label="资质认定证书" prop="grade">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+          <el-upload
+            action="http://26.140.221.230:8556/upload/i_credentials"
+            list-type="picture-card"
+            :headers="{token: this.user1.token}"
+            :auto-upload="true"
+            :file-list="fileList2"
+            :on-success="handleSuccess2"
+          >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
               <img
@@ -103,14 +110,7 @@
                 <span
                   v-if="!disabled"
                   class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
+                  @click="handleRemove(file,2)"
                 >
                   <i class="el-icon-delete"></i>
                 </span>
@@ -123,7 +123,14 @@
         </el-form-item>
 
         <el-form-item label="认证证书附表" prop="grade">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false">
+          <el-upload
+            action="http://26.140.221.230:8556/upload/i_enclosure"
+            list-type="picture-card"
+            :headers="{token: this.user1.token}"
+            :auto-upload="true"
+            :file-list="fileList3"
+            :on-success="handleSuccess3"
+          >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
               <img
@@ -141,14 +148,7 @@
                 <span
                   v-if="!disabled"
                   class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
+                  @click="handleRemove(file,3)"
                 >
                   <i class="el-icon-delete"></i>
                 </span>
@@ -158,7 +158,7 @@
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
-        </el-form-item>
+        </el-form-item> 
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
@@ -173,39 +173,45 @@
 
 <script>
 // 导入axios
-// import axios from "axios";
-
+import axios from "axios";
+import { mapState } from "vuex";
 export default {
   name: "RInstitution",
-  //   props:['User'],
+  computed: {
+    ...mapState(["user1", "baseUrl"])
+  },
   data() {
     return {
-      dialogImageUrl: "",
-      dialogVisible: false,
+      dialogImageUrl: "", // 查看上传文件
+      dialogVisible: false, // 查看文件上传弹窗
       disabled: false,
+      documentUrl: "http://26.140.221.230:8556/upload/f_license", // 上传工厂文件专用链接
+      fileList1: [], // 上传营业执照资料对象数组
+      fileList2: [], // 上传资质认定资料对象数组
+      fileList3: [], // 上传认证证书资料对象数组
       ruleForm: {
         name: "",
         number: "",
         email: "",
-        ID: "",
+        ID: ""
       },
       rules: {
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 30, message: "长度最多 30 个字符", trigger: "blur" }
         ],
         number: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
+          { max: 11, message: "长度最多 11 个字符", trigger: "blur" }
         ],
         name: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
           {
-            min: 8,
-            max: 80,
-            message: "长度在 8 到 80 个字符",
-            trigger: "blur",
-          },
+            min: 2,
+            max: 10,
+            message: "长度在 2 到 10 个字符",
+            trigger: "blur"
+          }
         ],
         ID: [
           { required: true, message: "请输入联系人身份证号", trigger: "blur" },
@@ -213,69 +219,125 @@ export default {
             min: 18,
             max: 18,
             message: "长度在 18 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   methods: {
+    // 提交机构认证表单函数
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          //       console.log("AAAAAAAAAAAA"+this.User.userId);
-          //   // 发送post请求
-          //       axios({
-          //     method: "post",
-          //     url: "http://localhost:8999/createIssue",
-          //     data: {
-          //       issueName:this.ruleForm.name,
-          //       createMan:this.User.userName,
-          //       level:this.ruleForm.grade,
-          //       type:this.ruleForm.type2,
-          //       beta:this.ruleForm.version,
-          //       userId:this.User.userId,
-          //       updateMan:this.ruleForm.person,
-          //       step:this.ruleForm.desc,
-          //       solution:this.ruleForm.solution,
-          //       planDate:this.ruleForm.date
-          //     }
-          //   })
-          //     .then((res) => {
-          //       console.log("data..", res.data);
-          //       if(res.data==1){
-          //       this.$notify({
-          //        title: "消息",
-          //        message: "IUSSUE创建成功，可以继续创建",
-          //        type: "success",
-          //        });
-          //       }
-          //       else{
-          //         this.$notify({
-          //        title: "消息",
-          //        message: "IUSSUE创建失败,指派人不存在",
-          //        type: "warning",
-          //        });
-          //       }
-          //     })
-          //     .catch((err) => {
-          //       console.log("error...", err);
-          //     });
+          let url = "upload/i_apply"; // 发送表单基本数据接口
+          let sendData = {
+            // 发送的数据
+            institution_contacts: this.ruleForm.name, // 联系人名字
+            contacts_id: this.ruleForm.ID, // 联系人身份证
+            contacts_tel: this.ruleForm.number, // 联系人电话
+            institution_email: this.ruleForm.email // 联系人email
+          };
+          this.requestSend(url, sendData); // 请求发送
         } else {
           console.log("error submit!!");
           this.$notify({
             title: "消息",
             message: "请将信息填写完整",
-            type: "warning",
+            type: "warning"
           });
           return false;
         }
       });
     },
+
+    // 重置表单数据函数
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-  },
+    // 请求发送函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("工厂页面请求发送成功", res);
+        })
+        .catch(err => {
+          console.log("工厂页面请求发送失败", err);
+        });
+    },
+    
+    // 删除上传文件
+    handleRemove(file,num) {
+      switch(num){
+        case 1:
+          // 通过循环找出被选中文件对象
+          var len = this.fileList1.length;
+          var index = 0;
+          for(let i = 0; i<len; i++){
+            if(this.fileList1[i].uid === file.uid){
+              index = i;
+            }
+          }
+          // 清除前端文件数组中被选中的对象
+          console.log('fileList1'+this.fileList1)
+          this.fileList1.splice(index,1);
+          break;
+        case 2:
+          // 通过循环找出被选中文件对象
+          len = this.fileList2.length;
+          index = 0;
+          for(let i = 0; i<len; i++){
+            if(this.fileList2[i].uid === file.uid){
+              index = i;
+            }
+          }
+          // 清除前端文件数组中被选中的对象
+          this.fileList2.splice(index,1);
+          break;
+        case 3:
+          // 通过循环找出被选中文件对象
+          len = this.fileList3.length;
+          index = 0;
+          for(let i = 0; i<len; i++){
+            if(this.fileList3[i].uid === file.uid){
+              index = i;
+            }
+          }
+          // 清除前端文件数组中被选中的对象
+          this.fileList3.splice(index,1);
+          break;
+        default:
+          return ;
+      }
+    },
+
+    // 查看上传文件函数
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+
+    // 营业执照文件上传成功执行函数
+    handleSuccess1(response, file, fileList){
+      this.fileList1.push(file);
+      console.log(response, file, fileList);
+    },
+    // 资质认定文件上传成功执行函数
+    handleSuccess2(response, file, fileList){
+      this.fileList2.push(file);
+      console.log(response, file, fileList);
+    },
+    // 认证证书文件上传成功执行函数
+    handleSuccess3(response, file, fileList){
+      this.fileList3.push(file);
+      console.log(response, file, fileList);
+    },
+  }
 };
 </script>
 
