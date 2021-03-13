@@ -271,7 +271,7 @@ export default {
         });
     },
     
-    // 删除上传文件
+    // 删除营业执照上传文件
     handleRemove(file,num) {
       switch(num){
         case 1:
@@ -284,8 +284,9 @@ export default {
             }
           }
           // 清除前端文件数组中被选中的对象
-          console.log('fileList1'+this.fileList1)
           this.fileList1.splice(index,1);
+          // 调用清除后端缓存中的对象函数
+          this.handleDelete(file,'/delete/i_license');
           break;
         case 2:
           // 通过循环找出被选中文件对象
@@ -298,6 +299,8 @@ export default {
           }
           // 清除前端文件数组中被选中的对象
           this.fileList2.splice(index,1);
+          // 调用清除后端缓存中的对象函数
+          this.handleDelete(file,'/delete/i_credentials');
           break;
         case 3:
           // 通过循环找出被选中文件对象
@@ -310,10 +313,26 @@ export default {
           }
           // 清除前端文件数组中被选中的对象
           this.fileList3.splice(index,1);
+          // 调用清除后端缓存中的对象函数
+          this.handleDelete(file,'/delete/i_enclosure');
           break;
         default:
           return ;
       }
+    },
+
+    // 清除后端缓存中的对象函数
+    handleDelete(file,url){
+      axios({
+        method:'post',
+        url:this.baseUrl+url,
+        headers:{token: this.user1.token},
+        data:{fileName:file.name},
+      }).then((res)=>{
+        console.log('删除后台缓存中的被选中文件数据成功',res);
+      }).catch((err)=>{
+        console.log('删除后台缓存中的被选中文件数据失败',err);
+      })
     },
 
     // 查看上传文件函数

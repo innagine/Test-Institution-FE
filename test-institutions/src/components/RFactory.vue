@@ -207,6 +207,23 @@ export default {
       }
       // 清除前端文件数组中被选中的对象
       this.fileList.splice(index,1); 
+
+      // 调用清除后端缓存中的对象函数
+      this.handleDelete(file,'/delete/f_license');
+    },
+
+    // 清除后端缓存中的对象函数
+    handleDelete(file,url){
+      axios({
+        method:'post',
+        url:this.baseUrl+url,
+        headers:{token: this.user1.token},
+        data:{fileName:file.name},
+      }).then((res)=>{
+        console.log('删除后台缓存中的被选中文件数据成功',res);
+      }).catch((err)=>{
+        console.log('删除后台缓存中的被选中文件数据失败',err);
+      })
     },
 
     // 查看上传文件函数

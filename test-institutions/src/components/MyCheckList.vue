@@ -159,7 +159,7 @@ export default {
         headers: {
         'token': this.user1.token,
         },
-        // withCredentials: true,
+        withCredentials: true,
       }).then((res)=>{
         console.log("个人需求列表信息获取成功",res);
 

@@ -1091,7 +1091,8 @@ export default {
         data: {
             user_email:this.account,
             user_password:this.password
-            }
+            },
+        withCredentials: true,
       })
         .then((res) => {
           console.log("登陆data..", res.data);
