@@ -5,15 +5,15 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="order_id" label="用户ID" width="180"></el-table-column>
-        <el-table-column prop="date" label="申请日期" width="180"></el-table-column>
-        <el-table-column prop="matter" label="申请项目" width="180"></el-table-column>
-        <el-table-column prop="institution" label="机构名称"> </el-table-column>
-        <el-table-column prop="state" label="状态"> 
+        <el-table-column prop="institution_id" label="用户ID"></el-table-column>
+        <el-table-column prop="create_time" label="申请日期"></el-table-column>
+        <el-table-column prop="contacts_tel" label="联系方式"></el-table-column>
+        <el-table-column prop="institution_contacts" label="申请人"> </el-table-column>
+        <el-table-column prop="i_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.state === '已完成' ? 'success' : (scope.row.state === '已退回' ? 'danger':'') "
-              disable-transitions>{{scope.row.state}}</el-tag>
+              disable-transitions>{{scope.row.i_state === 0 ? '待审核': '审核通过'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作"> 
@@ -43,6 +43,16 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          :pager-count="11"
+          :page-size="10"
+          :current-page.sync="currentPage"
+          @current-change="handleCurrentChange"
+          layout="prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -64,12 +74,16 @@
 
 <script>
 import Progress from "@/components/Progress.vue"
-
+import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "Demands",
   components:{
     Progress,
+  },
+  computed: {
+    ...mapState(["user1","baseUrl"])
   },
   methods: {
 
@@ -85,46 +99,106 @@ export default {
     handleClose(){
 
     },
+
+    // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("机构申请列表页面请求发送成功", res);
+
+          // 去除返回数据数组中的末尾
+          this.total = res.data.data1.pop().value;
+
+          //将数据时间戳转换成日期
+          let length = res.data.data1.length;
+          for(let i=0; i<length; i++){
+            res.data.data1[i].create_time = this.getLocalTime(res.data.data1[i].create_time/1000);
+          }
+          this.tableData = res.data.data1;
+        })
+        .catch(err => {
+          console.log("机构申请列表页面请求发送失败", err);
+        });
+    },
+
+    // 当前页处理函数
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      let sendUrl = 'search/institutionAll';
+      let sendData = {
+      page:this.currentPage,
+      size:7,
+      sortFieldsToAsc:{
+        institution_id:false,
+      }
+    };
+      this.requestSend(sendUrl,sendData);
+    },
+
+    // 转换时间戳函数
+    getLocalTime(nS) { 
+       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    },
   },
   data() {
     return {
       dialogVisible: false,
+      index:null, //当前操作行的下标
+      row:null,   //当前操作行的信息
+      total: 0, // 数据总数
+      currentPage: 1, // 当前页码
       tableData: [
         {
-          order_id: 11273913 ,
-          date: "2016-05-02",
-          matter: "机构认证",
-          institution: "兴悦检测",
-          state:'待审核'
+          institution_id: 11273913 ,
+          create_time: "2016-05-02",
+          contacts_tel: "机构认证",
+          institution_contacts: "兴悦检测",
+          i_state:'待审核'
         },
         {
-          order_id: 11273914 ,
-          date: "2016-05-02",
-          matter: "机构认证",
-          institution: "富华检测",
-          state:'待审核'
+          institution_id: 11273914 ,
+          create_time: "2016-05-02",
+          contacts_tel: "机构认证",
+          institution_contacts: "富华检测",
+          i_state:'待审核'
         },{
-          order_id: 11273915 ,
-          date: "2016-05-02",
-          matter: "机构认证",
-          institution: "蓝杰检测",
-          state:'待审核'
+          institution_id: 11273915 ,
+          create_time: "2016-05-02",
+          contacts_tel: "机构认证",
+          institution_contacts: "蓝杰检测",
+          i_state:'待审核'
         },{
-          order_id: 11273916 ,
-          date: "2016-05-02",
-          matter: "机构认证",
-          institution: "大力检测",
-          state:'待审核'
+          institution_id: 11273916 ,
+          create_time: "2016-05-02",
+          contacts_tel: "机构认证",
+          institution_contacts: "大力检测",
+          i_state:'待审核'
         },
         {
-          order_id: 11273917 ,
-          date: "2016-05-02",
-          matter: "机构认证",
-          institution: "长青检测",
-          state:'待审核'
+          institution_id: 11273917 ,
+          create_time: "2016-05-02",
+          contacts_tel: "机构认证",
+          institution_contacts: "长青检测",
+          i_state:'待审核'
         },
       ],
     };
+  },
+  created(){
+    let sendUrl = 'search/institutionAll';
+    let sendData = {
+      page:this.currentPage,
+      size:7,
+      sortFieldsToAsc:{
+        institution_id:false,
+      }
+    };
+    this.requestSend(sendUrl,sendData);
   },
 };
 </script>
