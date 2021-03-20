@@ -90,18 +90,16 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')"
-              >立即搜索</el-button
-            >
+            <el-button type="primary" @click="submitForm('ruleForm')">立即搜索</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-button @click="turnBack">返回</el-button>
+            <el-button @click="showDrawer">需求详情</el-button>
             <el-button @click="show3 = !show3">收起</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-collapse-transition>
-    <el-button @click="show3 = !show3" v-if="!show3" style="margin: 0 20px"
-      >展开</el-button
-    >
+    <el-button @click="show3 = !show3" v-if="!show3" style="margin: 0 20px">展开</el-button>
     <InstitutionList></InstitutionList>
   </div>
 </template>
@@ -118,9 +116,8 @@ export default {
   },
   data() {
     return {
-      issueObj: {},
-      show3: true,
-      showIssueList: false,
+      drawer: false, // 抽屉是否显示
+      show3: true, // 搜索框是否出现
       ruleForm: {
         iusseId: null,
         createMan: null,
@@ -169,8 +166,8 @@ export default {
   },
 
   methods: {
+    // 提交表单函数
     submitForm(formName) {
-      this.showIssueList = true;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$refs.child.getData();
@@ -185,10 +182,20 @@ export default {
         }
       });
     },
-
+    // 重置表单函数
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
+    // 退回函数
+    turnBack(){
+      this.$router.push('/institution-match');
+    },
+
+    // 显示需求详情
+    showDrawer(){
+      this.drawer = true;
+    }
   },
 };
 </script>

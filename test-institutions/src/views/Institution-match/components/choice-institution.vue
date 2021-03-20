@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-09 16:11:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-09 16:35:28
+ * @LastEditTime: 2021-03-20 22:02:48
 -->
 <template>
   <div class="MD">
@@ -36,17 +36,6 @@
               size="mini"
               type="danger"
               @click="handleBack(scope.$index, scope.row)">退回</el-button>
-              <el-dialog
-                  title="检测进度"
-                  :visible.sync="dialogVisible"
-                  width="80%"
-                  :before-close="handleClose">
-                  <Progress></Progress>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                  </span>
-              </el-dialog>
           </template>
         </el-table-column>
       </el-table>
@@ -84,30 +73,29 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
-import { mapState } from 'vuex';
+import { mapState,mapMutations } from 'vuex';
 import axios from 'axios';
 
 export default {
   name: "choice-institution",
-  components:{
-    Progress,
-  },
+  components:{},
   computed:{
     ...mapState(['user1','baseUrl',]),
   },
   methods: {
+
+    ...mapMutations(['CHOICE_DEMAND_ROW',]),
+
     // 编辑需求任务函数
     handleEdit(index, row) { 
         console.log(index, row);
-        this.dialogVisible = true;
+        this.CHOICE_DEMAND_ROW(row);
+        this.$router.push('/search');
       },
 
     // 查看需求函数
     handleShow(index, row) {
         console.log(index, row);
-        let stateUrl = 'demand/setAudited'; // 改变状态为待审核URL
-        this.RequestState(stateUrl,row.demand_id,index); // 调用改变状态需求状态函数
     },
 
     // 退回需求任务审核函数

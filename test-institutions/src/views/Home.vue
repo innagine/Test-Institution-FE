@@ -58,14 +58,14 @@
     <Choose v-if="indexlist[1].index"></Choose>
     <Search v-if="indexlist[11].index"></Search>
     <Demands v-if="indexlist[12].index"></Demands>
-    <InstitutionApplication v-if="indexlist[14].index"></InstitutionApplication>
-    <FactoryApplication v-if="indexlist[15].index"></FactoryApplication>
+    <InstitutionApplications v-if="indexlist[14].index"></InstitutionApplications>
+    <FactoryApplications v-if="indexlist[15].index"></FactoryApplications>
     <Payment v-if="indexlist[1].index"></Payment>
     <environment-test v-if="indexlist[3].index"></environment-test>
     <treatment-equipment v-if="indexlist[5].index"></treatment-equipment>
     <waste-treatment v-if="indexlist[6].index"></waste-treatment>
     <environment-protection v-if="indexlist[4].index"></environment-protection>
-    <choice-institution v-if="indexlist[13].index"></choice-institution>
+    <institution-match v-if="indexlist[13].index"></institution-match>
     <Footer></Footer>
   </div>
 </template>
@@ -81,8 +81,8 @@ import Choose from "@/components/Choose.vue"
 import MyInfo from "@/views/MyInfo.vue"
 import Search from "@/views/Search.vue"
 import Demands from "@/views/Demands.vue"
-import FactoryApplication from "@/views/FactoryApplication.vue"
-import InstitutionApplication from "@/views/InstitutionApplication.vue"
+import FactoryApplications from "@/views/Factory-application/factory-applications.vue"
+import InstitutionApplications from "@/views/Institution-Application/institution-applications.vue"
 import Payment from "@/components/Payment.vue"
 import EnvironmentTest from '@/views/Environment-test/environment-test.vue'
 import Footer from '@/components/Footer.vue'
@@ -90,7 +90,7 @@ import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
 import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 import { mapState } from 'vuex';
-import ChoiceInstitution from './Choice-institution/choice-institution.vue'
+import InstitutionMatch from './Institution-match/institution-match.vue'
 
 export default {
   name: "Home",
@@ -101,15 +101,15 @@ export default {
     Choose,
     Search,
     Demands,
-    InstitutionApplication,
-    FactoryApplication,
+    InstitutionApplications,
+    FactoryApplications,
     Payment,
     EnvironmentTest,
     Footer,
     TreatmentEquipment,
     WasteTreatment,
     EnvironmentProtection,
-    ChoiceInstitution,
+    InstitutionMatch,
   },
 
   created(){

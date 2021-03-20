@@ -1,3 +1,10 @@
+<!--
+ * @Description: file 工厂申请通过页面
+ * @Author: IMAGINE
+ * @Date: 2021-03-20 14:46:35
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-03-20 15:06:04
+-->
 <template>
   <div class="MD">
     <div class="MDcontent">
@@ -5,9 +12,9 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="factory_id" label="用户ID" width="180"></el-table-column>
-        <el-table-column prop="create_time" label="申请日期" width="180"></el-table-column>
-        <el-table-column prop="factory_contacts" label="申请人" width="180"></el-table-column>
+        <el-table-column prop="factory_id" label="用户ID" ></el-table-column>
+        <el-table-column prop="create_time" label="申请日期" ></el-table-column>
+        <el-table-column prop="factory_contacts" label="申请人" ></el-table-column>
         <el-table-column prop="contacts_tel" label="联系方式"> </el-table-column>
         <el-table-column prop="f_state" label="状态"> 
           <template slot-scope="scope">
@@ -16,7 +23,7 @@
               disable-transitions>{{scope.row.f_state === 0 ? '待审核': (scope.row.f_state === 1 ? '审核通过':'已退回')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="option" label="操作"> 
+        <el-table-column prop="option" label="操作" width="300"> 
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -78,7 +85,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
-  name: "Demands",
+  name: "factory-pass",
   components:{
     Progress,
   },
@@ -168,7 +175,10 @@ export default {
       size:7,
       sortFieldsToAsc:{
         factory_id:false,
-      }
+      },
+      where:{
+        f_state:1
+      },
     };
       this.requestFactoryList(sendUrl,sendData);
     },
@@ -185,41 +195,7 @@ export default {
       row:null,   //当前操作行的信息
       total: 0, // 数据总数
       currentPage: 1, // 当前页码
-      tableData: [
-        {
-          factory_id: 11273913 ,
-          date: "2016-05-02",
-          factory_contacts: "工厂认证",
-          contacts_tel: "兴悦化环",
-          state:'待审核'
-        },
-        {
-          factory_id: 11273914 ,
-          date: "2016-05-02",
-          factory_contacts: "工厂认证",
-          contacts_tel: "富华化环",
-          state:'待审核'
-        },{
-          factory_id: 11273915 ,
-          date: "2016-05-02",
-          factory_contacts: "工厂认证",
-          contacts_tel: "蓝杰化环",
-          state:'待审核'
-        },{
-          factory_id: 11273916 ,
-          date: "2016-05-02",
-          factory_contacts: "工厂认证",
-          contacts_tel: "大力化环",
-          state:'待审核'
-        },
-        {
-          factory_id: 11273917 ,
-          date: "2016-05-02",
-          factory_contacts: "工厂认证",
-          contacts_tel: "长青化环",
-          state:'待审核'
-        },
-      ],
+      tableData: [],
     };
   },
   created(){
@@ -229,7 +205,10 @@ export default {
       size:7,
       sortFieldsToAsc:{
         factory_id:false,
-      }
+      },
+      where:{
+        f_state:1
+      },
     };
     this.requestFactoryList(sendUrl,sendData);
   },

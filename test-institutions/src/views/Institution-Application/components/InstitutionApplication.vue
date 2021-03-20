@@ -12,11 +12,11 @@
         <el-table-column prop="i_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.state === '已完成' ? 'success' : (scope.row.state === '已退回' ? 'danger':'') "
-              disable-transitions>{{scope.row.i_state === 0 ? '待审核': '审核通过'}}</el-tag>
+              :type="scope.row.i_state === 1 ? 'success' : (scope.row.i_state === 2 ? 'danger':'') "
+              disable-transitions>{{scope.row.i_state === 0 ? '待审核': (scope.row.i_state === 1?'审核通过':'已退回')}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="option" label="操作"> 
+        <el-table-column prop="option" label="操作" width="300"> 
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -24,7 +24,7 @@
               <el-button
               size="mini"
               type="blue"
-              @click="handleEdit(scope.$index, scope.row)">通过</el-button>
+              @click="handleChange(scope.$index, scope.row)">通过</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -78,7 +78,6 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
-  name: "Demands",
   components:{
     Progress,
   },
@@ -90,14 +89,48 @@ export default {
     handleEdit(index, row) {
         console.log(index, row);
         this.dialogVisible = true
-      },
-    handleDelete(index, row) {
-        console.log(index, row);
     },
 
     //弹窗关闭执行函数
     handleClose(){
+      
+    },
 
+    // 改变机构申请状态为通过函数
+    handleChange(index, row){
+      let Url = 'institution/i_approval';
+      this.requestChange(Url,row.institution_id,index);
+      console.log(index, row);
+    },
+    // 改变机构申请状态为退回函数
+    handleDelete(index, row) {
+        let Url = 'institution/i_reject';
+        this.requestChange(Url,row.institution_id,index);
+        console.log(index, row);
+    },
+
+    // 状态改变调用函数
+    requestChange(sendUrl,id,index){
+      axios({
+        method:'post',
+        url:this.baseUrl+sendUrl,
+        headers:{'token': this.user1.token,},
+        data:{
+          institution_id:id,
+        },
+      }).then((res)=>{
+        if(res.data.ret===1){
+          this.tableData.splice(index,1);
+          this.$notify({title: "消息",message: "操作成功",type: "success",});
+          console.log("需求项状态转变成功",res);
+        }else{
+          console.log("需求项状态转变失败",res);
+          this.$notify({title: "消息",message: "操作失败",type: "warning",});
+        }
+      }).catch((err)=>{
+        console.log("需求项状态转变失败",err);
+        this.$notify({title: "消息",message: "操作失败",type: "warning",});
+      })
     },
 
     // 请求发起调用函数
@@ -135,7 +168,10 @@ export default {
       size:7,
       sortFieldsToAsc:{
         institution_id:false,
-      }
+      },
+      where:{
+        i_state:0
+      },
     };
       this.requestSend(sendUrl,sendData);
     },
@@ -152,41 +188,7 @@ export default {
       row:null,   //当前操作行的信息
       total: 0, // 数据总数
       currentPage: 1, // 当前页码
-      tableData: [
-        {
-          institution_id: 11273913 ,
-          create_time: "2016-05-02",
-          contacts_tel: "机构认证",
-          institution_contacts: "兴悦检测",
-          i_state:'待审核'
-        },
-        {
-          institution_id: 11273914 ,
-          create_time: "2016-05-02",
-          contacts_tel: "机构认证",
-          institution_contacts: "富华检测",
-          i_state:'待审核'
-        },{
-          institution_id: 11273915 ,
-          create_time: "2016-05-02",
-          contacts_tel: "机构认证",
-          institution_contacts: "蓝杰检测",
-          i_state:'待审核'
-        },{
-          institution_id: 11273916 ,
-          create_time: "2016-05-02",
-          contacts_tel: "机构认证",
-          institution_contacts: "大力检测",
-          i_state:'待审核'
-        },
-        {
-          institution_id: 11273917 ,
-          create_time: "2016-05-02",
-          contacts_tel: "机构认证",
-          institution_contacts: "长青检测",
-          i_state:'待审核'
-        },
-      ],
+      tableData: [],
     };
   },
   created(){
@@ -196,7 +198,10 @@ export default {
       size:7,
       sortFieldsToAsc:{
         institution_id:false,
-      }
+      },
+      where:{
+        i_state:0
+      },
     };
     this.requestSend(sendUrl,sendData);
   },
