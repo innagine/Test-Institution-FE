@@ -168,6 +168,13 @@
         </el-form-item>
       </el-form>
     </div>
+    <div class="proress">
+      <el-steps :active="active" finish-status="success">
+        <el-step title="待提交"></el-step>
+        <el-step title="审核中"></el-step>
+        <el-step title="已通过"></el-step>
+      </el-steps>
+    </div>
   </div>
 </template>
 
@@ -182,6 +189,7 @@ export default {
   },
   data() {
     return {
+      active: 0, // 步骤进度
       dialogImageUrl: "", // 查看上传文件
       dialogVisible: false, // 查看文件上传弹窗
       disabled: false,
@@ -264,10 +272,28 @@ export default {
         data: sendData
       })
         .then(res => {
-          console.log("工厂页面请求发送成功", res);
+          console.log("机构页面请求发送成功", res);
         })
         .catch(err => {
-          console.log("工厂页面请求发送失败", err);
+          console.log("机构页面请求发送失败", err);
+        });
+    },
+
+    // 机构申请进度请求发送函数
+    requestFind(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("机构申请进度请求发送成功", res);
+          console.log("i_state",res.data.data1[1].i_state)
+          this.active = res.data.data1[0].i_state;
+        })
+        .catch(err => {
+          console.log("机构申请进度请求发送失败", err);
         });
     },
     
@@ -356,6 +382,10 @@ export default {
       this.fileList3.push(file);
       console.log(response, file, fileList);
     },
+  },
+  created(){
+    let Url = 'search/institution'
+    this.requestFind(Url,{});
   }
 };
 </script>
@@ -374,6 +404,11 @@ export default {
   height: 100%;
   width: 80%;
   margin: 20px auto;
+}
+.proress{
+  width: 80%;
+  margin: 50px auto;
+  padding-top: 50px;
 }
 .el-upload--picture-card {
   width: 60px !important;

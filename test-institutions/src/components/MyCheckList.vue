@@ -218,41 +218,7 @@ export default {
       row:null,   //当前操作行的信息
       total: 0, // 数据总数
       currentPage: 1, // 当前页码
-      tableData: [
-        {
-          demand_id: 11273913 ,
-          create_time: "2016-05-02",
-          matter: "水",
-          choice: "上海市普陀区五邑大学",
-          demand_state:'已提交',
-        },
-        {
-          demand_id: 11273914 ,
-          create_time: "2016-05-02",
-          matter: "土",
-          choice: "上海市普陀区五邑大学",
-          demand_state:'已退回',
-        },{
-          demand_id: 11273915 ,
-          create_time: "2016-05-02",
-          matter: "气",
-          choice: "上海市普陀区五邑大学",
-          demand_state:'检测中',
-        },{
-          demand_id: 11273916 ,
-          create_time: "2016-05-02",
-          matter: "大米",
-          choice: "上海市普陀区五邑大学",
-          demand_state:'已完成',
-        },
-        {
-          demand_id: 11273917 ,
-          create_time: "2016-05-02",
-          matter: "大米",
-          choice: "上海市普陀区五邑大学",
-          demand_state:'审核中',
-        },
-      ],
+      tableData: [],
     };
   },
   created(){

@@ -67,10 +67,8 @@ import { mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
 
 export default {
-  props:['User'],
   name: "MyInfo",
 
-  // props:['User'],
   // 声明导进页面模块
   components:{
     MyDemand,
@@ -81,15 +79,18 @@ export default {
     Myorder,
     Logout
   },
-
-
+  computed:{
+    ...mapState(['user1',]),
+  },
  
   created(){
     //权限判定
     if(this.user1.user_role=='USER'){ // 普通用户
       this.showUser=true;
+      this.indexlist[1].index = true;
     }else if(this.user1.user_role=='CUSTOMER_SERVICE'){ // 客服
       this.showStaff=true;
+      this.indexlist[7].index = true;
     }else if(this.user1.user_role=='ADMINISTRATORS'){ // 管理员
       this.showStaff=true;
     }else if(this.user1.user_role=='INSTITUTION'){ // 机构
@@ -109,7 +110,7 @@ export default {
         { index: false },
         { index: false },
         { index: false },
-        { index: true },
+        { index: false },
         { index: false },
       ],
       showUser:false,
@@ -136,9 +137,6 @@ export default {
         console.log(this.User)
     }
   },
-  computed:{
-    ...mapState(['user1',]),
-  }
 };
 </script>
 

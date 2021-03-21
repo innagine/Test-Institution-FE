@@ -96,7 +96,7 @@
         <el-form-item label="添加文件" prop="grade">
           <el-upload
             action="http://26.140.221.230:8556/upload/d_enclosure"
-            :headers="{token: this.user1.token}"
+            :headers="{token: this.token}"
             list-type="picture-card"
             :auto-upload="true"
             :file-list="fileList"
@@ -146,9 +146,9 @@ import axios from "axios";
 import { mapState } from "vuex";
 export default {
   name: "PostDemand",
-  //   props:['User'],
   data() {
     return {
+      token:null,
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
@@ -299,7 +299,12 @@ export default {
         console.log('删除后台缓存中的被选中文件数据失败',err);
       })
     }
-  }
+  },
+  created(){
+    if(this.user1){
+      this.token = this.user1.token;
+    }
+  },
 };
 </script>
 
