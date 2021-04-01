@@ -42,7 +42,7 @@
 <style>
 .MD {
   /* display: flex; */
-  margin: 30px 30px;
+  margin: 30px 0;
   justify-content: center;
   align-items: center;
   padding: 40px 0;

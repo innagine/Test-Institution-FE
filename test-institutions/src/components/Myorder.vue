@@ -1,6 +1,6 @@
 <template>
-  <div class="MD">
-    <div class="MDcontent">
+  <div class="MD4">
+    <div class="MDcontent4">
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -48,7 +48,7 @@
 </template>
 
 <style>
-.MD {
+.MD4 {
   /* display: flex; */
   margin: 30px 30px;
   justify-content: center;
@@ -56,7 +56,7 @@
   padding: 40px 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.MDcontent {
+.MDcontent4 {
   margin: 0 30px;
 }
 

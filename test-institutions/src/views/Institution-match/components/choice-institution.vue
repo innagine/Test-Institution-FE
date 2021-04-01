@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-03-09 16:11:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-20 22:02:48
+ * @LastEditTime: 2021-03-29 11:40:02
 -->
 <template>
-  <div class="MD">
-    <div class="MDcontent">
+  <div class="MD2">
+    <div class="MDcontent2">
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -54,16 +54,15 @@
 </template>
 
 <style scoped>
-.MD {
-  /* display: flex; */
-  margin: 30px 30px;
+.MD2 {
+  height: 800px;
   justify-content: center;
   align-items: center;
-  padding-top: 40px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.MDcontent {
-  margin: 0 30px;
+.MDcontent2 {
+  padding: 40px;
+  margin: 30px 30px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .pagination{
   width: 80%;

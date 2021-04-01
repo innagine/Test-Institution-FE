@@ -1,6 +1,6 @@
 <template>
-  <div class="MD">
-    <div class="MDcontent">
+  <div class="MD1">
+    <div class="MDcontent1">
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -57,16 +57,15 @@
 </template>
 
 <style scoped>
-.MD {
-  /* display: flex; */
-  margin: 30px 30px;
+.MD1 {
+  height: 800px;
   justify-content: center;
   align-items: center;
-  padding-top: 40px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.MDcontent {
-  margin: 0 30px;
+.MDcontent1 {
+  padding: 40px;
+  margin: 30px 30px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .pagination{
   width: 80%;

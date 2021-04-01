@@ -1,5 +1,23 @@
 <template>
   <div class="Search">
+    <div class="choice-table">
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="demand_id" label="订单编号" width="180">
+        </el-table-column>
+        <el-table-column prop="create_time" label="日期" width="180">
+        </el-table-column>
+        <el-table-column prop="matter" label="检测项目" width="180">
+        </el-table-column>
+        <el-table-column prop="institution" label="已选择机构">
+          <el-tag v-for="(tag,index) in tableData[0].institution" :key="index" closable   @close="handleClose(tag,index)">
+            {{ tag }}
+          </el-tag>
+        </el-table-column>
+        <el-table-column prop="opration" label="操作" width="180">
+          <el-button size="mini">确认推荐</el-button>
+        </el-table-column>
+      </el-table>
+    </div>
     <el-collapse-transition>
       <div v-show="show3">
         <el-form
@@ -90,7 +108,9 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即搜索</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')"
+              >立即搜索</el-button
+            >
             <el-button @click="resetForm('ruleForm')">重置</el-button>
             <el-button @click="turnBack">返回</el-button>
             <el-button @click="showDrawer">需求详情</el-button>
@@ -99,20 +119,22 @@
         </el-form>
       </div>
     </el-collapse-transition>
-    <el-button @click="show3 = !show3" v-if="!show3" style="margin: 0 20px">展开</el-button>
+    <el-button @click="show3 = !show3" v-if="!show3" style="margin: 0 20px"
+      >展开</el-button
+    >
     <InstitutionList></InstitutionList>
   </div>
 </template>
 
 <script>
-import InstitutionList from '@/components/InstitutionList.vue'
+import InstitutionList from "@/components/InstitutionList.vue";
 // 导入axios
 // import axios from "axios";
 
 export default {
   name: "Search",
   components: {
-    InstitutionList,
+    InstitutionList
   },
   data() {
     return {
@@ -130,7 +152,7 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: "",
+        desc: ""
       },
       rules: {
         date1: [
@@ -138,43 +160,51 @@ export default {
             type: "date",
             // required: true,
             message: "请选择日期",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         date2: [
           {
             type: "date",
             // required: true,
             message: "请选择时间",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         type: [
           {
             type: "array",
             required: true,
             message: "请至少选择一个活动性质",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         resource: [
-          { required: true, message: "请选择活动资源", trigger: "change" },
+          { required: true, message: "请选择活动资源", trigger: "change" }
         ],
-        desc: [{ required: true, message: "请填写步骤重现", trigger: "blur" }],
+        desc: [{ required: true, message: "请填写步骤重现", trigger: "blur" }]
       },
+      tableData: [
+        {
+          create_time: "2016-05-02",
+          demand_id: "12",
+          matter: "水",
+          institution: ['机构A', '机构B', '机构C'],
+        }
+      ],
     };
   },
 
   methods: {
     // 提交表单函数
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.$refs.child.getData();
           this.$notify({
             title: "消息",
             message: "搜索完成",
-            type: "success",
+            type: "success"
           });
         } else {
           console.log("error submit!!");
@@ -188,15 +218,23 @@ export default {
     },
 
     // 退回函数
-    turnBack(){
-      this.$router.push('/institution-match');
+    turnBack() {
+      this.$router.push("/institution-match");
     },
 
     // 显示需求详情
-    showDrawer(){
+    showDrawer() {
       this.drawer = true;
-    }
-  },
+    },
+
+    // 关闭标签
+    handleClose(tag,index) {
+        this.tableData[0].institution.splice(index,1);
+        console.log("标签",tag,index);
+        console.log("标签",this.tableData[0].institution);
+        this.$set(this.tableData,0,this.tableData[0]);
+    },
+  }
 };
 </script>
 
@@ -206,4 +244,13 @@ export default {
   width: 80%;
   margin: 50px auto;
 }
+.choice-table {
+  padding: 20px;
+  margin: 30px 0;
+  margin-bottom: 50px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.el-tag + .el-tag {
+    margin-left: 10px;
+  }
 </style>

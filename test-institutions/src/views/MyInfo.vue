@@ -36,7 +36,19 @@
             <i class="el-icon-menu"></i>
             <span slot="title">任务列表</span>
           </el-menu-item>
-          <el-menu-item index="8" >
+          <el-menu-item index="8" v-if="showUser">
+            <i class="el-icon-help"></i>
+            <span slot="title">我的订单</span>
+          </el-menu-item>
+          <el-menu-item index="9" v-if="showInstitution">
+            <i class="el-icon-help"></i>
+            <span slot="title">客户需求</span>
+          </el-menu-item>
+          <el-menu-item index="10" v-if="showInstitution">
+            <i class="el-icon-help"></i>
+            <span slot="title">创建订单</span>
+          </el-menu-item>
+          <el-menu-item index="11">
             <i class="el-icon-help"></i>
             <span slot="title">退出登陆</span>
           </el-menu-item>
@@ -49,7 +61,7 @@
         <RInstitution v-if="indexlist[2].index"></RInstitution>
         <MyCheckList v-if="indexlist[7].index"></MyCheckList>
         <Myorder v-if="indexlist[5].index"></Myorder>
-        <Logout v-if="indexlist[8].index"></Logout>
+        <Logout v-if="indexlist[11].index"></Logout>
       </el-col>
     </el-row>
   </div>
@@ -112,6 +124,9 @@ export default {
         { index: false },
         { index: false },
         { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
       ],
       showUser:false,
       showStaff:false,
@@ -143,5 +158,6 @@ export default {
 <style lang="scss" scoped>
 .myInfo{
   margin-bottom: 150px;
+  height: 700px;
 }
 </style>

@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-09 20:15:46
+ * @LastEditTime: 2021-03-31 17:30:12
 -->
 <template>
 <div class="PD1">
@@ -18,17 +18,17 @@
       >
         <el-row>
           <el-col :span="12"
-            ><el-form-item label="联系人" prop="name">
+            ><el-form-item label="联系人" prop="demand_contacts">
               <el-input
-                v-model="ruleForm.name"
+                v-model="ruleForm.demand_contacts"
                 maxlength="80"
                 show-word-limit
               ></el-input> </el-form-item
           ></el-col>
           <el-col :span="12">
-            <el-form-item label="联系号码" prop="number">
+            <el-form-item label="联系号码" prop="tel">
               <el-input
-                v-model="ruleForm.number"
+                v-model="ruleForm.tel"
                 maxlength="30"
                 show-word-limit
               ></el-input> </el-form-item
@@ -46,9 +46,9 @@
           <el-col :span="12">
             <el-form-item
               label="样品数量"
-              prop="total"
+              prop="quantity"
               :inline="true"
-              v-model="ruleForm.total"
+              v-model="ruleForm.quantity"
             >
               <el-input
                 v-model="ruleForm.version"
@@ -59,9 +59,9 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="预算范围" prop="scope">
+            <el-form-item label="预算范围" prop="budget">
               <el-input
-                v-model="ruleForm.scope"
+                v-model="ruleForm.budget"
                 maxlength="30"
                 show-word-limit
               ></el-input> </el-form-item
@@ -92,10 +92,10 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item label="需求描述" prop="desc">
+        <el-form-item label="需求描述" prop="describes">
           <el-input
             type="textarea"
-            v-model="ruleForm.desc"
+            v-model="ruleForm.describes"
             maxlength="2000"
             show-word-limit
           ></el-input>
@@ -169,12 +169,12 @@ export default {
       },
 
       ruleForm: {
-        name: "",
-        number: "",
+        demand_contacts: "",
+        tel: "",
         email: "",
-        total: "",
-        scope: "",
-        desc: "",
+        quantity: "",
+        budget: "",
+        describes: "",
         date1: "",
         date2: "",
       },
@@ -183,11 +183,11 @@ export default {
           { required: true, message: "请输入邮箱", trigger: "blur" },
           { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
         ],
-        number: [
+        tel: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
           { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
         ],
-        name: [
+        demand_contacts: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
           {
             min: 8,
@@ -212,7 +212,7 @@ export default {
             trigger: "change",
           },
         ],
-        desc: [
+        describes: [
           {
             required: true,
             message: "需求尽量详细，以便更精确的匹配到合适的测试项目",
@@ -223,9 +223,10 @@ export default {
     };
   },
   computed:{
-    ...mapState(['user1'],),
+    ...mapState(['user1','demandRow'],),
   },
   methods: {
+    // 提交函数
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -233,13 +234,13 @@ export default {
             method: "post",
             url: "http://26.140.221.230:8556//upload/d_apply",
             data: {
-              demand_contacts: this.ruleForm.name, // 联系人
-              tel: this.ruleForm.number, // 联系人电话号码
+              demand_contacts: this.ruleForm.demand_contacts, // 联系人
+              tel: this.ruleForm.tel, // 联系人电话号码
               email: this.ruleForm.email, // 联系人电子邮箱
-              quantity: this.ruleForm.total, // 样品数量
-              budget: this.ruleForm.name, // 预算范围
+              quantity: this.ruleForm.quantity, // 样品数量
+              budget: this.ruleForm.budget, // 预算范围
               cycle: this.ruleForm.date2, // 完成周期
-              describes: this.ruleForm.desc, // 描述
+              describes: this.ruleForm.describes, // 描述
             },
             headers: {
             'token': this.user1.token,
@@ -260,10 +261,15 @@ export default {
         }
       });
     },
+    // 重置函数
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
 
+  },
+  created(){
+    this.ruleForm = this.demandRow;
+    console.log('在弹窗中读取的vuex的row',this.demandRow);
   },
 };
 </script>

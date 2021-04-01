@@ -289,8 +289,7 @@ export default {
       })
         .then(res => {
           console.log("机构申请进度请求发送成功", res);
-          console.log("i_state",res.data.data1[1].i_state)
-          this.active = res.data.data1[0].i_state;
+          this.active = res.data.data1[0].i_state; // 获取进度
         })
         .catch(err => {
           console.log("机构申请进度请求发送失败", err);

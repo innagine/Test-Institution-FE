@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2020-12-12 14:22:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-21 20:46:32
+ * @LastEditTime: 2021-03-31 18:36:10
 -->
 <template>
-  <div class="MD">
-    <div class="MDcontent">
+  <div class="MD3">
+    <div class="MDcontent3">
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -55,7 +55,7 @@
         :visible.sync="dialogVisible"
         top = '5vh'
         width="80%">
-        <modification-demand></modification-demand>
+        <modification-demand v-if="dialogVisible"></modification-demand>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -65,7 +65,7 @@
         title="检测进度"
         :visible.sync="dialogVisible1"
         width="80%">
-        <Progress></Progress>
+        <Progress v-if="dialogVisible1"></Progress>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible1 = false">取 消</el-button>
           <el-button type="primary" @click="dialogVisible1 = false">确 定</el-button>
@@ -86,15 +86,14 @@
 </template>
 
 <style>
-.MD {
-  /* display: flex; */
+.MD3 {
   margin: 30px 30px;
   justify-content: center;
   align-items: center;
   padding: 40px 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.MDcontent {
+.MDcontent3 {
   margin: 0 30px;
 }
 .pagination{
@@ -106,7 +105,7 @@
 
 <script>
 import Progress from "@/components/Progress.vue"
-import { mapState } from 'vuex';
+import { mapState,mapMutations } from 'vuex';
 import axios from 'axios';
 import ModificationDemand from '../views/My-information/components/modification-demand.vue';
 
@@ -117,12 +116,17 @@ export default {
     ModificationDemand,
   },
   computed:{
-    ...mapState(['user1','baseUrl',]),
+    ...mapState(['user1','baseUrl','demandRow']),
   },
   methods: {
+    // 获取vuex的方法
+    ...mapMutations(['CHOICE_DEMAND_ROW']),
+
     // 控制编辑窗口显示函数
     handleEdit(index, row) { 
         console.log(index, row);
+        this.CHOICE_DEMAND_ROW(row);
+        console.log('存进vuex中的row',this.demandRow);
         this.dialogVisible = true;
     },
 
@@ -138,6 +142,8 @@ export default {
     // 控制进度窗口函数
     handleProgress(index, row){ 
       console.log(index, row);
+      this.CHOICE_DEMAND_ROW(row);
+      console.log('存进vuex中的row',this.demandRow);
       this.dialogVisible1 = true;
     },
 
