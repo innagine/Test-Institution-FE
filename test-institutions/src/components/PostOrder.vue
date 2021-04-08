@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-01 15:12:25
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-01 17:32:00
+ * @LastEditTime: 2021-04-08 17:33:32
 -->
 <template>
   <div class="PD">
@@ -276,4 +276,3 @@ export default {
 </script>
 
 
-<style>

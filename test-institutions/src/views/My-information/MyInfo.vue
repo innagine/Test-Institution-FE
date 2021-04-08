@@ -64,6 +64,7 @@
         <Logout v-if="indexlist[11].index"></Logout>
         <customer-demand v-if="indexlist[9].index"></customer-demand>
         <post-order v-if="indexlist[10].index"></post-order>
+        <institution-complete v-if="indexlist[6].index"></institution-complete>
       </el-col>
     </el-row>
   </div>
@@ -81,6 +82,7 @@ import { mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
 import CustomerDemand from '@/components/CustomerDemand.vue';
 import PostOrder from '../../components/PostOrder.vue';
+import InstitutionComplete from './components/institution-complete.vue';
 
 export default {
   name: "MyInfo",
@@ -96,6 +98,7 @@ export default {
     Logout,
     CustomerDemand,
     PostOrder,
+    InstitutionComplete,
   },
   computed:{
     ...mapState(['user1',]),
