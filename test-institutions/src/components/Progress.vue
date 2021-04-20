@@ -107,6 +107,7 @@ export default {
       value: "",
       activeNum: 0, // 当前步骤
       showChoice:false, // 机构选择
+      activeName:1,
     };
   },
   computed: {

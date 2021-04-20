@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-01 15:12:25
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-20 23:54:54
+ * @LastEditTime: 2021-04-20 23:59:52
 -->
 <template>
   <div class="PD">
@@ -61,7 +61,7 @@
           <el-col :span="12">
             <el-form-item label="创建时间" prop="data">
               <el-input
-                v-model="ruleForm.data1"
+                v-model="ruleForm.data"
                 :readonly="true"
               ></el-input> </el-form-item
           ></el-col>
@@ -119,7 +119,7 @@
         <el-row>
           <el-col :span="12"
             ><el-form-item label="其他费用(元)" prop="expenses">
-              <el-input v-model="ruleForm.email"></el-input> </el-form-item
+              <el-input v-model="ruleForm.expenses"></el-input> </el-form-item
           ></el-col>
           <el-col :span="12">
             <el-form-item

@@ -44,11 +44,7 @@
             <i class="el-icon-help"></i>
             <span slot="title">客户需求</span>
           </el-menu-item>
-          <el-menu-item index="10" v-if="showInstitution">
-            <i class="el-icon-help"></i>
-            <span slot="title">创建订单</span>
-          </el-menu-item>
-          <el-menu-item index="11">
+          <el-menu-item index="10">
             <i class="el-icon-help"></i>
             <span slot="title">退出登陆</span>
           </el-menu-item>
@@ -61,9 +57,8 @@
         <RInstitution v-if="indexlist[2].index"></RInstitution>
         <MyCheckList v-if="indexlist[7].index"></MyCheckList>
         <Myorder v-if="indexlist[5].index"></Myorder>
-        <Logout v-if="indexlist[11].index"></Logout>
+        <Logout v-if="indexlist[10].index"></Logout>
         <customer-demand v-if="indexlist[9].index"></customer-demand>
-        <post-order v-if="indexlist[10].index"></post-order>
         <institution-complete v-if="indexlist[6].index"></institution-complete>
       </el-col>
     </el-row>
@@ -81,7 +76,6 @@ import Myorder from '@/components/Myorder.vue';
 import { mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
 import CustomerDemand from '@/views/Customer-Demand/customer-demand.vue';
-import PostOrder from '../../components/PostOrder.vue';
 import InstitutionComplete from './components/institution-complete.vue';
 
 export default {
@@ -97,7 +91,6 @@ export default {
     Myorder,
     Logout,
     CustomerDemand,
-    PostOrder,
     InstitutionComplete,
   },
   computed:{
@@ -126,7 +119,6 @@ export default {
       // 按钮显示
       indexlist: [
         { index: true },
-        { index: false },
         { index: false },
         { index: false },
         { index: false },

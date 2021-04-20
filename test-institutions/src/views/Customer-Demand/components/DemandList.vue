@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-20 22:48:11
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-20 23:18:56
+ * @LastEditTime: 2021-04-21 00:12:19
 -->
 <template>
   <div class="MD3">
@@ -120,7 +120,7 @@ export default {
         this.dialogVisible = true;
     },
 
-    // 控制删除窗口显示函数
+    // 接单显示函数
     acceptOrder(index, row) { 
         console.log('接单数据',index, row);
         this.CHOICE_DEMAND_ROW(row);

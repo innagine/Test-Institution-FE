@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-20 23:47:12
+ * @LastEditTime: 2021-04-21 00:07:39
 -->
 <template>
 <div class="PD1">
@@ -44,14 +44,9 @@
               ></el-input> </el-form-item
           ></el-col>
           <el-col :span="12">
-            <el-form-item
-              label="样品数量"
-              prop="quantity"
-              :inline="true"
-              v-model="ruleForm.quantity"
-            >
+            <el-form-item label="样品数量" prop="quantity">
               <el-input
-                v-model="ruleForm.version"
+                v-model="ruleForm.quantity"
                 maxlength="30"
                 show-word-limit
               ></el-input> </el-form-item
@@ -73,7 +68,7 @@
               <el-date-picker
                 type="date"
                 placeholder="选择日期"
-                v-model="ruleForm.date1"
+                v-model="ruleForm.create_time"
                 :picker-options="pickerOptions"
                 style="width: 100%"
               ></el-date-picker>
