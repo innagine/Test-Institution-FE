@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-31 17:30:12
+ * @LastEditTime: 2021-04-20 23:47:12
 -->
 <template>
 <div class="PD1">
@@ -168,16 +168,7 @@ export default {
         },
       },
 
-      ruleForm: {
-        demand_contacts: "",
-        tel: "",
-        email: "",
-        quantity: "",
-        budget: "",
-        describes: "",
-        date1: "",
-        date2: "",
-      },
+      ruleForm: {},
       rules: {
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },

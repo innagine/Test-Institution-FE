@@ -80,7 +80,7 @@ import MyCheckList from '@/components/MyCheckList.vue';
 import Myorder from '@/components/Myorder.vue';
 import { mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
-import CustomerDemand from '@/components/CustomerDemand.vue';
+import CustomerDemand from '@/views/Customer-Demand/customer-demand.vue';
 import PostOrder from '../../components/PostOrder.vue';
 import InstitutionComplete from './components/institution-complete.vue';
 

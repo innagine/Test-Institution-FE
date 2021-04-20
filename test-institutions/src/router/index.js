@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-07 14:56:18
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-20 21:05:10
+ * @LastEditTime: 2021-04-20 23:03:51
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -15,6 +15,8 @@ import FactoryCheck from '../views/Factory-application/components/FactoryApplica
 import Factorypass from '../views/Factory-application/components/factory-pass.vue'
 import FactoryFail from '../views/Factory-application/components/factory-fail.vue'
 import InstitutionMatch from '../views/Institution-match/components/choice-institution.vue'
+import CustomerDemand from '../views/Customer-Demand/components/DemandList.vue'
+import PostOrder from '../views/Customer-Demand/components/PostOrder.vue'
 import Search from '../views/Search.vue'
 
 Vue.use(VueRouter)
@@ -33,6 +35,8 @@ const routes = [
       {path: '/factory-fail', name: '/factory-fail', component: FactoryFail},
       {path: '/institution-match', name: '/institution-match', component: InstitutionMatch},
       {path: '/search', name: '/search', component: Search},
+      {path: '/customer-demand', name: '/customer-demand', component: CustomerDemand},
+      {path: '/post-order', name: '/post-order', component: PostOrder},
     ]
   },
   {
