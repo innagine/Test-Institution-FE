@@ -219,6 +219,14 @@ export default {
   methods: {
     // 提交表单数据
     submitForm(formName) {
+      // 登陆判断
+      if(!this.user1){
+        this.$notify({title: "消息",message: "请先登陆再发布需求",type: "warning"});
+        this.$router.push({path: "/login",});
+        return
+      }
+
+      // 表单完整性判断
       this.$refs[formName].validate(valid => {
         if (valid) {
           axios({
