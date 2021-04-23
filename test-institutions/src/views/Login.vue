@@ -1087,7 +1087,7 @@ export default {
     //   发送get请求，请求用户匹配
       axios({
         method: "post",
-        url: "http://26.140.221.230:8556/login",
+        url: "http://49.235.72.171:8556/login",
         data: {
             user_email:this.account,
             user_password:this.password

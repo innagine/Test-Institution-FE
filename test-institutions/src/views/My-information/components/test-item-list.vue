@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-22 11:01:15
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-22 11:14:43
+ * @LastEditTime: 2021-04-22 17:34:35
 -->
 <template>
   <div class="test-item-list">
@@ -53,14 +53,11 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 
 
 export default {
   name: "test-item-list",
-  components:{
-    Progress,
-  },
+  components:{},
   methods: {
 
     handleEdit(index, row) {

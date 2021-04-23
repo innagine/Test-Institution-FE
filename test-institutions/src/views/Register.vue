@@ -1,24 +1,96 @@
 <template>
   <div class="content">
     <div class="register">
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-      >
-        <el-menu-item index="1" @click="RPSHOW">用户注册</el-menu-item>
-        <el-menu-item index="2" @click="RFSHOW">工厂注册</el-menu-item>
-      </el-menu>
-      <!-- <div class="choose">
-        <div class="choose1">个人注册</div>
-        <div class="choose2">工厂注册</div>
-        <div class="choose3">机构申请</div>
-      </div> -->
-      <div class="choosebox">
-        <RFactory v-if="RFshow"></RFactory>
-        <RPerson  v-if="RPshow"></RPerson>
-      </div>
+      <el-card class="box-card">
+        <el-form
+          :model="ruleForm"
+          status-icon
+          :rules="rules"
+          ref="ruleForm"
+          label-width="0px"
+          class="demo-ruleForm"
+        >
+          <el-form-item prop="userName">
+            <el-input
+              v-model="ruleForm.userName"
+              maxlength="30"
+              show-word-limit
+              placeholder="请输入用户名"
+              @keyup.native="
+                $event.target.value = $event.target.value.replace(
+                  /^\s+|\s+$/gm,
+                  ''
+                )
+              "
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="email">
+            <el-input
+              v-model="ruleForm.email"
+              placeholder="请输入邮箱"
+              @keyup.native="
+                $event.target.value = $event.target.value.replace(
+                  /^\s+|\s+$/gm,
+                  ''
+                )
+              "
+              maxlength="30"
+              show-word-limit
+            >
+              <el-button slot="append" icon="el-icon-s-promotion" @click="sendEmail"></el-button>
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="userNumber">
+            <el-input
+              v-model="ruleForm.userNumber"
+              placeholder="请输入验证码"
+              maxlength="6"
+              show-word-limit
+             
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="pass">
+            <el-input
+              type="password"
+              v-model="ruleForm.pass"
+              autocomplete="off"
+              show-password
+              maxlength="30"
+              show-word-limit
+              placeholder="请输入密码"
+              @keyup.native="
+                $event.target.value = $event.target.value.replace(
+                  /^\s+|\s+$/gm,
+                  ''
+                )
+              "
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="checkPass">
+            <el-input
+              type="password"
+              v-model="ruleForm.checkPass"
+              autocomplete="off"
+              show-password
+              maxlength="30"
+              show-word-limit
+              placeholder="请确认密码"
+              @keyup.native="
+                $event.target.value = $event.target.value.replace(
+                  /^\s+|\s+$/gm,
+                  ''
+                )
+              "
+            ></el-input>
+          </el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')" class="btn"
+            >注册</el-button
+          >
+          <el-button type="primary" @click="login" class="btn"
+            >返回登陆</el-button
+          >
+        </el-form>
+      </el-card>
     </div>
     <svg
       class="SVG1"
@@ -3369,40 +3441,217 @@
 </template>
 
 <script>
+// 导入axios
+import axios from "axios";
+import { mapState } from 'vuex'
 
-import RFactory from "../components/RFactory.vue";
-import RPerson from "../components/RPerson.vue";
+//特殊字符检验
+export function checkSpecificKey(str, specialKey) {
+  for (var i = 0; i < str.length; i++) {
+    if (specialKey.indexOf(str.substr(i, 1)) != -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export default {
   name: "Register",
-  components: {
-    RFactory,
-    RPerson
-  },
+
   data() {
+    var validatePass = (rule, value, callback) => {
+      var specialKey = "!@#$%^&*()_+~"; //特殊字符
+      var hasSpecialKey = /[!@#$%^&*()_+~]/; //含有特殊字符
+      var illegalKey = /[^0-9a-zA-Z!@#$%^&*()_+~]/; //出现不在合法字符集中的非法字符
+      var hasLower = /[a-z]/; //含有小写字母
+      var hasUpper = /[A-Z]/; //含有大写字母
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (value.length <= 7) {
+          callback(new Error("最少八位密码"));
+        } else if (!hasSpecialKey.test(value)) {
+          callback(new Error("密码必须包含" + specialKey + "等特殊字符"));
+        } else if (!hasLower.test(value) || !hasUpper.test(value)) {
+          callback(new Error("密码必须包含大小写字母"));
+        } else if (illegalKey.test(value)) {
+          callback(new Error("密码包含非法字符"));
+        } else {
+          if (this.ruleForm.checkPass !== "") {
+            this.$refs.ruleForm.validateField("checkPass");
+          }
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+    var validateName = (rule, value, callback) => {
+      var reg = /[^\u4E00-\u9FA5a-zA-Z0-9]/g;
+      if (reg.test(value)) {
+        callback(new Error("用户姓名包含非法字符"));
+      }
+      callback();
+    };
+    // var validateNumber = (rule, value, callback) => {
+    //   var _reg = /[^a-zA-Z0-9]/;
+    //   if (_reg.test(value)) {
+    //     callback(new Error("用户验证码包含非法字符"));
+    //   }
+    //   callback();
+    // };
     return {
-      activeIndex: "1",
-      RFshow:false,
-      RPshow:true,
+      ruleForm: {
+        userNumber: "",
+        userName: "",
+        email: "",
+        pass: "",
+        checkPass: "",
+      },
+      rules: {
+        userId: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+          // { validator: validateNumber, trigger: "blur" },
+        ],
+        userName: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { validator: validateName, trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
+        ],
+        pass: [{ required: true, validator: validatePass, trigger: "blur" }],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: "blur" },
+        ],
+      },
+
+      formLabelAlign: {
+        name: "",
+        region: "",
+        type: "",
+      },
     };
   },
+  computed:{
+    ...mapState(['baseUrl'],)
+  },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 发送post请求，请求注册
+          axios({
+            method: "post",
+            url: this.baseUrl+"/verify",
+            data: {
+              user_name:this.ruleForm.userName,
+              code:this.ruleForm.userNumber,
+              user_email: this.ruleForm.email,
+              user_password: this.ruleForm.pass,
+            },
+          })
+            .then((res) => {
+              console.log("data..", res.data);
+              console.log(res);
+              if (res.data.ret == '1') {
+                //转跳到登录页面
+               this.$notify({
+               title: "消息",
+               message: "注册成功，请登录",
+               type: "success",
+               });
+                this.$router.push({
+                  path: "/login",
+                  query: {
+                    user: res.data,
+                  },
+                });
+              }
+              else if(res.data.ret == "-1"){
+                           this.$notify({
+               title: "消息",
+               message: "验证码不符合",
+               type: "warning",
+               });
+              }
+              else if(res.data.ret == "-2"){
+                           this.$notify({
+               title: "消息",
+               message: "注册失败",
+               type: "warning",
+               });
+              }
+              else {
+              this.$notify({
+               title: "消息",
+               message: "注册失败",
+               type: "warning",
+               });
+              }
+            })
+            .catch((err) => {
+            console.log("error...", err);
+          });
+        } else {
+          console.log("error submit!!");
+          this.$notify({
+            title: "消息",
+            message: "请正确填写用户信息",
+            type: "warning",
+          });
+        }
+      });
     },
-    RFSHOW(){
-      this.RFshow=true;
-      this.RPshow=false;
-
+    login() {
+      this.$router.push({
+        path: "/login",
+      });
     },
-    RPSHOW(){
-      this.RFshow=false;
-      this.RPshow=true;
-    }
+    sendEmail() {
+      axios({
+        method: "post",
+        url: this.baseUrl+"/register",
+        data: {
+          user_email: this.ruleForm.email
+        },
+      }).then((res) => {
+        console.log(res)
+        console.log(this.ruleForm.email)
+        if (res.data.ret == "1") {
+          //转跳到登录页面
+          this.$notify({
+            title: "消息",
+            message: "邮件发送成功",
+            type: "success",
+          });
+          
+        } else if (res.data.ret == "-1") {
+          this.$notify({
+            title: "消息",
+            message: "邮件发送失败",
+            type: "warning",
+          });
+        }
+      });
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .SVG1 {
   position: fixed;
   bottom: 30px;
@@ -3429,31 +3678,23 @@ export default {
   width: 100%;
   height: 100%;
   background-image: linear-gradient(to right, #cce2f0, #a8e4fa);
-  display: flex;
-  align-items: center; /*定义body的元素垂直居中*/
-  justify-content: center; /*定义body的里的元素水平居中*/
 }
 
 .register {
-  height: 60%;
-  /* display: flex; */
-  width: 50%;
-  /* margin: 0 auto; */
-  background-color: white;
-  
+  height: 100%;
+  display: flex;
+  width: 20%;
+  margin: 0 auto;
 }
 
-.choosebox {
-  width: 100%;
-  display: flex;
-  /* margin: 0 auto; */
-  /* background-color: blue; */
-  
+.el-card {
+  align-self: center;
+  /* padding: 30px; */
+  width: 100% !important;
 }
 
 .btn {
   font-size: 16px;
-  /*margin: 15px auto;*/
   text-align: center;
   width: 100%;
   background-image: linear-gradient(to right, #51a4db, #a8e4fa);

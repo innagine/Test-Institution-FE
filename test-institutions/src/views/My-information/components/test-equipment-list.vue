@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-22 11:26:13
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-22 11:29:05
+ * @LastEditTime: 2021-04-22 17:33:56
 -->
 <template>
   <div class="test-equipment-list">
@@ -53,16 +53,12 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 
 
 export default {
   name: "test-item-list",
-  components:{
-    Progress,
-  },
+  components:{},
   methods: {
-
     handleEdit(index, row) {
         console.log(index, row);
         this.dialogVisible = true

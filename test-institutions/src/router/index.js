@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-07 14:56:18
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-20 23:03:51
+ * @LastEditTime: 2021-04-23 09:27:15
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -50,7 +50,7 @@ const routes = [
   {
     path:'/register',
     name:'Register',
-    component: () => import('../views/Register2.vue')
+    component: () => import('../views/Register.vue')
   },
   {
     path:'/login',
