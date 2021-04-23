@@ -1047,7 +1047,7 @@
 <script>
 // 导入axios
 import axios from "axios";
-import { mapMutations } from 'vuex';
+import { mapMutations,mapState} from 'vuex';
 
 export default {
   name: "Login",
@@ -1058,7 +1058,9 @@ export default {
       password: "",
     };
   },
-
+  computed:{
+    ...mapState(['baseUrl'])
+  },
   methods: {
     ...mapMutations(['LOGIN',]),
     // 登陆验证
@@ -1087,7 +1089,7 @@ export default {
     //   发送get请求，请求用户匹配
       axios({
         method: "post",
-        url: "http://49.235.72.171:8556/login",
+        url: this.baseUrl+"/login",
         data: {
             user_email:this.account,
             user_password:this.password
