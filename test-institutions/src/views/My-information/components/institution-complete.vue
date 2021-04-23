@@ -3,13 +3,13 @@
  * @Author: IMAGINE
  * @Date: 2021-04-08 17:26:55
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-22 11:24:51
+ * @LastEditTime: 2021-04-23 14:32:06
 -->
 <template>
   <div class="institution-complete">
     <div class="ICcontent">
-      <div class="institution-information">
-        1.添加/修改机构资料
+      <div class="institution-information ">
+        <h3>基本消息</h3>
         <div class="institution-avatar">
           <el-avatar :src="avartorUrl"></el-avatar>
         </div>
@@ -31,37 +31,45 @@
             </div>
           </el-image>
         </div>
-        <div class="institution-name">
+        <div class="institution-name flex-box">
           <div class="lable">机构名称</div>
           <div class="name">Xmind</div>
         </div>
-        <div class="institution-region">
+        <div class="institution-region flex-box">
           <div class="lable">所属地区</div>
           <div class="name">Xmind</div>
         </div>
-        <div class="institution-address">
+        <div class="institution-address flex-box">
           <div class="lable">机构地址</div>
           <div class="name">Xmind</div>
         </div>
-        <div class="institution-contacts">
-          <div class="lable">机构联系人</div>
+        <div class="institution-contacts flex-box">
+          <div class="lable">联系方式</div>
           <div class="name">Xmind</div>
         </div>
-        <div class="institution-email">
+        <div class="institution-email flex-box">
           <div class="lable">机构邮箱</div>
           <div class="name">Xmind</div>
         </div>
-        <div class="institution-info">
+        <div class="institution-info flex-box">
           <div class="lable">机构简介</div>
           <div class="name">Xmind</div>
         </div>
       </div>
-      <div class="append-test-item">2.添加检测项目</div>
-      <div class="test-item-list">3.检测项目列表（可修改）
-        <test-item-list></test-item-list>
+      <div class="item-information">
+        <h3>检测项目</h3>
+        <div class="append-test-item">2.添加检测项目</div>
+        <div class="test-item-list">3.检测项目列表（可修改）
+          <test-item-list></test-item-list>
+        </div>
       </div>
-      <div class="append-test-equipment">4.添加项目仪器</div>
-      <div class="test-equipemnt-list">5.检测设备列表</div>
+      <div class="equipment-information">
+        <h3>检测仪器</h3>
+        <div class="append-test-equipment">4.添加项目仪器</div>
+        <div class="test-equipemnt-list">5.检测设备列表
+          <test-equipment-list></test-equipment-list>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,11 +78,13 @@
 // 导入axios
 // import axios from "axios";
 import { mapState } from "vuex";
+import TestEquipmentList from './test-equipment-list.vue';
 import TestItemList from './test-item-list.vue';
 export default {
   name: "institution-complete",
   components:{
     TestItemList,
+    TestEquipmentList,
   },
   data() {
     return {
@@ -100,7 +110,33 @@ export default {
   .ICcontent {
     height: 100%;
     width: 80%;
-    margin: 50px auto;
+    margin: 20px auto;
+    .institution-information{
+      margin-bottom: 50px;
+      .institution-avatar{
+        margin: 20px;
+      }
+      .institution-picture{
+        margin: 20px;
+      }
+      .flex-box{
+        display: flex;
+        align-items:center;
+        .lable{
+          margin: 20px;
+          margin-right: 100px;
+        }
+        .name{
+          color: rgb(153, 153, 153);
+        }
+      }
+    }
+    .item-information{
+      margin-bottom: 50px;
+    }
+    .equipemnt-information{
+      margin-bottom: 50px;
+    }
   }
 }
 </style>

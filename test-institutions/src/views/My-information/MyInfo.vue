@@ -160,6 +160,6 @@ export default {
 <style lang="scss" scoped>
 .myInfo{
   margin-bottom: 150px;
-  height: 700px;
+  min-height: 700px;
 }
 </style>
