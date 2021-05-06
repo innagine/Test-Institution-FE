@@ -9,9 +9,9 @@
   <div class="treatment-equipment">
     <rotation-chart :urlList="list"></rotation-chart>
     <div class="t-select">
-        <div class="t-option">废气治理设备</div>
-        <div class="t-option">废水处理设备</div>
-        <div class="t-option">粉尘治理设备</div>
+        <div class="t-option" ref="select1" @click="show(1)">废气治理设备</div>
+        <div class="t-option" ref="select2" @click="show(2)">废水处理设备</div>
+        <div class="t-option" ref="select3" @click="show(3)">粉尘治理设备</div>
     </div>
     <router-view></router-view>
     <div class="post-demand">
@@ -83,6 +83,30 @@ export default {
   },
   created(){
     this.$router.push('/equipments');
+  },
+  methods:{
+    show(n){
+      switch (n) {
+        case 1:
+          this.$refs.select1.style.fontWeight = "600";
+          this.$refs.select2.style.fontWeight = "normal";
+          this.$refs.select3.style.fontWeight = "normal";
+          break;
+        case 2:
+          this.$refs.select1.style.fontWeight = "normal";
+          this.$refs.select2.style.fontWeight = "600";
+          this.$refs.select3.style.fontWeight = "normal";        
+          break;
+        case 3:
+          this.$refs.select1.style.fontWeight = "normal";
+          this.$refs.select2.style.fontWeight = "normal";
+          this.$refs.select3.style.fontWeight = "600";         
+          break;
+        
+        default:
+          break;
+      }
+    }
   },
 }
 </script>
