@@ -46,6 +46,10 @@
           </el-menu-item>
           <el-menu-item index="10">
             <i class="el-icon-help"></i>
+            <span slot="title">个人信息</span>
+          </el-menu-item>
+          <el-menu-item index="11">
+            <i class="el-icon-help"></i>
             <span slot="title">退出登陆</span>
           </el-menu-item>
         </el-menu>
@@ -57,7 +61,8 @@
         <RInstitution v-if="indexlist[2].index"></RInstitution>
         <MyCheckList v-if="indexlist[7].index"></MyCheckList>
         <Myorder v-if="indexlist[5].index"></Myorder>
-        <Logout v-if="indexlist[10].index"></Logout>
+        <user-base-info v-if="indexlist[10].index"></user-base-info>
+        <Logout v-if="indexlist[11].index"></Logout>
         <customer-demand v-if="indexlist[9].index"></customer-demand>
         <institution-complete v-if="indexlist[6].index"></institution-complete>
       </el-col>
@@ -77,6 +82,7 @@ import { mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
 import CustomerDemand from '@/views/Customer-Demand/customer-demand.vue';
 import InstitutionComplete from './components/institution-complete.vue';
+import UserBaseInfo from './components/user-base-info.vue';
 
 export default {
   name: "MyInfo",
@@ -92,6 +98,7 @@ export default {
     Logout,
     CustomerDemand,
     InstitutionComplete,
+    UserBaseInfo,
   },
   computed:{
     ...mapState(['user1',]),
@@ -119,6 +126,7 @@ export default {
       // 按钮显示
       indexlist: [
         { index: true },
+        { index: false },
         { index: false },
         { index: false },
         { index: false },

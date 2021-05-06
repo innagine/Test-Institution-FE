@@ -18,6 +18,8 @@ import InstitutionMatch from '../views/Institution-match/components/choice-insti
 import CustomerDemand from '../views/Customer-Demand/components/DemandList.vue'
 import PostOrder from '../views/Customer-Demand/components/PostOrder.vue'
 import Search from '../views/Search.vue'
+import Equipments from '../views/Treatment-equipment/components/equipments.vue'
+import EquipmentDetails from '../views/Treatment-equipment/components/equipment-details.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +39,8 @@ const routes = [
       {path: '/search', name: '/search', component: Search},
       {path: '/customer-demand', name: '/customer-demand', component: CustomerDemand},
       {path: '/post-order', name: '/post-order', component: PostOrder},
+      {path: '/equipments', name: '/equipments', component: Equipments},
+      {path: '/equipment-details', name: '/equipment-details', component: EquipmentDetails},
     ]
   },
   {

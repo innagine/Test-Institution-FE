@@ -13,7 +13,7 @@
         <div class="t-option">废水处理设备</div>
         <div class="t-option">粉尘治理设备</div>
     </div>
-    <equipments></equipments>
+    <router-view></router-view>
     <div class="post-demand">
       <div class="text">如果找不到仪器，您可以发布您的需求，由我们来帮您挑选最优的服务商</div>
       <div class="button">发布需求</div>
@@ -71,17 +71,18 @@
 
 <script>
 import RotationChart from '../../components/RotationChart.vue';
-import Equipments from './components/equipments.vue';
 export default {
   name:'treatment-equipment',
   components:{
     RotationChart,
-    Equipments,
   },
     data(){
     return{
       list:[{"URl":require("./images/machine.png")},],
     }
+  },
+  created(){
+    this.$router.push('/equipments');
   },
 }
 </script>

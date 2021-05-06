@@ -55,7 +55,7 @@
         :visible.sync="dialogVisible"
         top = '5vh'
         width="80%">
-        <modification-demand v-if="dialogVisible"></modification-demand>
+        <ModificationDemand v-if="dialogVisible"></ModificationDemand>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>

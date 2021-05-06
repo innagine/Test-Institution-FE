@@ -8,13 +8,13 @@
 <template>
   <div class="test-item-list">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="item_id" label="项目编号" width="180"></el-table-column>
+        <el-table-column prop="item_id" label="项目编号"></el-table-column>
         <el-table-column prop="date" label="日期" width="120"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="120"></el-table-column>
+        <el-table-column prop="matter" label="检测项目" width="180"></el-table-column>
         <el-table-column prop="price" label="检测价格"> </el-table-column>
         <el-table-column prop="discount" label="折扣"> </el-table-column>
         <el-table-column prop="institution" label="检测机构"> </el-table-column>
-        <el-table-column prop="institution" label="检测设备"> </el-table-column>
+        <el-table-column prop="institution" label="检测设备" width="120"> </el-table-column>
         <el-table-column prop="state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
@@ -59,6 +59,9 @@ export default {
   name: "test-item-list",
   components:{},
   methods: {
+    handleClose(){
+
+    },
 
     handleEdit(index, row) {
         console.log(index, row);

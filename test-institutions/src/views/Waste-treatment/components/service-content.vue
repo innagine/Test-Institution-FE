@@ -37,7 +37,7 @@
   .service-item{
     margin-bottom: 30px;
     display: flex;
-    height: 250px;
+    height: 270px;
     .left{
       flex:1;
       background-color: pink;
@@ -59,6 +59,7 @@
       }
       .background-icon{
         width: 100%;
+        height: 100%;
       }
     }
     .right{

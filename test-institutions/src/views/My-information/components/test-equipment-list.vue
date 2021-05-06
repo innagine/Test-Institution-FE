@@ -66,6 +66,9 @@ export default {
     handleDelete(index, row) {
         console.log(index, row);
     },
+    handleClose(){
+
+    },
 
   },
   data() {

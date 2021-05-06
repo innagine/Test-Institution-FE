@@ -1,6 +1,6 @@
 <template>
   <div class="RF">
-    <div class="RFcontent">
+    <div class="RFcontent" v-if="!active">
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -92,12 +92,25 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="proress">
+    <div class="proress" v-if="active">
       <el-steps :active="active" finish-status="success">
         <el-step title="待提交"></el-step>
         <el-step title="审核中"></el-step>
         <el-step title="已通过"></el-step>
       </el-steps>
+    </div>
+    <div class="role-transition" v-if="active === 3">
+      <el-divider></el-divider>
+      <div class="rinstitution-test">身份审核通过，已获得授权，转换为工厂后，身份认证将会转换为工厂</div>
+      <el-popover
+      placement="top-start"
+      title="提示"
+      width="200"
+      trigger="hover"
+      content="身份转换操作不可逆，请慎重选择">
+        <el-button slot="reference">确认转换</el-button>
+      </el-popover>
+      <el-divider></el-divider>
     </div>
   </div>
 </template>

@@ -11,7 +11,7 @@
             <el-card shadow="hover" class="car-margin" v-for="(item,index) in list" :key="index">
               <img :src="item.url" class="image">
               <p>{{item.name}}</p>
-              <div class="button">我要询价</div>
+              <div class="button" @click="showDetails">我要询价</div>
             </el-card>
         </div>
     </div>
@@ -69,6 +69,11 @@ export default {
               {name:'水洗打磨柜',url:require('../images/水洗打磨柜.png')},
         ]
       }
-    }
+    },
+    methods:{
+      showDetails(){
+        this.$router.push('/equipment-details');
+      }
+    },
 }
 </script>
