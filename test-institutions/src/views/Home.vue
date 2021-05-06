@@ -55,7 +55,7 @@
     <RotationChart v-if="indexlist[1].index"></RotationChart>
     <PostDemand v-if="indexlist[8].index"></PostDemand>
     <MyInfo v-if="indexlist[10].index" :User="user"></MyInfo>
-    <Choose v-if="indexlist[1].index"></Choose>
+    <Choose v-if="indexlist[1].index" @son="sonSelect"></Choose>
     <Search v-if="indexlist[11].index"></Search>
     <Demands v-if="indexlist[12].index"></Demands>
     <InstitutionApplications v-if="indexlist[14].index"></InstitutionApplications>
@@ -66,6 +66,7 @@
     <WasteTreatment v-if="indexlist[6].index"></WasteTreatment>
     <EnvironmentProtection v-if="indexlist[4].index"></EnvironmentProtection>
     <InstitutionMatch v-if="indexlist[13].index"></InstitutionMatch>
+    <material-test v-if="indexlist[16].index"></material-test>
     <Footer></Footer>
   </div>
 </template>
@@ -90,7 +91,8 @@ import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 import { mapState } from 'vuex';
 import InstitutionMatch from './Institution-match/institution-match.vue'
-import EnvironmentTest from './Environment-test/Environment-test.vue'
+import EnvironmentTest from './Environment-test/environment-test.vue'
+import MaterialTest from './Material-Test/material-test.vue'
 
 export default {
   name: "Home",
@@ -110,6 +112,7 @@ export default {
     EnvironmentProtection,
     InstitutionMatch,
     EnvironmentTest,
+    MaterialTest,
   },
 
   created(){
@@ -146,6 +149,9 @@ export default {
       indexlist: [
         { index: true },
         { index: true },
+        { index: false },
+        { index: false },
+        { index: false },
         { index: false },
         { index: false },
         { index: false },
@@ -205,8 +211,13 @@ export default {
         this.indexlist[i].index=false;
       }
         console.log(key, keyPath);
+    },
+    sonSelect(key){
+      for(let i=0; i<this.indexlist.length; i++){
+        if(i==key){ this.indexlist[i].index=true; continue;}
+        this.indexlist[i].index=false;
       }
-
+    }
   },
   computed:{
     ...mapState(['user1',]),

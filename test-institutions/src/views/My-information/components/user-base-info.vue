@@ -113,7 +113,7 @@ export default {
         region: "",
         user_address: "",
         user_tel: "",
-        user_email: "",
+        // user_email: "",
         introduce: "",
       },
     };
@@ -165,6 +165,7 @@ export default {
 
   created(){
       Object.assign(this.form,this.user1);
+      this.form.user_email = null;
   },
 };
 </script>

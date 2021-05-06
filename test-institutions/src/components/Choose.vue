@@ -2,7 +2,7 @@
 <div class="CHcontent">
     <el-row :gutter="40">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="grid-content bg-purple" @click="sentFather(1)">
+            <div class="grid-content bg-purple" @click="sentFather(16)">
                 <el-card shadow="hover">
                     <div class="card">
                         <div class="picture">
@@ -20,7 +20,7 @@
             </div>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="grid-content bg-purple-light" @click="sentFather(2)">
+            <div class="grid-content bg-purple-light" @click="sentFather(17)">
                 <el-card shadow="hover">
                     <div class="card">
                         <div class="picture">
@@ -38,7 +38,7 @@
             </div>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="grid-content bg-purple" @click="sentFather(3)">
+            <div class="grid-content bg-purple" @click="sentFather(18)">
                 <el-card shadow="hover">
                     <div class="card">
                         <div class="picture">
