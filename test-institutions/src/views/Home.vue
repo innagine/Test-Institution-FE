@@ -201,7 +201,7 @@ export default {
     // 选择页面展示
     handleSelect(key, keyPath) {
       for(let i=0; i<this.indexlist.length; i++){
-        if(i==key){ this.indexlist[i].index=true; continue;}
+        if(i==keyPath[0]){ this.indexlist[i].index=true; continue;}
         this.indexlist[i].index=false;
       }
         console.log(key, keyPath);
