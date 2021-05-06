@@ -15,20 +15,16 @@
      </ul>
      <div class="service-item">
        <div class="left">
-          <img src="../images/sewage.jpg">
-          <div class="l-title">垃圾、污水除臭工程</div>
-          <div class="introduce">方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。</div>
+          <img :src="serviceItem.url">
+          <div class="l-title">{{serviceItem.title}}</div>
+          <div class="introduce">{{serviceItem.introduce}}</div>
        </div>
        <div class="right">
          <div class="item">
            <div class="title">方案设计原则</div>
            <div class="advantages">
-             <ul>
-               <li>科学合理的收集方式</li>
-               <li>采用新技术、新设备</li>
-               <li>避免二次污染</li>
-               <li>严格执行</li>
-               <li>节能降耗</li>
+             <ul v-for="(item,index) in serviceItem.designPhilosophy" :key="index">
+               <li>{{item}}</li>
              </ul>
            </div>
            <div class="price">2500元起</div>
@@ -36,12 +32,8 @@
          <div class="item">
            <div class="title">工程范围及标准</div>
            <div class="advantages">
-             <ul>
-               <li>科学合理的收集方式</li>
-               <li>采用新技术、新设备</li>
-               <li>避免二次污染</li>
-               <li>严格执行</li>
-               <li>节能降耗</li>
+             <ul v-for="(item,index) in serviceItem.engineeringStandard" :key="index">
+               <li>{{item}}</li>
              </ul>
            </div>
            <div class="price">2500元</div>
@@ -49,12 +41,8 @@
          <div class="item">
            <div class="title">处理排放标准</div>
            <div class="advantages">
-             <ul>
-               <li>科学合理的收集方式</li>
-               <li>采用新技术、新设备</li>
-               <li>避免二次污染</li>
-               <li>严格执行</li>
-               <li>节能降耗</li>
+             <ul v-for="(item,index) in serviceItem.emissionStandard" :key="index">
+               <li>{{item}}</li>
              </ul>
            </div>
            <div class="price">2500元</div>
@@ -179,10 +167,49 @@
 <script>
 export default {
   name:'service-scope',
+  data(){
+    return {
+      serviceItem:{
+        url:require('../images/sewage.jpg'),
+        title:'垃圾、污水除臭工程',
+        introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
+        designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
+        engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
+        emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+      },
+      itemList:[
+        {
+          url:require('../images/sewage.jpg'),
+          title:'垃圾、污水除臭工程',
+          introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
+          designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
+          engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
+          emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+        },
+        {
+          url:require('../images/factory.png'),
+          title:'垃圾、污水除臭工程',
+          introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
+          designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
+          engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
+          emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+        },
+        {
+          url:require('../images/sewage.jpg'),
+          title:'垃圾、污水除臭工程',
+          introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
+          designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
+          engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
+          emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+        },
+      ],
+    }
+  },
   methods:{
     show(n){
       switch (n) {
         case 1:
+          this.serviceItem = this.itemList[0];
           this.$refs.select1.style.fontWeight = "600";
           this.$refs.select1.style.color = "#51a4db";
           this.$refs.select1.style.backgroundImage = "url(/img/line.4fa26ffc.svg)";
@@ -200,6 +227,7 @@ export default {
           this.$refs.select4.style.backgroundImage = "none";
           break;
         case 2:
+          this.serviceItem = this.itemList[1];
           this.$refs.select1.style.fontWeight = "normal";
           this.$refs.select1.style.color = "black";
           this.$refs.select1.style.backgroundImage = "none";
@@ -217,6 +245,7 @@ export default {
           this.$refs.select4.style.backgroundImage = "none";          
           break;
         case 3:
+          this.serviceItem = this.itemList[2];
           this.$refs.select1.style.fontWeight = "normal";
           this.$refs.select1.style.color = "black";
           this.$refs.select1.style.backgroundImage = "none";
@@ -234,6 +263,7 @@ export default {
           this.$refs.select4.style.backgroundImage = "none";         
           break;
         case 4:
+          this.serviceItem = this.itemList[3];
           this.$refs.select1.style.fontWeight = "normal";
           this.$refs.select1.style.color = "black";
           this.$refs.select1.style.backgroundImage = "none";
