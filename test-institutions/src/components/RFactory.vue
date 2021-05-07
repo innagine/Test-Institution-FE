@@ -269,7 +269,7 @@ export default {
       })
         .then(res => {
           console.log("工厂申请进度请求发送成功", res);
-          this.active = res.data.data1[0].f_state; // 获取进度
+          this.active = res.data.data1[0].f_state+1; // 获取进度
         })
         .catch(err => {
           console.log("工厂申请进度请求发送失败", err);

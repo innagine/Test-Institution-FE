@@ -184,7 +184,7 @@
       width="200"
       trigger="hover"
       content="身份转换操作不可逆，请慎重选择">
-        <el-button slot="reference">确认转换</el-button>
+        <el-button slot="reference" @click="changRole">确认转换</el-button>
       </el-popover>
       <el-divider></el-divider>
     </div>
@@ -286,9 +286,14 @@ export default {
       })
         .then(res => {
           console.log("机构页面请求发送成功", res);
+          this.natificationControl(res.data.msg,'success')
+          if(res.data.msg === '修改成功'){
+            this.$router.push({path: "/login",});
+          }
         })
         .catch(err => {
           console.log("机构页面请求发送失败", err);
+          this.natificationControl('申请发送失败','warning')
         });
     },
 
@@ -302,7 +307,13 @@ export default {
       })
         .then(res => {
           console.log("机构申请进度请求发送成功", res);
-          this.active = res.data.data1[0].i_state; // 获取进度
+          if(res.data.data1[0].i_state === 0){
+            this.active = 1;
+          }else if(res.data.data1[0].i_state === 1){
+            this.active = 3;
+          }else if(res.data.data1[0].i_state === 2){
+            this.active = 0;
+          }
         })
         .catch(err => {
           console.log("机构申请进度请求发送失败", err);
@@ -394,6 +405,20 @@ export default {
       this.fileList3.push(file);
       console.log(response, file, fileList);
     },
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
+        });
+    },
+    // 身份转换函数
+    changRole(){
+      let sendata = {};
+      sendata['user_id'] = this.user1.user_id;
+      this.requestSend('user/setRoleIns',sendata);
+    }
   },
   created(){
     let Url = 'search/institution'

@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-05-07 00:01:33
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-07 00:43:12
+ * @LastEditTime: 2021-05-07 22:33:59
 -->
 
 <template>
@@ -61,7 +61,7 @@ export default {
   },
   data(){
     return{
-      list:[{"URl":require("./images/pencils.jpg")},],
+      list:[{"URl":require("./images/rocks.jpg")},],
     }
   },
 }

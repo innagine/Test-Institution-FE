@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-08 17:26:55
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-23 14:32:06
+ * @LastEditTime: 2021-05-08 00:24:45
 -->
 <template>
   <div class="institution-complete">
@@ -133,8 +133,8 @@
             </el-row>
               <el-row>
               <el-col :span="12">
-                <el-form-item label="使用仪器">
-                  <el-input v-model="itemForm.equipment"></el-input>
+                <el-form-item label="项目分类">
+                  <el-input v-model="itemForm.category"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -182,7 +182,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item >
-                  <el-button @click="onSubmit">立即创建</el-button>
+                  <el-button @click="submitEquipment">立即创建</el-button>
                   <el-button @click="reset(2)">数据重置</el-button>
                 </el-form-item>
               </el-col>
@@ -215,7 +215,7 @@ export default {
       itemForm:{
         item_name:null,
         price:null,
-        equipment:null,
+        category:null,
         discount:null,
       },
       equipmentForm:{
@@ -322,7 +322,7 @@ export default {
 
     // 提交添加检测仪器函数
     submitEquipment(){
-      this.requestSend('institution/update',this.itemForm);
+      this.requestSend('institution/update',this.equipmentForm);
     }
   },
   created(){

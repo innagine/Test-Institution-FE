@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-01 10:22:12
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-07 01:01:24
+ * @LastEditTime: 2021-05-07 22:29:46
 -->
 <template>
   <div class="service-scope">
@@ -166,11 +166,13 @@ export default {
     return {
       serviceItem:{
         url:require('../images/pencils.jpg'),
-        title:'垃圾、污水除臭工程',
-        introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
-        designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
-        engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
-        emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+          title:'XPS',
+          introduce:'型号：Thermo Kalpha；Thermo ESCALAB 250XI; Axis Ultra DLD Kratos AXIS SUPRA; PHI-5000versaprobeIII',
+          designPhilosophy:['1. XPS可以做的项目：常规全谱窄谱测试，俄歇谱，价带谱，深度溅射，MAPPING,角分辨', '2. XPS测试的元素范围是Li-Cm, H,He元素不能测试', '3. XPS数据分析可以等到元素的价态及半定量数据。原子百分含量小于5%的元素可能测不出明显信号。', '4. 无特殊说明，默认是使用单色化AlKa源（Mono AlKa）能量是1486.6eV', '5. 使用Al Kα X-ray会出现的重叠谱峰，当有重叠谱峰的时候直接定量的结果不能参考。'],
+          engineeringStandard:['1. 样品状态：可为粉末、块状、薄膜样品', '2. 粉末样品：20-30mg', '3. 块状、薄膜样品：块体/薄膜样品尺寸小于5*5*3mm'],
+          emissionStandard:['样品精细谱扫出谱峰？为什么全谱里没有呢？-- 全谱主要是用来定性分析的，设置参数的步长比较大，含量低的在全谱里扫不出谱峰。但是精细谱扫出谱峰就表示有该元素。', 
+          '每种元素的检测限一样么？-- 不一样。每种元素的主峰的灵敏度因子都不一样。',
+          '怎么判断拟合是好是坏，是拟合了两个峰算好还是拟合了三个峰算好？-- 看波动大小，越小越好；还要看对应的物理意义。波动如下图所示。具体拟合几个峰，要参考样品本身的情况，以及拟合的贴合度，没有严格的界定哪个更好。'],
       },
       itemList:[
         {

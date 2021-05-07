@@ -92,7 +92,7 @@ import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 import { mapState } from 'vuex';
 import InstitutionMatch from './Institution-match/institution-match.vue'
-import EnvironmentTest from './Environment-test/Environment-test.vue'
+import EnvironmentTest from './Environment-test/environment-test.vue'
 import MaterialTest from './Material-Test/material-test.vue'
 import BiologicalDetection from './Biological-Detection/biological-detection.vue'
 

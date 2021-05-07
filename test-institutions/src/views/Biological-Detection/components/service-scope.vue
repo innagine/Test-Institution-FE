@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-01 10:22:12
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-07 01:01:24
+ * @LastEditTime: 2021-05-07 22:43:14
 -->
 <template>
   <div class="service-scope">
@@ -21,7 +21,7 @@
        </div>
        <div class="right">
          <div class="item">
-           <div class="title">测试项目</div>
+           <div class="title">服务周期</div>
            <div class="advantages">
              <ul v-for="(item,index) in serviceItem.designPhilosophy" :key="index">
                <li>{{item}}</li>
@@ -29,7 +29,7 @@
            </div>
          </div>
          <div class="item">
-           <div class="title">样品要求</div>
+           <div class="title">交付内容</div>
            <div class="advantages">
              <ul v-for="(item,index) in serviceItem.engineeringStandard" :key="index">
                <li>{{item}}</li>
@@ -37,7 +37,7 @@
            </div>
          </div>
          <div class="item">
-           <div class="title">常见问题及回答</div>
+           <div class="title">服务流程</div>
            <div class="advantages">
              <ul v-for="(item,index) in serviceItem.emissionStandard" :key="index">
                <li>{{item}}</li>
@@ -165,26 +165,24 @@ export default {
   data(){
     return {
       serviceItem:{
-        url:require('../images/pencils.jpg'),
-        title:'垃圾、污水除臭工程',
-        introduce:'方案简介 : 垃圾臭气来源、垃圾臭气处理方案设计原则、垃圾臭气处理工程范围及标准、垃圾臭气处理排放标准。',
-        designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗1'],
-        engineeringStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗2'],
-        emissionStandard:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗3'],
+        url:require('../images/jellyfish.jpg'),
+          title:'生物扫描电镜（SEM）',
+          introduce:'生物扫描电镜主要利用二次电子成像拍摄材料的表面三维形貌情况，拍摄照片为黑白照片；一般用来观察细胞外表面的变形以及受损情况等，也可以观察材料在细胞表面的分布情况，广泛应用于检测生物样品、非均相有机材料、无机材料等微米、纳米范围内的表面特征。',
+          designPhilosophy:['一般为样品接收后的2周左右，具体实验周期及送样时间请与科学指南针工作人员沟通确认，谢谢！'],
+          engineeringStandard:['每样提供8-10张拍摄图片，结果反馈请在测试完成一周内，不建议回收样品，如有需要请提前反馈给指南针工作人员。'],
+          emissionStandard:['1·提交需求', '2·沟通细节','3·付款确认','4·下载结果'],
       },
       itemList:[
         {
-          url:require('../images/pencils.jpg'),
-          title:'XPS',
-          introduce:'型号：Thermo Kalpha；Thermo ESCALAB 250XI; Axis Ultra DLD Kratos AXIS SUPRA; PHI-5000versaprobeIII',
-          designPhilosophy:['1. XPS可以做的项目：常规全谱窄谱测试，俄歇谱，价带谱，深度溅射，MAPPING,角分辨', '2. XPS测试的元素范围是Li-Cm, H,He元素不能测试', '3. XPS数据分析可以等到元素的价态及半定量数据。原子百分含量小于5%的元素可能测不出明显信号。', '4. 无特殊说明，默认是使用单色化AlKa源（Mono AlKa）能量是1486.6eV', '5. 使用Al Kα X-ray会出现的重叠谱峰，当有重叠谱峰的时候直接定量的结果不能参考。'],
-          engineeringStandard:['1. 样品状态：可为粉末、块状、薄膜样品', '2. 粉末样品：20-30mg', '3. 块状、薄膜样品：块体/薄膜样品尺寸小于5*5*3mm'],
-          emissionStandard:['样品精细谱扫出谱峰？为什么全谱里没有呢？-- 全谱主要是用来定性分析的，设置参数的步长比较大，含量低的在全谱里扫不出谱峰。但是精细谱扫出谱峰就表示有该元素。', 
-          '每种元素的检测限一样么？-- 不一样。每种元素的主峰的灵敏度因子都不一样。',
-          '怎么判断拟合是好是坏，是拟合了两个峰算好还是拟合了三个峰算好？-- 看波动大小，越小越好；还要看对应的物理意义。波动如下图所示。具体拟合几个峰，要参考样品本身的情况，以及拟合的贴合度，没有严格的界定哪个更好。'],
+          url:require('../images/jellyfish.jpg'),
+          title:'生物扫描电镜（SEM）',
+          introduce:'生物扫描电镜主要利用二次电子成像拍摄材料的表面三维形貌情况，拍摄照片为黑白照片；一般用来观察细胞外表面的变形以及受损情况等，也可以观察材料在细胞表面的分布情况，广泛应用于检测生物样品、非均相有机材料、无机材料等微米、纳米范围内的表面特征。',
+          designPhilosophy:['一般为样品接收后的2周左右，具体实验周期及送样时间请与科学指南针工作人员沟通确认，谢谢！'],
+          engineeringStandard:['每样提供8-10张拍摄图片，结果反馈请在测试完成一周内，不建议回收样品，如有需要请提前反馈给指南针工作人员。'],
+          emissionStandard:['1·提交需求', '2·沟通细节','3·付款确认','4·下载结果'],
         },
         {
-          url:require('../images/pencils.jpg'),
+          url:require('../images/jellyfish.jpg'),
           title:'透射电子显微镜TEM',
           introduce:'型号：FEI Tecnai F20, TF30，JEOL JEM 2100F，FEI Talos F200X等',
           designPhilosophy:['形貌、能谱点扫', '能谱线扫', 'mapping', 'HAADF(STEM)', '衍射'],
@@ -194,7 +192,7 @@ export default {
             'JPG、TIFF、DM3的区别？-- JPG和TIFF均是图片格式，可以直接打开； DM3是源文件，需用DM软件打开'],
         },
         {
-          url:require('../images/pencils.jpg'),
+          url:require('../images/jellyfish.jpg'),
           title:'扫描电子显微镜SEM',
           introduce:'型号：SU8010；ZEISS MERLIN Compact；Zeiss Gemini 300，S4800；SEU8010；Quanta FEG 250等',
           designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗'],
@@ -202,7 +200,7 @@ export default {
           emissionStandard:['无二次污染', '达到国家排放标准', '无异味无颜色', '可灌溉植物'],
         },
         {
-          url:require('../images/pencils.jpg'),
+          url:require('../images/jellyfish.jpg'),
           title:'全自动比表面及孔隙度分析仪BET',
           introduce:'型号：麦克2020；麦克ASAP2460；麦克TriStar II 3flex； 康塔AUTOSORB IQ；康塔QUADRASORB SI',
           designPhilosophy:['科学合理的收集方式', '采用新技术、新设备', '避免二次污染', '严格执行', '节能降耗'],

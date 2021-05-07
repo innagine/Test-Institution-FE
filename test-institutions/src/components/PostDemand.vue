@@ -44,7 +44,7 @@
               v-model="ruleForm.total"
             >
               <el-input
-                v-model="ruleForm.version"
+                v-model="ruleForm.total"
                 maxlength="10"
                 show-word-limit
               ></el-input> </el-form-item
@@ -237,7 +237,7 @@ export default {
               tel: this.ruleForm.number, // 联系人电话号码
               email: this.ruleForm.email, // 联系人电子邮箱
               quantity: this.ruleForm.total, // 样品数量
-              budget: this.ruleForm.budget, // 预算范围
+              budget: this.ruleForm.scope, // 预算范围
               cycle: this.ruleForm.date2, // 完成周期
               describes: this.ruleForm.desc // 描述
             },
