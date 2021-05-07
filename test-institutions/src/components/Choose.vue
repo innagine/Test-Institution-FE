@@ -38,7 +38,7 @@
             </div>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-            <div class="grid-content bg-purple" @click="sentFather(18)">
+            <div class="grid-content bg-purple" @click="sentFather(3)">
                 <el-card shadow="hover">
                     <div class="card">
                         <div class="picture">

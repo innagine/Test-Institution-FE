@@ -67,6 +67,7 @@
     <EnvironmentProtection v-if="indexlist[4].index"></EnvironmentProtection>
     <InstitutionMatch v-if="indexlist[13].index"></InstitutionMatch>
     <material-test v-if="indexlist[16].index"></material-test>
+    <biological-detection v-if="indexlist[17].index"></biological-detection>
     <Footer></Footer>
   </div>
 </template>
@@ -91,8 +92,9 @@ import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
 import { mapState } from 'vuex';
 import InstitutionMatch from './Institution-match/institution-match.vue'
-import EnvironmentTest from './Environment-test/environment-test.vue'
+import EnvironmentTest from './Environment-test/Environment-test.vue'
 import MaterialTest from './Material-Test/material-test.vue'
+import BiologicalDetection from './Biological-Detection/biological-detection.vue'
 
 export default {
   name: "Home",
@@ -113,6 +115,7 @@ export default {
     InstitutionMatch,
     EnvironmentTest,
     MaterialTest,
+    BiologicalDetection,
   },
 
   created(){
