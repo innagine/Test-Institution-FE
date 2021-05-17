@@ -25,11 +25,12 @@
       <el-menu-item index="4" v-if="showUser">环保工程</el-menu-item>
       <el-menu-item index="5" v-if="showUser">治理设备</el-menu-item>
       <el-menu-item index="6" v-if="showUser">危废处理</el-menu-item>
-      <el-menu-item index="11" v-if="showStaff">检索机构</el-menu-item>
+      <!-- <el-menu-item index="11" v-if="showStaff">检索机构</el-menu-item> -->
       <el-menu-item index="12" v-if="showStaff">需求列表</el-menu-item>
       <el-menu-item index="13" v-if="showStaff">匹配机构</el-menu-item>
       <el-menu-item index="14" v-if="showStaff">机构申请</el-menu-item>
       <el-menu-item index="15" v-if="showStaff">工厂申请</el-menu-item>
+      <el-menu-item index="23" v-if="showAdmin">用户管理</el-menu-item>
       <el-menu-item index="7" v-if="showUser" class="prevent">
         <el-input
           v-model="input"
@@ -39,7 +40,7 @@
         <el-button size="small" type="blue" class="H-search">搜索</el-button>
       </el-menu-item>
 
-      <el-menu-item index="8" v-if="showUser" style="float: right">
+      <el-menu-item index="8" v-if="showPostDemand" style="float: right">
         <el-button size="small"  type="blue">发布需求</el-button>
       </el-menu-item>
       <el-menu-item index="9" style="float: right" @click="Login">
@@ -54,9 +55,9 @@
     </el-menu>
     <RotationChart v-if="indexlist[1].index"></RotationChart>
     <PostDemand v-if="indexlist[8].index"></PostDemand>
-    <MyInfo v-if="indexlist[10].index" :User="user"></MyInfo>
+    <MyInfo v-if="indexlist[10].index"></MyInfo>
     <Choose v-if="indexlist[1].index" @son="sonSelect"></Choose>
-    <Search v-if="indexlist[11].index"></Search>
+    <!-- <Search v-if="indexlist[11].index"></Search> -->
     <Demands v-if="indexlist[12].index"></Demands>
     <InstitutionApplications v-if="indexlist[14].index"></InstitutionApplications>
     <FactoryApplications v-if="indexlist[15].index"></FactoryApplications>
@@ -68,6 +69,12 @@
     <InstitutionMatch v-if="indexlist[13].index"></InstitutionMatch>
     <material-test v-if="indexlist[16].index"></material-test>
     <biological-detection v-if="indexlist[17].index"></biological-detection>
+    <eia-test v-if="indexlist[18].index"></eia-test>
+    <acceptance-test v-if="indexlist[19].index"></acceptance-test>
+    <annual-test v-if="indexlist[20].index"></annual-test>
+    <soil-survey v-if="indexlist[21].index"></soil-survey>
+    <company-strategy v-if="indexlist[22].index"></company-strategy>
+    <user-control v-if="indexlist[23].index"></user-control>
     <Footer></Footer>
   </div>
 </template>
@@ -81,7 +88,7 @@ import RotationChart from "@/components/RotationChart.vue"
 import PostDemand from "@/components/PostDemand.vue"
 import Choose from "@/components/Choose.vue"
 import MyInfo from "@/views/My-information/MyInfo.vue"
-import Search from "@/views/Search.vue"
+// import Search from "@/views/Search.vue"
 import Demands from "@/views/Demands.vue"
 import FactoryApplications from "@/views/Factory-application/factory-applications.vue"
 import InstitutionApplications from "@/views/Institution-Application/institution-applications.vue"
@@ -95,6 +102,12 @@ import InstitutionMatch from './Institution-match/institution-match.vue'
 import EnvironmentTest from './Environment-test/environment-test.vue'
 import MaterialTest from './Material-Test/material-test.vue'
 import BiologicalDetection from './Biological-Detection/biological-detection.vue'
+import EiaTest from './Eia-Test/eia-test.vue'
+import AcceptanceTest from './Acceptance-Test/acceptance-test.vue'
+import AnnualTest from './Annual-Test/annual-test.vue'
+import SoilSurvey from './Soil-Survey/soil-survey.vue'
+import CompanyStrategy from './Company-Strategy/company-strategy.vue'
+import UserControl from './User-Control/user-control.vue'
 
 export default {
   name: "Home",
@@ -103,7 +116,7 @@ export default {
     PostDemand,
     MyInfo,
     Choose,
-    Search,
+    // Search,
     Demands,
     InstitutionApplications,
     FactoryApplications,
@@ -116,29 +129,36 @@ export default {
     EnvironmentTest,
     MaterialTest,
     BiologicalDetection,
+    EiaTest,
+    AcceptanceTest,
+    AnnualTest,
+    SoilSurvey ,
+    CompanyStrategy,
+    UserControl,
   },
 
   created(){
     if(!this.user1) return ;
     //权限判定
-    if(this.user1.user_role=='USER'){ // 普通用户
+    if(this.user1.user_role=='USER'){ // 0普通用户
       this.showUser=true;
-      this.showStaff=false;
-    }else if(this.user1.user_role=='CUSTOMER_SERVICE'){ // 客服
+    }else if(this.user1.user_role=='CUSTOMER_SERVICE'){ // 2客服
       this.showUser=false;
+      this.showPostDemand=false;
       this.showStaff=true;
-    }else if(this.user1.user_role=='ADMINISTRATORS'){ // 管理员
+    }else if(this.user1.user_role=='ADMINISTRATORS'){ // 1管理员
       this.showUser=false;
-      this.showStaff=true;
-    }else if(this.user1.user_role=='INSTITUTION'){ // 机构
+      this.showPostDemand=false;
+      this.showAdmin=true;
+    }else if(this.user1.user_role=='INSTITUTION'){ // 4机构
       this.showUser=true;
-      this.showStaff=false;
-    }else if(this.user1.user_role=='FACTORY'){ // 工厂
+      this.showPostDemand=false;
+    }else if(this.user1.user_role=='FACTORY'){ // 3工厂
       this.showUser=true;
-      this.showStaff=false;
+      this.showPostDemand=true;
+      this.showPostDemand=false;
     }else if(this.user1.user_role=='DOUBLE'){ // 工厂和机构双重身份
       this.showUser=true;
-      this.showStaff=false;
     }
     console.log(this.user1)
     //735723058@qq.com
@@ -169,21 +189,21 @@ export default {
         { index: false },
         { index: false },
         { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
+        { index: false },
       ],
       url:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-      name: "",
-      role: "",
-      input: "",
       activeIndex: "",
+      input:'',
       showUser:true,
       showStaff:false,
-      user:{
-        id:'12345678',
-        name:'黎明',
-        h_url:"",
-        role:'1' //1是用户，2是管理员，3是超级管理员，4是机构，5是工厂。
-      }
+      showAdmin:false,
+      showPostDemand:true,
     };
   },
 
@@ -210,9 +230,14 @@ export default {
     // 选择页面展示
     handleSelect(key, keyPath) {
       for(let i=0; i<this.indexlist.length; i++){
-        if(i==keyPath[0]){ this.indexlist[i].index=true; continue;}
+        if( i == key ) { this.indexlist[i].index=true; continue;}
         this.indexlist[i].index=false;
       }
+      if( key === '2-1'){ this.indexlist[18].index=true;}
+      else if( key === '2-2'){ this.indexlist[19].index=true; }
+      else if( key === '2-3'){ this.indexlist[20].index=true; }
+      else if( key === '2-4'){ this.indexlist[21].index=true; }
+      else if( key === '2-5'){ this.indexlist[22].index=true; }
         console.log(key, keyPath);
     },
     sonSelect(key){
@@ -220,7 +245,7 @@ export default {
         if(i==key){ this.indexlist[i].index=true; continue;}
         this.indexlist[i].index=false;
       }
-    }
+    },
   },
   computed:{
     ...mapState(['user1',]),

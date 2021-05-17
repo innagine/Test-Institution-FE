@@ -1,3 +1,10 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2020-12-23 15:01:06
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-05-15 14:59:26
+-->
 <template>
   <div class="MD4">
     <div class="MDcontent4">
@@ -5,15 +12,13 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="order_id" label="订单编号" width="180"></el-table-column>
-        <el-table-column prop="date" label="日期" width="120"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="120"></el-table-column>
-        <el-table-column prop="institution" label="检测机构"> </el-table-column>
-        <el-table-column prop="state" label="状态"> 
+        <el-table-column prop="orders_id" label="订单编号"></el-table-column>
+        <el-table-column prop="create_time" label="日期"></el-table-column>
+        <el-table-column prop="price" label="费用"></el-table-column>
+        <el-table-column prop="payment" label="状态"> 
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.state === '已完成' ? 'success' : (scope.row.state === '已退回' ? 'danger':'') "
-              disable-transitions>{{scope.row.state}}</el-tag>
+              disable-transitions>{{scope.row.payment}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作" width="300"> 
@@ -64,12 +69,16 @@
 
 <script>
 import Progress from "@/components/Progress.vue"
-
+import { mapState} from 'vuex';
+import axios from 'axios';
 
 export default {
   name: "MyDemand",
   components:{
     Progress,
+  },
+  computed:{
+    ...mapState(['user1','baseUrl','institutionInfo'])
   },
   methods: {
 
@@ -80,47 +89,52 @@ export default {
     handleDelete(index, row) {
         console.log(index, row);
     },
+    handleClose(){
+
+    },
+
+    // 机构订单数据列表函数
+    requestMyList(){
+      axios({
+        method:'post',
+        url: this.baseUrl+'search/insOrders',
+        data:{
+          page:this.currentPage,
+          size:7,
+          where:{
+            institution:this.institutionInfo.institution_id,
+          },
+        },
+        headers: {
+        'token': this.user1.token,
+        },
+      }).then((res)=>{
+        console.log("机构订单信息获取成功",res);
+
+        // 去除返回数据数组中的末尾
+         this.total = res.data.data1.pop().value;
+
+        // //将数据时间戳转换成日期
+        // let length = res.data.data1.length;
+        // for(let i=0; i<length; i++){
+        //   res.data.data1[i].date = this.getLocalTime(res.data.data1[i].date/1000);
+        // }
+        //将处理好的数据赋值给tableData
+        this.tableData = res.data.data1;
+      }).catch((err)=>{
+        console.log("机构订单信息获取失败",err);
+      })
+    },
 
   },
   data() {
     return {
       dialogVisible: false,
-      tableData: [
-        {
-          order_id: 11273913 ,
-          date: "2016-05-02",
-          matter: "水",
-          institution: "上海市普陀区五邑大学",
-          state:'待检测'
-        },
-        {
-          order_id: 11273914 ,
-          date: "2016-05-02",
-          matter: "土",
-          institution: "上海市普陀区五邑大学",
-          state:'待检测'
-        },{
-          order_id: 11273915 ,
-          date: "2016-05-02",
-          matter: "气",
-          institution: "上海市普陀区五邑大学",
-          state:'待检测'
-        },{
-          order_id: 11273916 ,
-          date: "2016-05-02",
-          matter: "大米",
-          institution: "上海市普陀区五邑大学",
-          state:'待检测'
-        },
-        {
-          order_id: 11273917 ,
-          date: "2016-05-02",
-          matter: "大米",
-          institution: "上海市普陀区五邑大学",
-          state:'待检测'
-        },
-      ],
+      tableData: [],
     };
   },
+  created(){
+    this.requestMyList();
+  }
 };
 </script>

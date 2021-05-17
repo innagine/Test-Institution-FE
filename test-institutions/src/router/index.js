@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-07 14:56:18
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-06 23:33:25
+ * @LastEditTime: 2021-05-11 16:30:56
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -20,7 +20,9 @@ import PostOrder from '../views/Customer-Demand/components/PostOrder.vue'
 import Search from '../views/Search.vue'
 import Equipments from '../views/Treatment-equipment/components/equipments.vue'
 import EquipmentDetails from '../views/Treatment-equipment/components/equipment-details.vue'
-
+import ServiceUser from '../views/User-Control/components/service-user.vue'
+import AdminUser from '../views/User-Control/components/admin-user.vue'
+import CommonUser from '../views/User-Control/components/common-user.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,6 +43,9 @@ const routes = [
       {path: '/post-order', name: '/post-order', component: PostOrder},
       {path: '/equipments', name: '/equipments', component: Equipments},
       {path: '/equipment-details', name: '/equipment-details', component: EquipmentDetails},
+      {path: '/service-user', name: '/service-user', component: ServiceUser},
+      {path: '/admin-user', name: '/admin-user', component: AdminUser},
+      {path: '/common-user', name: '/common-user', component: CommonUser},
     ]
   },
   {

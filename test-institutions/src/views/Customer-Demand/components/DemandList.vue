@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-20 22:48:11
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-21 00:12:19
+ * @LastEditTime: 2021-05-15 11:52:28
 -->
 <template>
   <div class="MD3">
@@ -14,8 +14,8 @@
       >
         <el-table-column prop="demand_id" label="订单编号"></el-table-column>
         <el-table-column prop="create_time" label="日期"></el-table-column>
-        <el-table-column prop="matter" label="检测项目">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
-        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="budget" label="检测预算"></el-table-column>
+        <el-table-column prop="quantity" label="样品数量"></el-table-column>
         <!-- <el-table-column prop="checkMan" label="审核人"> </el-table-column> -->
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
@@ -106,7 +106,7 @@ export default {
     ModificationDemand,
   },
   computed:{
-    ...mapState(['user1','baseUrl','demandRow']),
+    ...mapState(['user1','baseUrl','demandRow','institutionInfo']),
   },
   methods: {
     // 获取vuex的方法
@@ -148,14 +148,16 @@ export default {
 
     // 请求个人需求数据列表函数
     requestMyList(){
-      // 获取个人需求列表
       axios({
         method:'post',
-        url: this.baseUrl+'search/demand',
+        url: this.baseUrl+'search/demandAll',
         data:{
           page:this.currentPage,
           size:7,
-          where: { demand_state:[1,2,3,4,5,6,7]},
+          where: { 
+            demand_state:[1,2,3,4,5,6,7],
+            choice:this.institutionInfo.institution_id,
+          },
         },
         headers: {
         'token': this.user1.token,

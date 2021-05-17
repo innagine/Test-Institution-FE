@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-12 14:22:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-31 18:36:10
+ * @LastEditTime: 2021-05-15 10:41:03
 -->
 <template>
   <div class="MD3">
@@ -14,8 +14,8 @@
       >
         <el-table-column prop="demand_id" label="订单编号"></el-table-column>
         <el-table-column prop="create_time" label="日期"></el-table-column>
-        <el-table-column prop="matter" label="检测项目">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
-        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="budget" label="预算"></el-table-column>
+        <el-table-column prop="quantity" label="样品数量"></el-table-column>
         <!-- <el-table-column prop="checkMan" label="审核人"> </el-table-column> -->
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">

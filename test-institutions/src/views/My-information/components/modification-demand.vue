@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-21 00:07:39
+ * @LastEditTime: 2021-05-15 14:32:18
 -->
 <template>
 <div class="PD1">
@@ -62,31 +62,26 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-        <el-form-item label="选择周期">
-          <el-col :span="11">
-            <el-form-item prop="date1">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="创建时间" prop="create_time">
+              <el-input
                 v-model="ruleForm.create_time"
-                :picker-options="pickerOptions"
-                style="width: 100%"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2" style="text-align: center">至</el-col>
-          <el-col :span="11">
-            <el-form-item prop="date2">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="ruleForm.date2"
-                :picker-options="pickerOptions"
-                style="width: 100%"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-form-item>
+                maxlength="30"
+                show-word-limit
+              ></el-input> 
+            </el-form-item
+          ></el-col>
+          <el-col :span="12">
+            <el-form-item label="完成时间" prop="cycle">
+              <el-input
+                v-model="ruleForm.cycle"
+                maxlength="30"
+                show-word-limit
+              ></el-input> 
+            </el-form-item
+          ></el-col>
+        </el-row>
         <el-form-item label="需求描述" prop="describes">
           <el-input
             type="textarea"
@@ -95,42 +90,8 @@
             show-word-limit
           ></el-input>
         </el-form-item>
-        <el-form-item label="添加文件" prop="grade">
-          <el-upload action="#" list-type="picture-card" :auto-upload="false">
-            <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{ file }">
-              <img
-                class="el-upload-list__item-thumbnail"
-                :src="file.url"
-                alt=""
-              />
-              <span class="el-upload-list__item-actions">
-                <span
-                  class="el-upload-list__item-preview"
-                  @click="handlePictureCardPreview(file)"
-                >
-                  <i class="el-icon-zoom-in"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
-                  <i class="el-icon-delete"></i>
-                </span>
-              </span>
-            </div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="" />
-          </el-dialog>
+        <el-form-item label="下载附件" prop="enclosure">
+          <el-button>确认下载</el-button>
         </el-form-item>
         <!-- <el-form-item>
           <el-button type="blue" @click="submitForm('ruleForm')"

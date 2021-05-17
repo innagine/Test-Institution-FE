@@ -5,13 +5,12 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="order_id" label="机构编号" width="120"></el-table-column>
-        <el-table-column prop="date" label="检测周期" width="120"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="100"></el-table-column>
-        <el-table-column prop="institution" label="机构名称"> </el-table-column>
-        <el-table-column prop="qualification" label="机构资质"></el-table-column>
-        <el-table-column prop="address" label="机构地址" width="180"></el-table-column>
-        <el-table-column prop="testPrice" label="检测价格"></el-table-column>
+        <el-table-column prop="item_id" label="项目编号"></el-table-column>
+        <el-table-column prop="other" label="日期" width="180"></el-table-column>
+        <el-table-column prop="category" label="项目分类">{{tableData.category == 1 ?'环评服务': (tableData.category == 2 ? '检测服务': '设备服务')}}</el-table-column>
+        <el-table-column prop="item_name" label="检测项目" width="100"></el-table-column>
+        <el-table-column prop="price" label="检测价格"> </el-table-column>
+        <el-table-column prop="discount" label="折扣"> </el-table-column>
         <el-table-column prop="option" label="操作" width="180"> 
           <template slot-scope="scope">
             <el-button
@@ -21,20 +20,19 @@
               size="mini"
               type="blue"
               @click="handleEdit(scope.$index, scope.row)">选择</el-button>
-              <el-dialog
-                  title="检测进度"
-                  :visible.sync="dialogVisible"
-                  width="80%"
-                  :before-close="handleClose">
-                  <Progress></Progress>
-                  <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-                  </span>
-              </el-dialog>
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          :pager-count="11"
+          :page-size="7"
+          :current-page.sync="currentPage"
+          @current-change="handleCurrentChange"
+          layout="prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -55,23 +53,38 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 
 export default {
   name: "Demands",
-  components:{
-    Progress,
-  },
   computed: {
-    ...mapState(["user1","baseUrl"])
+    ...mapState(["user1","baseUrl","choiceInstitutionList"])
   },
   methods: {
+    ...mapMutations(['CHOICE_INSTITUION']),
+
     // 编辑选项函数
     handleEdit(index, row) {
-        console.log(index, row);
-        this.dialogVisible = true
+      console.log('选择机构',index, row);
+      axios({
+        method: "post",
+        url: this.baseUrl + 'search/institutionAll',
+        headers: { token: this.user1.token },
+        data: {
+          where:{
+            item_id : row.item_id,
+          }
+        }
+      })
+        .then(res => {
+          console.log("检索机构请求发送成功", res);
+          this.CHOICE_INSTITUION(res.data.data1[0].institution_id);
+        })
+        .catch(err => {
+          console.log("检索机构请求发送失败", err);
+        });
+        // console.log("choiceInstitutionList:",this.choiceInstitutionList);
     },
 
     // 删除选项函数
@@ -93,74 +106,42 @@ export default {
         data: sendData
       })
         .then(res => {
-          console.log("机构申请列表页面请求发送成功", res);
+          console.log("检索机构项目页面请求发送成功", res);
+          // 去除返回数据数组中的末尾
+          this.total = res.data.data1.pop().value;
+          //将处理好的数据赋值给tableData
+          this.tableData = res.data.data1;
         })
         .catch(err => {
-          console.log("机构申请列表页面请求发送失败", err);
+          console.log("检索机构项目页面请求发送失败", err);
         });
+    },
+
+    // 当前页处理函数
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      let sendUrl = 'search/item';
+      let sendData = {
+       page:this.currentPage,
+       size:7,
+      }
+      this.requestSend(sendUrl,sendData);
     },
 
   },
   data() {
     return {
-      dialogVisible: false,
       currentPage:1,
-      tableData: [
-        {
-          order_id: 11273913 ,
-          date: "12天",
-          matter: "土壤",
-          institution: "兴悦检测",
-          qualification:'高级检测机构',
-          testPrice:'120',
-          address:'江门市蓬江区五邑大学',
-        },
-        {
-          order_id: 11273913 ,
-          date: "12天",
-          matter: "土壤",
-          institution: "兴悦检测",
-          qualification:'高级检测机构',
-          testPrice:'120',
-          address:'江门市蓬江区五邑大学',
-        },
-        {
-          order_id: 11273913 ,
-          date: "12天",
-          matter: "土壤",
-          institution: "兴悦检测",
-          qualification:'高级检测机构',
-          testPrice:'120',
-          address:'江门市蓬江区五邑大学',
-        },
-        {
-          order_id: 11273913 ,
-          date: "12天",
-          matter: "土壤",
-          institution: "兴悦检测",
-          qualification:'高级检测机构',
-          testPrice:'120',
-          address:'江门市蓬江区五邑大学',
-        },
-        {
-          order_id: 11273913 ,
-          date: "12天",
-          matter: "土壤",
-          institution: "兴悦检测",
-          qualification:'高级检测机构',
-          testPrice:'120',
-          address:'江门市蓬江区五邑大学',
-        },
-      ],
+      tableData: [],
+      total:0,
     };
   },
   created(){
-    let sendUrl = 'search/institutionAll';
+    let sendUrl = 'search/item';
     let sendData = {
       page:this.currentPage,
-      size:10,
+      size:7,
     };
-    console.log(sendUrl);
     this.requestSend(sendUrl,sendData);
   },
 };

@@ -3500,13 +3500,6 @@ export default {
       }
       callback();
     };
-    // var validateNumber = (rule, value, callback) => {
-    //   var _reg = /[^a-zA-Z0-9]/;
-    //   if (_reg.test(value)) {
-    //     callback(new Error("用户验证码包含非法字符"));
-    //   }
-    //   callback();
-    // };
     return {
       ruleForm: {
         userNumber: "",

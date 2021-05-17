@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-09 16:11:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-29 11:40:02
+ * @LastEditTime: 2021-05-15 14:18:00
 -->
 <template>
   <div class="MD2">
@@ -14,8 +14,8 @@
       >
         <el-table-column prop="demand_id" label="订单编号" width="180"></el-table-column>
         <el-table-column prop="create_time" label="日期" width="180"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="180">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
-        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="budget" label="检测预算" width="180">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
+        <el-table-column prop="quantity" label="样品数量">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
@@ -49,6 +49,17 @@
           :total="total">
         </el-pagination>
       </div>
+      <el-dialog
+        title="修改需求"
+        :visible.sync="dialogVisible"
+        top = '5vh'
+        width="80%">
+        <modification-demand v-if="dialogVisible"></modification-demand>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -74,10 +85,11 @@
 <script>
 import { mapState,mapMutations } from 'vuex';
 import axios from 'axios';
+import ModificationDemand from '../../My-information/components/modification-demand.vue';
 
 export default {
   name: "choice-institution",
-  components:{},
+  components:{ModificationDemand},
   computed:{
     ...mapState(['user1','baseUrl',]),
   },
@@ -95,6 +107,7 @@ export default {
     // 查看需求函数
     handleShow(index, row) {
         console.log(index, row);
+        this.dialogVisible = true;
     },
 
     // 退回需求任务审核函数

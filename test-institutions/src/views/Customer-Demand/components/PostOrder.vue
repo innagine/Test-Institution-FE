@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-01 15:12:25
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-04-20 23:59:52
+ * @LastEditTime: 2021-05-15 14:48:55
 -->
 <template>
   <div class="PD">
@@ -56,7 +56,6 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="创建时间" prop="data">
@@ -66,7 +65,6 @@
               ></el-input> </el-form-item
           ></el-col>
         </el-row>
-
         <el-form-item label="需求描述" prop="desc">
           <el-input
             type="textarea"
@@ -84,10 +82,10 @@
                 style="width: 100%"
               >
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="item in itemList"
+                  :key="item.item_id"
+                  :label="item.item_name"
+                  :value="item.item_id"
                 >
                 </el-option>
               </el-select> </el-form-item
@@ -106,10 +104,10 @@
                 style="width: 100%"
               >
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="item in equipmentList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
                 >
                 </el-option>
               </el-select> </el-form-item
@@ -158,11 +156,6 @@ export default {
       dialogVisible: false,
       disabled: false,
       fileList: [],
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() < Date.now();
-        }
-      },
       options: [
         {
           value: "选项1",
@@ -199,71 +192,100 @@ export default {
         equipment: "",
         expenses: "",
         amount: ""
-      }
+      },
+      itemList:null,
+      equipmentList:null,
+      currentPage:1,
     };
   },
   computed: {
-    ...mapState(['user1', 'baseUrl','demandRow'])
+    ...mapState(['user1', 'baseUrl','demandRow','institutionInfo'])
   },
   methods: {
     // 提交表单数据
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          axios({
-            method: "post",
-            url: this.baseUrl + "upload/d_apply",
-            data: {
-              demand_contacts: this.ruleForm.name, // 联系人
-              tel: this.ruleForm.number, // 联系人电话号码
-              email: this.ruleForm.email, // 联系人电子邮箱
-              quantity: this.ruleForm.total, // 样品数量
-              budget: this.ruleForm.budget, // 预算范围
-              cycle: this.ruleForm.date2, // 完成周期
-              describes: this.ruleForm.desc // 描述
-            },
-            headers: {
-              token: this.user1.token
-            }
-          })
-            .then(res => {
-              console.log("需求发布成功res...", res);
-              //成功信息提醒
-              if (res.data.ret === 1) {
-                this.$notify({
-                  title: "消息",
-                  message: res.data.msg,
-                  type: "success"
-                });
-              } else {
-                this.$notify({
-                  title: "消息",
-                  message: res.data.msg,
-                  type: "warning"
-                });
-              }
-            })
-            .catch(err => {
-              console.log("需求发布错误error...", err);
-            });
-        } else {
-          console.log("error submit!!");
-          this.$notify({
-            title: "消息",
-            message: "请将信息填写完整",
-            type: "warning"
-          });
-          return false;
-        }
-      });
+    submitForm() {
+      let data = {
+        orders:{
+          sundries:this.ruleForm.expenses,
+          price:this.ruleForm.amount,
+        },
+        user:{
+          user_id:this.demandRow.user_id
+        },
+        demand:{
+          demand_id:this.demandRow.demand_id
+        },
+        item:this.value1,
+        equipment:this.value2
+      }
+      this.requestSend('orders/add',data);
     },
+
     // 重置表单数据
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+
     // 退回函数
     turnBack() {
       this.$router.push("customer-demand");
+    },
+
+    // 获取检测项目列表函数
+    requestMyList(URL,condition){
+      return axios({
+        method:'post',
+        url: this.baseUrl + URL,
+        data:{
+          page:this.currentPage,
+          size:7,
+          where:condition
+        },
+        headers: {
+        'token': this.user1.token,
+        },
+      }).then((res)=>{
+        console.log("检测项目列表信息获取成功",res);
+        res.data.data1.pop().value;
+        return res.data.data1; 
+      }).catch((err)=>{
+        console.log("检测项目列表信息获取失败",err);
+      })
+    },
+
+    //页面同步请求
+    async createRequest() {
+      this.itemList = await this.requestMyList('search/item',{ item_state:1 });
+      this.equipmentList = await this.requestMyList('search/equipmentAll',{ state:1 , institution:this.institutionInfo.institution_id});
+      console.log('itemList:',this.itemList);
+      console.log('equipment:', this.equipmentList);
+    },
+
+    // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("创建订单页面请求发送成功", res);
+          this.natificationControl(res.data.msg,'success')
+        })
+        .catch(err => {
+          console.log("创建订单页面请求发送失败", err);
+          this.natificationControl('修改失败','warning')
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
+        });
     },
   },
   created() {
@@ -277,6 +299,8 @@ export default {
     this.ruleForm.scope = this.demandRow.budget;
     this.ruleForm.desc = this.demandRow.describes;
     this.ruleForm.data = this.demandRow.create_time;
+
+    this.createRequest();
   }
 };
 </script>

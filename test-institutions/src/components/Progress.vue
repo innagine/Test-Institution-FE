@@ -8,6 +8,7 @@
     >
       <el-step title="待提交"></el-step>
       <el-step title="已提交"></el-step>
+      <el-step title="待审核"></el-step>
       <el-step title="审核中"></el-step>
       <el-step title="待操作"></el-step>
       <el-step title="待检测"></el-step>
@@ -20,13 +21,13 @@
         <el-select v-model="value" placeholder="请选择检测机构" class="options">
           <el-option
             v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            :key="item"
+            :label="item"
+            :value="item"
           >
           </el-option>
         </el-select>
-        <el-button type="primary" plain>确认机构</el-button>
+        <el-button type="primary" plain @click="choiceInstitution">确认机构</el-button>
         <el-popover
           class="progressBtn"
           placement="top-start"
@@ -39,24 +40,7 @@
         </el-popover>
         <!-- <el-button type="warning" plain>申请更换</el-button> -->
       </div>
-
-      <el-collapse v-model="activeName" accordion>
-        <el-collapse-item title="机构A" name="1">
-          <div>价格：168</div>
-          <div>机构资质：高级检测机构</div>
-          <div>机构地址：广东省江门市蓬江区五邑大学</div>
-        </el-collapse-item>
-        <el-collapse-item title="机构B" name="2">
-          <div>价格：168</div>
-          <div>机构资质：高级检测机构</div>
-          <div>机构地址：广东省江门市蓬江区五邑大学</div>
-        </el-collapse-item>
-        <el-collapse-item title="机构C" name="3">
-          <div>价格：168</div>
-          <div>机构资质：高级检测机构</div>
-          <div>机构地址：广东省江门市蓬江区五邑大学</div>
-        </el-collapse-item>
-      </el-collapse>
+      <recommend-institution></recommend-institution>
     </div>
   </div>
 </template>
@@ -86,37 +70,75 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
+import RecommendInstitution from './RecommendInstitution.vue';
 export default {
   name: "Progress",
+  components:{
+    RecommendInstitution,
+  },
   data() {
     return {
-      options: [
-        {
-          value: "选项1",
-          label: "机构A"
-        },
-        {
-          value: "选项2",
-          label: "机构B"
-        },
-        {
-          value: "选项3",
-          label: "机构C"
-        }
-      ],
-      value: "",
+      options: [],
+      value: null,
       activeNum: 0, // 当前步骤
       showChoice:false, // 机构选择
       activeName:1,
     };
   },
   computed: {
-    ...mapState(["user1", "demandRow"])
+    ...mapState(["user1", "demandRow","baseUrl"])
+  },
+  methods:{
+    // 获取推荐机构id函数
+    getInstitutionId(){
+      this.options = this.demandRow.recommend.split('_');
+      this.options.shift();
+    },
+
+    // 选择机构
+    choiceInstitution(){
+      console.log('value',this.value);
+      let data = { 
+        demand_id:this.demandRow.demand_id,
+        institution_id:parseInt(this.value) 
+      }
+      this.requestSend('demand/choice',data)
+    },
+
+    // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("选择机构请求发送成功", res);
+          this.natificationControl(res.data.msg,'success')
+        })
+        .catch(err => {
+          console.log("选择机构请求发送失败", err);
+          this.natificationControl('修改失败','warning')
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
+        });
+    },
+
   },
   created() {
     this.activeNum = this.demandRow.demand_state - 1;
-    if(this.demandRow.demand_state - 1 === 3){
+    if(this.demandRow.demand_state  === 5){
       this.showChoice = true;
+      this.getInstitutionId();
     }
   }
 };

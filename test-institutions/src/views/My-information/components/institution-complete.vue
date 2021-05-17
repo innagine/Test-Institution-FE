@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-08 17:26:55
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-08 00:24:45
+ * @LastEditTime: 2021-05-11 15:09:30
 -->
 <template>
   <div class="institution-complete">
@@ -115,85 +115,6 @@
           </el-form>
         </div>
       </div>
-      <div class="item-information">
-        <div class="append-test-item">
-          <h3>检测项目添加</h3>
-          <el-form ref="itemForm" :model="itemForm" label-width="80px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="项目名称">
-                  <el-input v-model="itemForm.item_name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="检测费用">
-                  <el-input v-model="itemForm.price"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-              <el-row>
-              <el-col :span="12">
-                <el-form-item label="项目分类">
-                  <el-input v-model="itemForm.category"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="优惠折扣">
-                  <el-input v-model="itemForm.discount"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item >
-                  <el-button @click="submitItem">立即创建</el-button>
-                  <el-button @click="reset(1)">数据重置</el-button>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
-        <div class="test-item-list">
-          <h3>检测项目列表</h3>
-          <test-item-list></test-item-list>
-        </div>
-      </div>
-      <div class="equipment-information">
-        <div class="append-test-equipment">
-          <h3>检测仪器添加</h3>
-          <el-form ref="equipmentForm" :model="equipmentForm" label-width="80px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="设备名称">
-                  <el-input v-model="equipmentForm.name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="设备状态">
-                  <el-input v-model="equipmentForm.state"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-              <el-row>
-              <el-col :span="12">
-                <el-form-item label="设备价值">
-                  <el-input v-model="equipmentForm.price"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item >
-                  <el-button @click="submitEquipment">立即创建</el-button>
-                  <el-button @click="reset(2)">数据重置</el-button>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
-        <div class="test-equipemnt-list">
-          <h3>检测设备列表</h3>
-          <test-equipment-list></test-equipment-list>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -201,28 +122,11 @@
 <script>
 import axios from "axios";
 import { mapMutations, mapState } from "vuex";
-import TestEquipmentList from './test-equipment-list.vue';
-import TestItemList from './test-item-list.vue';
 export default {
   name: "institution-complete",
-  components:{
-    TestItemList,
-    TestEquipmentList,
-  },
   data() {
     return {
       avartorUrl:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
-      itemForm:{
-        item_name:null,
-        price:null,
-        category:null,
-        discount:null,
-      },
-      equipmentForm:{
-        name:'',
-        price:'',
-        state:'',
-      },
       institutionForm:{
         institution_name:'',
         institution_address:'',
@@ -300,30 +204,6 @@ export default {
         });
     },
 
-    // 重置表单信息函数
-    reset(index){
-      if(index === 1) {
-        this.itemForm.item_name = null;
-        this.itemForm.price = null;
-        this.itemForm.equipment = null;
-        this.itemForm.discount = null;
-      }
-      else if(index === 2) {
-        this.equipmentForm.name = null;
-        this.equipmentForm.price = null;
-        this.equipmentForm.state = null;
-      }
-    },
-
-    // 提交添加项目函数
-    submitItem(){
-      this.requestSend('iitem/add',this.itemForm);
-    },
-
-    // 提交添加检测仪器函数
-    submitEquipment(){
-      this.requestSend('institution/update',this.equipmentForm);
-    }
   },
   created(){
     this.requestFirstSend('search/institution',{});
@@ -401,25 +281,6 @@ export default {
       .change-base-information{
         margin-top: 30px;
       }
-    }
-    .item-information{
-      margin-bottom: 50px;
-      padding-top: 40px;
-      border-top: 10px solid rgb(243, 242, 242);
-      .append-test-item{
-        margin-bottom: 40px;
-        .el-input__inner{
-          margin-top: 10px;
-        }
-      }
-      .test-item-list{
-      }
-    }
-    .equipment-information{
-      margin-bottom: 50px;
-      padding-top: 40px;
-      border-top: 10px solid rgb(243, 242, 242);
-      
     }
   }
 }

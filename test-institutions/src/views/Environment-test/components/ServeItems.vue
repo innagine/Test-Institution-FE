@@ -157,7 +157,8 @@
   </div>
 </template>
 
-<style >
+<style lang="scss" scoped>
+
 .serve-items-box {
   width: 80%;
   margin: 0 auto;

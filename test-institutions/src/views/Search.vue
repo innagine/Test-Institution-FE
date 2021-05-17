@@ -8,15 +8,20 @@
         </el-table-column>
         <el-table-column prop="matter" label="检测项目" width="180">
         </el-table-column>
-        <el-table-column prop="institution" label="已选择机构">
-          <el-tag v-for="(tag,index) in tableData[0].institution" :key="index" closable   @close="handleClose(tag,index)">
-            {{ tag }}
-          </el-tag>
+        <el-table-column prop="quantity" label="样品数量">
         </el-table-column>
         <el-table-column prop="opration" label="操作" width="180">
-          <el-button size="mini">确认推荐</el-button>
+          <el-button size="mini" @click="sendRecommend">确认推荐</el-button>
         </el-table-column>
       </el-table>
+      <div class="choice-institution-box">
+        <div class="choice-institution-text">已选择机构：</div>
+        <div class="choice-institution-item">
+          <el-tag v-for="(tag,index) in choiceInstitutionList" :key="index" closable   @close="handleClose(tag,index)">
+            {{ tag }}
+          </el-tag>
+        </div>
+      </div>
     </div>
     <el-collapse-transition>
       <div v-show="show3">
@@ -127,9 +132,9 @@
 </template>
 
 <script>
+import { mapState,mapMutations } from "vuex";
 import InstitutionList from "@/components/InstitutionList.vue";
-// 导入axios
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "Search",
@@ -184,18 +189,26 @@ export default {
         ],
         desc: [{ required: true, message: "请填写步骤重现", trigger: "blur" }]
       },
-      tableData: [
-        {
-          create_time: "2016-05-02",
-          demand_id: "12",
-          matter: "水",
-          institution: ['机构A', '机构B', '机构C'],
-        }
-      ],
+      tableData: [],
     };
   },
-
+  computed: {
+    ...mapState(["user1","baseUrl","choiceInstitutionList","demandRow"])
+  },
   methods: {
+    ...mapMutations(['DELETE_INSTITUTION']),
+
+    // 发送推荐机构函数
+    sendRecommend(){
+      let data = {
+        demand_id:this.demandRow.demand_id,
+        id1:this.choiceInstitutionList[0],
+        id2:this.choiceInstitutionList[1],
+        id3:this.choiceInstitutionList[2],
+      }
+      this.requestSend('demand/recommend',data);
+    },
+
     // 提交表单函数
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
@@ -229,11 +242,39 @@ export default {
 
     // 关闭标签
     handleClose(tag,index) {
-        this.tableData[0].institution.splice(index,1);
         console.log("标签",tag,index);
-        console.log("标签",this.tableData[0].institution);
-        this.$set(this.tableData,0,this.tableData[0]);
+        this.DELETE_INSTITUTION();
     },
+
+    // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("推荐机构请求发送成功", res);
+          this.natificationControl(res.data.msg,'success')
+        })
+        .catch(err => {
+          console.log("推荐机构请求发送失败", err);
+          this.natificationControl('修改失败','warning')
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
+        });
+    },
+  },
+  created(){
+    this.tableData.push(this.demandRow);
   }
 };
 </script>
@@ -253,4 +294,16 @@ export default {
 .el-tag + .el-tag {
     margin-left: 10px;
   }
+.choice-institution-box{
+  margin-top: 20px;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #909399;
+  display: flex;
+  align-items:center;
+}
+.choice-institution-text{
+  margin-right: 20px;
+}
 </style>

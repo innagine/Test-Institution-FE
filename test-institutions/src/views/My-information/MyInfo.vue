@@ -48,7 +48,15 @@
             <i class="el-icon-help"></i>
             <span slot="title">个人信息</span>
           </el-menu-item>
-          <el-menu-item index="11">
+          <el-menu-item index="11" v-if="showInstitution">
+            <i class="el-icon-help"></i>
+            <span slot="title">项目管理</span>
+          </el-menu-item>          
+          <el-menu-item index="12" v-if="showInstitution">
+            <i class="el-icon-help"></i>
+            <span slot="title">设备管理</span>
+          </el-menu-item>
+          <el-menu-item index="13">
             <i class="el-icon-help"></i>
             <span slot="title">退出登陆</span>
           </el-menu-item>
@@ -62,9 +70,12 @@
         <MyCheckList v-if="indexlist[7].index"></MyCheckList>
         <Myorder v-if="indexlist[5].index"></Myorder>
         <user-base-info v-if="indexlist[10].index"></user-base-info>
-        <Logout v-if="indexlist[11].index"></Logout>
+        <Logout v-if="indexlist[13].index"></Logout>
         <customer-demand v-if="indexlist[9].index"></customer-demand>
         <institution-complete v-if="indexlist[6].index"></institution-complete>
+        <add-item  v-if="indexlist[11].index"></add-item>
+        <add-equipment v-if="indexlist[12].index"></add-equipment>
+        <my-order-list v-if="indexlist[8].index"></my-order-list>
       </el-col>
     </el-row>
   </div>
@@ -72,17 +83,21 @@
 
 <script>
 // 导进页面模块
+import axios from 'axios';
 import MyDemand from '@/components/MyDemand.vue';
 import DemandChart from '@/components/DemandChart.vue';
 import RFactory from '@/components/RFactory.vue';
 import RInstitution from '@/components/RInstitution.vue';
 import MyCheckList from '@/components/MyCheckList.vue';
 import Myorder from '@/components/Myorder.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
 import CustomerDemand from '@/views/Customer-Demand/customer-demand.vue';
 import InstitutionComplete from './components/institution-complete.vue';
 import UserBaseInfo from './components/user-base-info.vue';
+import AddItem from '../Add-Item/add-item.vue';
+import AddEquipment from '../Add-Equipment/add-equipment.vue';
+import MyOrderList from './components/my-order-list.vue';
 
 export default {
   name: "MyInfo",
@@ -99,11 +114,13 @@ export default {
     CustomerDemand,
     InstitutionComplete,
     UserBaseInfo,
+    AddItem,
+    AddEquipment,
+    MyOrderList,
   },
   computed:{
-    ...mapState(['user1',]),
+    ...mapState(['user1','baseUrl']),
   },
- 
   created(){
     //权限判定
     if(this.user1.user_role=='USER'){ // 普通用户
@@ -113,12 +130,13 @@ export default {
       this.showStaff=true;
       this.indexlist[7].index = true;
     }else if(this.user1.user_role=='ADMINISTRATORS'){ // 管理员
-      this.showStaff=true;
+      // this.showStaff=true;
     }else if(this.user1.user_role=='INSTITUTION'){ // 机构
       this.showInstitution=true;
       this.indexlist[5].index = true;
     }
 
+    this.requestFirstSend('search/institution',{});
   },
   
   data() {
@@ -137,16 +155,16 @@ export default {
         { index: false },
         { index: false },
         { index: false },
+        { index: false },
+        { index: false },
       ],
       showUser:false,
       showStaff:false,
       showInstitution:false,
     };
   },
-
-
-
   methods: {
+    ...mapMutations(['SET_INSTITUTION_INFO']),
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -160,7 +178,24 @@ export default {
       }
         console.log(key, keyPath);
         console.log(this.User)
-    }
+    },
+    // 页面生成请求发起调用函数
+    requestFirstSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          this.SET_INSTITUTION_INFO(res.data.data1[0]);
+          console.log('加载机构信息成功:',res.data.data1[0]);
+        })
+        .catch(err => {
+          console.log('加载页面信息失败',err)
+          this.natificationControl('加载机构信息失败','warning')
+        });
+    },
   },
 };
 </script>
