@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-04 12:50:57
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-04 14:31:34
+ * @LastEditTime: 2021-05-19 12:05:17
 -->
 <template>
   <div class="logout">
@@ -15,21 +15,25 @@
 <script>
 // 导入axios
 import axios from "axios";
-import { mapMutations } from 'vuex';
+import { mapState,mapMutations } from 'vuex';
 export default {
   name: "DemandChart",
 //   props: ["User"],
 
   data() {
     return {
+      logoutUrl:'logout'
     }
+  },
+  computed:{
+    ...mapState(['baseUrl']),
   },
   methods: {
     ...mapMutations(['LOGIN',]),
     logout(){
       axios({
         method: "post",
-        url: "http://26.140.221.230:8556/logout",
+        url: this.baseUrl+this.logoutUrl,
       }).then((res)=>{
         console.log("注销成功res...", res); 
       }).catch((err)=>{

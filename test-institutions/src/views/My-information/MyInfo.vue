@@ -32,10 +32,10 @@
             <i class="el-icon-document"></i>
             <span slot="title">资质完善</span>
           </el-menu-item>
-          <el-menu-item index="7" v-if="showStaff">
+          <!-- <el-menu-item index="7" v-if="showStaff">
             <i class="el-icon-menu"></i>
             <span slot="title">任务列表</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <el-menu-item index="8" v-if="showUser">
             <i class="el-icon-help"></i>
             <span slot="title">我的订单</span>
@@ -67,7 +67,7 @@
         <DemandChart v-if="indexlist[4].index"></DemandChart>
         <RFactory v-if="indexlist[3].index"></RFactory>
         <RInstitution v-if="indexlist[2].index"></RInstitution>
-        <MyCheckList v-if="indexlist[7].index"></MyCheckList>
+        <!-- <MyCheckList v-if="indexlist[7].index"></MyCheckList> -->
         <Myorder v-if="indexlist[5].index"></Myorder>
         <user-base-info v-if="indexlist[10].index"></user-base-info>
         <Logout v-if="indexlist[13].index"></Logout>
@@ -88,7 +88,7 @@ import MyDemand from '@/components/MyDemand.vue';
 import DemandChart from '@/components/DemandChart.vue';
 import RFactory from '@/components/RFactory.vue';
 import RInstitution from '@/components/RInstitution.vue';
-import MyCheckList from '@/components/MyCheckList.vue';
+// import MyCheckList from '@/components/MyCheckList.vue';
 import Myorder from '@/components/Myorder.vue';
 import { mapMutations, mapState } from 'vuex';
 import Logout from '@/components/Logout.vue';
@@ -108,7 +108,7 @@ export default {
     DemandChart,
     RFactory,
     RInstitution,
-    MyCheckList,
+    // MyCheckList,
     Myorder,
     Logout,
     CustomerDemand,
@@ -136,9 +136,10 @@ export default {
       this.indexlist[5].index = true;
     }
 
-    this.requestFirstSend('search/institution',{});
+    if(this.user1.user_role == 'INSTITUTION'){
+      this.requestFirstSend('search/institution',{});
+    }
   },
-  
   data() {
     return {
       // 按钮显示
@@ -194,6 +195,15 @@ export default {
         .catch(err => {
           console.log('加载页面信息失败',err)
           this.natificationControl('加载机构信息失败','warning')
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
         });
     },
   },

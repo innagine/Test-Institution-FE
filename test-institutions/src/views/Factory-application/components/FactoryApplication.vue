@@ -45,9 +45,8 @@
       <el-dialog
         title="检测进度"
         :visible.sync="dialogVisible"
-        width="80%"
-        :before-close="handleClose">
-        <Progress></Progress>
+        width="80%">
+        <check-factory></check-factory>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -73,22 +72,24 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import CheckFactory from './check-factory.vue';
 
 export default {
   name: "factory-application",
   components:{
-    Progress,
+    CheckFactory,
   },
   computed: {
     ...mapState(["user1","baseUrl"])
   },
   methods: {
+    ...mapMutations(['SET_FACTORY_INFO']),
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.SET_FACTORY_INFO(row);
         this.dialogVisible = true
       },
     handleDelete(index, row) {
@@ -102,11 +103,6 @@ export default {
       let Url = 'factory/f_approval';
       this.requestSend(Url,row.factory_id,index);
       console.log(index, row);
-    },
-
-    //弹窗关闭执行函数
-    handleClose(){
-
     },
 
     // 请求发起调用函数

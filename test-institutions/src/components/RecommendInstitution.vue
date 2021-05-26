@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-05-15 10:46:33
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 11:20:34
+ * @LastEditTime: 2021-05-22 15:36:21
 -->
 <!--
  * @Description: file 机构通过列表
@@ -17,8 +17,8 @@
     <div class="MDcontentR" v-if="!showInfo">
       <el-table
         :data="tableData"
-        style="width: 100%"
-      >
+        style="width: 100%">
+        <el-table-column prop="institution_id" label="机构ID" width="100"></el-table-column>
         <el-table-column prop="institution_name" label="机构名称"></el-table-column>
         <el-table-column prop="institution_address" label="机构地址"></el-table-column>
         <el-table-column prop="contacts_tel" label="联系方式"></el-table-column>
@@ -175,7 +175,7 @@ export default {
         institution_id:false,
       },
       where:{
-        i_state:1
+        institution_id:1
       },
     };
     this.requestSend(sendUrl,sendData);

@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2020-12-12 14:22:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 10:41:03
+ * @LastEditTime: 2021-05-22 22:06:26
 -->
 <template>
   <div class="MD3">
@@ -15,20 +15,21 @@
         <el-table-column prop="demand_id" label="订单编号"></el-table-column>
         <el-table-column prop="create_time" label="日期"></el-table-column>
         <el-table-column prop="budget" label="预算"></el-table-column>
+        <el-table-column prop="category" label="选择服务"></el-table-column>
         <el-table-column prop="quantity" label="样品数量"></el-table-column>
         <!-- <el-table-column prop="checkMan" label="审核人"> </el-table-column> -->
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.demand_state === 7 ? 'success' : (scope.row.demand_state === 1 ? 'danger':(scope.row.demand_state === 0 ? 'danger':'')) "
-              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '审核中':(scope.row.demand_state === 4 ? '待操作' : (scope.row.demand_state===5?'待检测':(scope.row.demand_state===6?'检测中':(scope.row.demand_state===7?'已完成':(scope.row.demand_state===1?'已退回':(scope.row.demand_state===0?'已关闭':'待定')))))))}}</el-tag>
+              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '待审核':(scope.row.demand_state === 4 ? '审核中' : (scope.row.demand_state===5?'待操作':(scope.row.demand_state===6?'待检测':(scope.row.demand_state===7?'检测中':(scope.row.demand_state===8?'完成':(scope.row.demand_state===1?'待提交':'撤回')))))))}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作" width="250"> 
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              @click="handleEdit(scope.$index, scope.row)">查看需求</el-button>
             <el-button
               size="mini"
               type="blue"
@@ -51,7 +52,7 @@
         </el-pagination>
       </div>
       <el-dialog
-        title="修改需求"
+        title="查看需求"
         :visible.sync="dialogVisible"
         top = '5vh'
         width="80%">

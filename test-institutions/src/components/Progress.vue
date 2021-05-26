@@ -17,8 +17,8 @@
     </el-steps>
     <div class="institution-choice" v-if="showChoice">
       <div class="select">
-        <span class="institution">请选择检测机构：</span>
-        <el-select v-model="value" placeholder="请选择检测机构" class="options">
+        <span class="institution">请选择检测机构ID：</span>
+        <el-select v-model="value" placeholder="请选择ID" class="options">
           <el-option
             v-for="item in options"
             :key="item"
@@ -38,7 +38,6 @@
         >
           <el-button slot="reference" type="warning" plain>申请更换</el-button>
         </el-popover>
-        <!-- <el-button type="warning" plain>申请更换</el-button> -->
       </div>
       <recommend-institution></recommend-institution>
     </div>

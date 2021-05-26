@@ -30,11 +30,10 @@
               type="danger"
               @click="handleDelete(scope.$index, scope.row)">退回</el-button>
               <el-dialog
-                  title="检测进度"
+                  title="机构资料审核"
                   :visible.sync="dialogVisible"
-                  width="80%"
-                  :before-close="handleClose">
-                  <Progress></Progress>
+                  width="80%">
+                  <check-institution></check-institution>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -73,21 +72,23 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import CheckInstitution from './check-institution.vue';
 
 export default {
   components:{
-    Progress,
+    CheckInstitution,
   },
   computed: {
     ...mapState(["user1","baseUrl"])
   },
   methods: {
+    ...mapMutations(['SET_INSTITUTION_INFO']),
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.SET_INSTITUTION_INFO(row);
         this.dialogVisible = true
     },
 

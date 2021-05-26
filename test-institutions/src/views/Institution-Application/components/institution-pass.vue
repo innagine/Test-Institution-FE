@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-20 12:21:09
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-20 20:30:56
+ * @LastEditTime: 2021-05-22 11:26:24
 -->
 <template>
   <div class="MD">
@@ -39,9 +39,8 @@
               <el-dialog
                   title="检测进度"
                   :visible.sync="dialogVisible"
-                  width="80%"
-                  :before-close="handleClose">
-                  <Progress></Progress>
+                  width="80%">
+                  <check-institution></check-institution>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -80,29 +79,26 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import CheckInstitution from './check-institution.vue';
 
 export default {
   name:'institution-pass',
   components:{
-    Progress,
+    CheckInstitution,
   },
   computed: {
     ...mapState(["user1","baseUrl"])
   },
   methods: {
+    ...mapMutations(['SET_INSTITUTION_INFO']),
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.SET_INSTITUTION_INFO(row);
         this.dialogVisible = true
       },
-
-    //弹窗关闭执行函数
-    handleClose(){
-
-    },
 
     // 改变机构申请状态为通过函数
     handleChange(index, row){

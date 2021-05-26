@@ -1,6 +1,13 @@
+<!--
+ * @Description: file contentIMAGINE
+ * @Author: IMAGINE
+ * @Date: 2021-05-23 19:34:46
+ * @LastEditors: IMAGINE
+ * @LastEditTime: 2021-05-23 20:49:15
+-->
 <template>
-  <div class="MD">
-    <div class="MDcontent">
+  <div class="MD77">
+    <div class="MDcontent77">
       <el-table
         :data="itemList"
         style="width: 100%"
@@ -22,10 +29,10 @@
             <el-button
               size="mini"
               @click="handleShow(scope.$index, scope.row)">机构详情</el-button>
-              <el-button
+              <!-- <el-button
               size="mini"
               type="blue"
-              @click="handleEdit(scope.$index, scope.row)">选择</el-button>
+              @click="handleEdit(scope.$index, scope.row)">选择</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -53,17 +60,18 @@
   </div>
 </template>
 
-<style>
-.MD {
+<style scoped>
+.MD77 {
   /* display: flex; */
-  margin: 30px 0;
+  min-height: 700px;
+}
+.MDcontent77 {
+  width: 90%;
+  margin: 30px auto;
   justify-content: center;
   align-items: center;
-  padding: 40px 0;
+  padding: 40px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-.MDcontent {
-  margin: 0 30px;
 }
 
 </style>
@@ -75,12 +83,12 @@ import showInstitutionInfo from './showInstitutionInfo.vue';
 
 export default {
   components: { showInstitutionInfo },
-  name: "Demands",
+  name: "global-search",
   computed: {
     ...mapState(["user1","baseUrl","choiceInstitutionList","itemList","itemTotal"])
   },
   methods: {
-    ...mapMutations(['CHOICE_INSTITUION','SET_INSTITUTION_INFO']),
+    ...mapMutations(['CHOICE_INSTITUION','SET_INSTITUTION_INFO','SET_ITEM_LIST']),
 
     // 选择选项函数
     handleEdit(index, row) {
@@ -110,7 +118,7 @@ export default {
         axios({
         method: "post",
         url: this.baseUrl + 'search/institutionAll',
-        headers: { token: this.user1.token },
+        // headers: { token: this.user1.token },
         data: {
           where:{
             item_id : row.item_id,
@@ -132,7 +140,7 @@ export default {
       axios({
         method: "post",
         url: this.baseUrl + sendUrl,
-        headers: { token: this.user1.token },
+        // headers: { token: this.user1.token },
         data: sendData
       })
         .then(res => {
@@ -140,7 +148,7 @@ export default {
           // 去除返回数据数组中的末尾
           this.total = res.data.data1.pop().value;
           //将处理好的数据赋值给tableData
-          this.tableData = res.data.data1;
+          this.SET_ITEM_LIST(res.data.data1);
         })
         .catch(err => {
           console.log("检索机构项目页面请求发送失败", err);
@@ -167,13 +175,13 @@ export default {
       dialogVisible:false,
     };
   },
-  created(){
-    let sendUrl = 'search/item';
-    let sendData = {
-      page:this.currentPage,
-      size:7,
-    };
-    this.requestSend(sendUrl,sendData);
-  },
+  // created(){
+  //   let sendUrl = 'search/item';
+  //   let sendData = {
+  //     page:this.currentPage,
+  //     size:7,
+  //   };
+  //   this.requestSend(sendUrl,sendData);
+  // },
 };
 </script>

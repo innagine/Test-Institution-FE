@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-20 12:21:55
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-20 20:30:25
+ * @LastEditTime: 2021-05-22 11:27:33
 -->
 <template>
   <div class="MD">
@@ -41,7 +41,7 @@
                   :visible.sync="dialogVisible"
                   width="80%"
                   :before-close="handleClose">
-                  <Progress></Progress>
+                  <check-institution></check-institution>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -80,22 +80,24 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import CheckInstitution from './check-institution.vue';
 
 export default {
   name:'institution-fail',
   components:{
-    Progress,
+    CheckInstitution,
   },
   computed: {
     ...mapState(["user1","baseUrl"])
   },
   methods: {
+    ...mapMutations(['SET_INSTITUTION_INFO']),
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.SET_INSTITUTION_INFO(row);
         this.dialogVisible = true
       },
 

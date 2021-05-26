@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-20 14:47:02
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-03-20 15:07:26
+ * @LastEditTime: 2021-05-22 14:53:41
 -->
 <template>
   <div class="MD">
@@ -52,9 +52,8 @@
       <el-dialog
         title="检测进度"
         :visible.sync="dialogVisible"
-        width="80%"
-        :before-close="handleClose">
-        <Progress></Progress>
+        width="80%">
+        <check-factory></check-factory>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -80,22 +79,24 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import CheckFactory from './check-factory.vue';
 
 export default {
   name: "factory-fail",
   components:{
-    Progress,
+    CheckFactory,
   },
   computed: {
     ...mapState(["user1","baseUrl"])
   },
   methods: {
+    ...mapMutations(['SET_FACTORY_INFO']),
 
     handleEdit(index, row) {
         console.log(index, row);
+        this.SET_FACTORY_INFO(row);
         this.dialogVisible = true
       },
     handleDelete(index, row) {

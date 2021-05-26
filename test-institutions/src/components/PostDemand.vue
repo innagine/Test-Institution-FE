@@ -56,9 +56,19 @@
               <el-input
                 v-model="ruleForm.scope"
                 maxlength="10"
-                show-word-limit
-              ></el-input> </el-form-item
-          ></el-col>
+                show-word-limit>
+              </el-input> 
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="服务种类" prop="category">
+              <el-select v-model="ruleForm.category" placeholder="请选择">
+                <el-option label="环评服务" value="环评服务"></el-option>
+                <el-option label="检测服务" value="检测服务"></el-option>
+                <el-option label="设备服务" value="设备服务"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-form-item label="选择周期">
           <el-col :span="11">
@@ -95,7 +105,7 @@
         </el-form-item>
         <el-form-item label="添加文件" prop="grade">
           <el-upload
-            action="http://26.140.221.230:8556/upload/d_enclosure"
+            :action="baseUrl+fileUrl"
             :headers="{token: this.token}"
             list-type="picture-card"
             :auto-upload="true"
@@ -153,6 +163,7 @@ export default {
       dialogVisible: false,
       disabled: false,
       fileList: [],
+      fileUrl:'upload/d_enclosure',
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() < Date.now();
@@ -167,7 +178,8 @@ export default {
         scope: "",
         desc: "",
         date1: "",
-        date2: ""
+        date2: "",
+        category:"",
       },
       rules: {
         email: [
@@ -239,7 +251,8 @@ export default {
               quantity: this.ruleForm.total, // 样品数量
               budget: this.ruleForm.scope, // 预算范围
               cycle: this.ruleForm.date2, // 完成周期
-              describes: this.ruleForm.desc // 描述
+              describes: this.ruleForm.desc, // 描述
+              category:this.ruleForm.category,
             },
             headers: {
               token: this.user1.token
@@ -317,7 +330,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .PD {
   display: flex;
   margin: 30px 30px;

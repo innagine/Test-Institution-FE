@@ -3,15 +3,15 @@
  * @Author: IMAGINE
  * @Date: 2021-02-24 15:13:06
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-02-24 16:47:25
+ * @LastEditTime: 2021-05-23 19:24:44
 -->
 <template>
     <div class="equipment-rang">
         <div class="equipments-list">
-            <el-card shadow="hover" class="car-margin" v-for="(item,index) in list" :key="index">
-              <img :src="item.url" class="image">
+            <el-card shadow="hover" class="car-margin" v-for="(item,index) in equipmentList" :key="index">
+              <img :src="item.picture" class="image">
               <p>{{item.name}}</p>
-              <div class="button" @click="showDetails">我要询价</div>
+              <div class="button" @click="showDetails(index)">设备详情</div>
             </el-card>
         </div>
     </div>
@@ -58,6 +58,7 @@
 </style>
 
 <script>
+import { mapState,mapMutations } from 'vuex';
 export default {
     name:'Equipments',
     data(){
@@ -71,9 +72,16 @@ export default {
       }
     },
     methods:{
-      showDetails(){
-        this.$router.push('/equipment-details');
+      ...mapMutations(['CHOICE_EQUIPMENT']),
+      showDetails(index){
+        console.log(index);
+        this.CHOICE_EQUIPMENT(this.equipmentList[index]);
+        console.log(this.equipmentList[index]);
+         this.$router.push('/equipment-details');
       }
     },
+    computed:{
+      ...mapState(['equipmentList']),
+    }
 }
 </script>

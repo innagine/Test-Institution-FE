@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-20 22:48:11
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 11:52:28
+ * @LastEditTime: 2021-05-22 22:46:46
 -->
 <template>
   <div class="MD3">
@@ -21,7 +21,7 @@
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.demand_state === 7 ? 'success' : (scope.row.demand_state === 1 ? 'danger':(scope.row.demand_state === 0 ? 'danger':'')) "
-              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '审核中':(scope.row.demand_state === 4 ? '待操作' : (scope.row.demand_state===5?'待检测':(scope.row.demand_state===6?'检测中':(scope.row.demand_state===7?'已完成':(scope.row.demand_state===1?'已退回':(scope.row.demand_state===0?'已关闭':'待定')))))))}}</el-tag>
+              disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '待审核':(scope.row.demand_state === 4 ? '审核中' : (scope.row.demand_state===5?'待操作':(scope.row.demand_state===6?'待检测':(scope.row.demand_state===7?'检测中':(scope.row.demand_state===8?'完成':(scope.row.demand_state===1?'待提交':'撤回')))))))}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="option" label="操作" width="250"> 
@@ -34,9 +34,15 @@
               type="blue"
               @click="handleProgress(scope.$index, scope.row)">进度</el-button>
             <el-button
+              v-if="scope.row.demand_state == 6"
               size="mini"
               type="danger"
               @click="acceptOrder(scope.$index, scope.row)">接单</el-button>
+            <el-button
+              v-if="scope.row.demand_state == 7"
+              size="mini"
+              type="success"
+              @click="finishDemand(scope.$index, scope.row)">完成</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,7 +57,7 @@
         </el-pagination>
       </div>
       <el-dialog
-        title="修改需求"
+        title="查看需求"
         :visible.sync="dialogVisible"
         top = '5vh'
         width="80%">
@@ -112,6 +118,37 @@ export default {
     // 获取vuex的方法
     ...mapMutations(['CHOICE_DEMAND_ROW']),
 
+    finishDemand(index, row){
+      console.log(index, row);
+      this.requestSend('demand/setFinish',{demand_id:row.demand_id});
+    },
+        // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("客户需求页面请求发送成功", res);
+          this.natificationControl(res.data.msg,'success')
+        })
+        .catch(err => {
+          console.log("客户需求页面请求发送失败", err);
+          this.natificationControl('修改失败','warning')
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
+        });
+    },
+
     // 控制编辑窗口显示函数
     handleEdit(index, row) { 
         console.log(index, row);
@@ -155,7 +192,7 @@ export default {
           page:this.currentPage,
           size:7,
           where: { 
-            demand_state:[1,2,3,4,5,6,7],
+            demand_state:[1,2,3,4,5,6,7,8],
             choice:this.institutionInfo.institution_id,
           },
         },

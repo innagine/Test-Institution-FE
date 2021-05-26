@@ -1,11 +1,27 @@
 <template>
   <div class="user-base-info">
     <div class="user-content">
-      <div class="user-avatar">
-        <el-avatar :src="user1.user_faces ? user1.user_faces : avartorUrl"></el-avatar>
+      <div class="user-avatar" v-if="!changeAvatar" @click="changeAvatar=true">
+        <el-avatar :src="avartorUrl"></el-avatar>
         <div class="user-information">
           <div class="name">{{form.user_name ? form.user_name : user1.user_name}}</div>
           <div class="role">{{user1.user_role}}</div>
+        </div>
+      </div>
+      <div class="change-user-avatr" v-if="changeAvatar">
+        <el-upload
+          class="avatar-uploader"
+          :action="baseUrl+faceURL"
+          :show-file-list="false"
+          :headers="{token: user1.token}"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <div class="change-button">
+          <el-button @click="postAvatar">确认更换</el-button>
+          <el-button @click="changeAvatar=false">取消更换</el-button>
         </div>
       </div>
       <div
@@ -101,13 +117,16 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 export default {
   name: "userBaseInfo",
   data() {
     return {
       avartorUrl:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      faceURL:'upload/u_face',
+      imageUrl: '',
       changeBaseInfo: false,
+      changeAvatar:false,
       form: {
         user_name: "",
         region: "",
@@ -124,6 +143,60 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['LOGIN']),
+
+    postAvatar(){
+      this.requestSend('upload/u_apply',{});
+      this.changeAvatar=false;
+      this.requestUser('search/user',{})
+    },
+    requestUser(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("获取用户请求发送成功", res);
+          res.data.data1[0].user_faces = res.data.data1[0].user_faces.split(';')[0];
+          
+          if(res.data.data1[0].user_role == 0){
+            res.data.data1[0].user_role = 'USER';
+          }else if(res.data.data1[0].user_role == 1){
+            res.data.data1[0].user_role = 'ADMINISTRATORS';
+          }else if(res.data.data1[0].user_role == 2){
+            res.data.data1[0].user_role = 'CUSTOMER_SERVICE';
+          }else if(res.data.data1[0].user_role == 3){
+            res.data.data1[0].user_role = 'FACTORY';
+          }else if(res.data.data1[0].user_role == 4){
+            res.data.data1[0].user_role = 'INSTITUTION';
+          }
+
+          this.LOGIN(res.data.data1[0]);
+        })
+        .catch(err => {
+          console.log("获取用户请求发送失败", err);
+        });
+    },
+
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log(res);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+
     // 提交修改信息函数
     onSubmit() {
         this.requestSend('user/update',this.form);
@@ -166,6 +239,7 @@ export default {
   created(){
       Object.assign(this.form,this.user1);
       this.form.user_email = null;
+      this.avartorUrl = this.user1.user_faces.split(';')[0];
   },
 };
 </script>
@@ -202,6 +276,9 @@ export default {
           }
         }
       }
+      .user-avatar:hover{
+        background: rgb(248, 248, 248);
+      }
       .flex-box {
         display: flex;
         align-items: center;
@@ -218,6 +295,41 @@ export default {
       }
       .change-base-information {
         margin-top: 30px;
+      }
+      .change-user-avatr{
+        display: flex;
+        margin: 20px;
+        .change-button{
+          .el-button{
+          display: block !important;
+          margin-left: 20px !important;
+          margin-top: 6px;
+        }
+        }
+        .avatar-uploader{
+          border: 1px dashed #d9d9d9 !important;
+          border-radius: 6px !important;
+          cursor: pointer !important;
+          position: relative !important;
+          overflow: hidden !important;
+          width: 92px;
+        }
+        .avatar-uploader:hover{
+          border-color: #409EFF !important;
+        }
+        .avatar-uploader-icon {
+          font-size: 28px;
+          color: #8c939d;
+          width: 92px;
+          height: 92px;
+          line-height: 92px;
+          text-align: center;
+        }
+        .avatar {
+          width: 92x;
+          height: 92px;
+          display: block;
+        }
       }
   }
 }

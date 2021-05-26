@@ -3,14 +3,13 @@
  * @Author: IMAGINE
  * @Date: 2021-03-05 14:22:51
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 14:32:18
+ * @LastEditTime: 2021-05-22 01:05:42
 -->
 <template>
 <div class="PD1">
     <div class="PDcontent1">
       <el-form
         :model="ruleForm"
-        :rules="rules"
         ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
@@ -57,10 +56,13 @@
             <el-form-item label="预算范围" prop="budget">
               <el-input
                 v-model="ruleForm.budget"
-                maxlength="30"
-                show-word-limit
               ></el-input> </el-form-item
           ></el-col>
+          <el-col :span="12">
+            <el-form-item label="服务种类" prop="category">
+              <el-input v-model="ruleForm.category"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -91,7 +93,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="下载附件" prop="enclosure">
-          <el-button>确认下载</el-button>
+          <el-button @click="downloadFile">确认下载</el-button>
         </el-form-item>
         <!-- <el-form-item>
           <el-button type="blue" @click="submitForm('ruleForm')"
@@ -108,6 +110,7 @@
 // 导入axios
 import axios from "axios";
 import { mapState } from 'vuex';
+import download from 'downloadjs'
 export default {
   name: "PostDemand",
   //   props:['User'],
@@ -125,48 +128,6 @@ export default {
       },
 
       ruleForm: {},
-      rules: {
-        email: [
-          { required: true, message: "请输入邮箱", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
-        ],
-        tel: [
-          { required: true, message: "请输入电话号码", trigger: "blur" },
-          { max: 30, message: "长度最多 30 个字符", trigger: "blur" },
-        ],
-        demand_contacts: [
-          { required: true, message: "请输入联系人姓名", trigger: "blur" },
-          {
-            min: 8,
-            max: 80,
-            message: "长度在 8 到 80 个字符",
-            trigger: "blur",
-          },
-        ],
-        date1: [
-          {
-            type: "date",
-            // required: true,
-            message: "请选择开始日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            // required: true,
-            message: "请选择结束日期",
-            trigger: "change",
-          },
-        ],
-        describes: [
-          {
-            required: true,
-            message: "需求尽量详细，以便更精确的匹配到合适的测试项目",
-            trigger: "blur",
-          },
-        ],
-      },
     };
   },
   computed:{
@@ -212,6 +173,10 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    downloadFile(){
+      console.log("下载附件")
+      download(this.demandRow.enclosure.split(';')[0]);
+    }
 
   },
   created(){
@@ -236,9 +201,5 @@ export default {
   width: 80%;
   /* margin: 50px auto; */
 }
-.el-upload--picture-card {
-  width: 60px !important;
-  height: 60px !important;
-  line-height: 60px !important;
-}
+
 </style>

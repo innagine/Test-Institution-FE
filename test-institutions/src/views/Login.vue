@@ -1065,7 +1065,6 @@ export default {
     ...mapMutations(['LOGIN',]),
     // 登陆验证
     Login() {
-
       //判断输入框是否为空
       if(!this.account){
         this.$notify({
@@ -1083,7 +1082,6 @@ export default {
            });
         return  
       }
-
     //   发送get请求，请求用户匹配
       axios({
         method: "post",
@@ -1122,13 +1120,11 @@ export default {
             // 转跳到主页
             this.$router.push({path: "/",});
           }
-          
         })
         .catch((err) => {
           console.log("error...", err);
         });
     },
-
     //注册操作
     Register() {
       this.$router.push({

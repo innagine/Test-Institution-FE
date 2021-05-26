@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-05-15 11:06:52
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 11:28:36
+ * @LastEditTime: 2021-05-20 20:03:46
 -->
 <template>
   <div class="institution-complete">
@@ -11,17 +11,17 @@
       <div class="institution-information ">
         <div class="picture-title">机构图片</div>
         <div class="institution-picture">
-          <el-image>
+          <el-image :src='institutionPicture[0]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
-          <el-image>
+          <el-image :src='institutionPicture[1]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
-          <el-image>
+          <el-image :src='institutionPicture[2]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
@@ -74,6 +74,7 @@ export default {
         institution_email:'',
         institution_info:'',
       },
+      institutionPicture:[],
       changeBaseInfo:false,
       institutionInformation:null,
     };
@@ -134,6 +135,9 @@ export default {
     },
 
   },
+  created(){
+    this.institutionPicture = this.institutionInfo.institution_pic ? this.institutionInfo.institution_pic.split(";"):'';
+  }
 };
 </script>
 

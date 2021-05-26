@@ -48,7 +48,7 @@
 
         <el-form-item label="营业执照" prop="grade">
           <el-upload
-            action="http://26.140.221.230:8556/upload/i_license"
+            :action="baseUrl+'upload/i_license'"
             list-type="picture-card"
             :headers="{token: this.user1.token}"
             :auto-upload="true"
@@ -86,7 +86,7 @@
 
         <el-form-item label="资质认定证书" prop="grade">
           <el-upload
-            action="http://26.140.221.230:8556/upload/i_credentials"
+            :action="baseUrl+'upload/i_credentials'"
             list-type="picture-card"
             :headers="{token: this.user1.token}"
             :auto-upload="true"
@@ -124,7 +124,7 @@
 
         <el-form-item label="认证证书附表" prop="grade">
           <el-upload
-            action="http://26.140.221.230:8556/upload/i_enclosure"
+            :action="baseUrl+'upload/i_enclosure'"
             list-type="picture-card"
             :headers="{token: this.user1.token}"
             :auto-upload="true"
@@ -206,7 +206,6 @@ export default {
       dialogImageUrl: "", // 查看上传文件
       dialogVisible: false, // 查看文件上传弹窗
       disabled: false,
-      documentUrl: "http://26.140.221.230:8556/upload/f_license", // 上传工厂文件专用链接
       fileList1: [], // 上传营业执照资料对象数组
       fileList2: [], // 上传资质认定资料对象数组
       fileList3: [], // 上传认证证书资料对象数组
@@ -335,7 +334,7 @@ export default {
           // 清除前端文件数组中被选中的对象
           this.fileList1.splice(index,1);
           // 调用清除后端缓存中的对象函数
-          this.handleDelete(file,'/delete/i_license');
+          this.handleDelete(file,'delete/i_license');
           break;
         case 2:
           // 通过循环找出被选中文件对象
@@ -349,7 +348,7 @@ export default {
           // 清除前端文件数组中被选中的对象
           this.fileList2.splice(index,1);
           // 调用清除后端缓存中的对象函数
-          this.handleDelete(file,'/delete/i_credentials');
+          this.handleDelete(file,'delete/i_credentials');
           break;
         case 3:
           // 通过循环找出被选中文件对象
@@ -363,7 +362,7 @@ export default {
           // 清除前端文件数组中被选中的对象
           this.fileList3.splice(index,1);
           // 调用清除后端缓存中的对象函数
-          this.handleDelete(file,'/delete/i_enclosure');
+          this.handleDelete(file,'delete/i_enclosure');
           break;
         default:
           return ;
@@ -428,7 +427,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .RI { 
   margin: 30px 30px;
   justify-content: center;

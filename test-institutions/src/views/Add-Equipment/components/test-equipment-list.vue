@@ -3,18 +3,18 @@
  * @Author: IMAGINE
  * @Date: 2021-04-22 11:26:13
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-14 22:40:53
+ * @LastEditTime: 2021-05-19 17:36:25
 -->
 <template>
   <div class="test-equipment-list">
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="id" label="设备编号"></el-table-column>
         <el-table-column prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column prop="category" label="设备分类" width="120">{{ category == 1 ? '不可出售':'可以出售'}}</el-table-column>
+        <el-table-column prop="category" label="设备分类" width="120">{{ tableData.category == 1 ? '不可出售':'可以出售'}}</el-table-column>
         <el-table-column prop="name" label="设备名称" width="120"></el-table-column>
         <el-table-column prop="price" label="检测价格"> </el-table-column>
         <el-table-column prop="discount" label="折扣"> </el-table-column>
-        <el-table-column prop="grade" label="设备等级">{{grade == 1 ? '基础设备':'高级设备'}}</el-table-column>
+        <el-table-column prop="grade" label="设备等级">{{tableData.grade == 1 ? '基础设备':'高级设备'}}</el-table-column>
         <el-table-column prop="state" label="状态"> 
           <template>
             <el-tag
@@ -33,9 +33,56 @@
               <el-dialog
                   title="编辑项目"
                   :visible.sync="dialogVisible"
-                  width="80%"
-                  :before-close="handleClose">
-                  待填充内容
+                  width="80%">
+                  <el-form ref="equipmentForm" :model="equipmentForm" label-width="80px">
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="设备名称">
+                          <el-input v-model="equipmentForm.name"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="设备简介">
+                          <el-input v-model="equipmentForm.information"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="设备价格">
+                          <el-input v-model="equipmentForm.price"></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="设备折扣">
+                          <el-input v-model="equipmentForm.discount"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="设备分类">
+                          <el-select v-model="equipmentForm.category" placeholder="请选择">
+                            <el-option label="不可出售" value="1"></el-option>
+                            <el-option label="可以出售" value="2"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="设备等级">
+                          <el-select v-model="equipmentForm.grade" placeholder="请选择">
+                            <el-option label="基础设备" value="1"></el-option>
+                            <el-option label="高级设备" value="2"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-form-item label="设备图片" v-for="(item,index) in equipmentPicture" :key="index">
+                        <el-image :src='item'></el-image>
+                      </el-form-item>
+                    </el-row>
+                  </el-form>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -76,11 +123,28 @@ export default {
       tableData: [],
       currentPage:1,
       total:0,
+      equipmentPicture:[],
+      equipmentForm:{
+        name:'',
+        price:'',
+        address:'',
+        category:'',
+        grade:'',
+        information:'',
+        institution:'',
+        region:'',
+        discount:'',
+      },
     };
   },
   methods: {
     handleEdit(index, row) {
         console.log(index, row);
+        if(row.picture){
+          this.equipmentPicture = row.picture.split(';')
+          this.equipmentPicture.pop();
+        }
+        this.equipmentForm =row;
         this.dialogVisible = true
       },
     handleUp(index, row) {
@@ -174,3 +238,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.el-image{
+  width: 50%;
+}
+</style>

@@ -185,7 +185,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .RP {
   width: 100%;
   padding: 20px;

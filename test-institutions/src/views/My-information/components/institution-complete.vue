@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-04-08 17:26:55
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-11 15:09:30
+ * @LastEditTime: 2021-05-20 00:03:41
 -->
 <template>
   <div class="institution-complete">
@@ -16,23 +16,64 @@
             <div class="role">{{user1.user_role}}</div>
           </div>
         </div>
-        <div class="picture-title">机构图片</div>
-        <div class="institution-picture">
-          <el-image>
+        <div class="picture-title" v-if="!addPicture">机构图片</div>
+        <div class="institution-picture" v-if="!addPicture" @click="addPicture=true">
+          <el-image :src='institutionPicture[0]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
-          <el-image>
+          <el-image :src='institutionPicture[1]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
-          <el-image>
+          <el-image :src='institutionPicture[2]'>
             <div slot="error">
               <i class="el-icon-picture-outline"></i>
             </div>
           </el-image>
+        </div>
+        <div class="picture-title" v-if="addPicture">添加图片</div>
+        <div class="add-picture" v-if="addPicture">
+          <el-upload
+            :action="baseUrl+pictureURL"
+            :headers="{token: user1.token}"
+            list-type="picture-card"
+            :auto-upload="true"
+            :file-list="fileList"
+            :on-success="handleSuccess">
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+          <div class="add-button">
+            <el-button @click="onSend">确认上传</el-button>
+            <el-button @click="onCancel">取消上传</el-button>
+          </div>
         </div>
         <div class="base-information" v-if="!changeBaseInfo" @click="changeBaseInformation">
           <div class="institution-name flex-box">
@@ -127,6 +168,7 @@ export default {
   data() {
     return {
       avartorUrl:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      institutionPicture:[],
       institutionForm:{
         institution_name:'',
         institution_address:'',
@@ -136,7 +178,13 @@ export default {
         institution_info:'',
       },
       changeBaseInfo:false,
+      addPicture:false,
       institutionInformation:null,
+      pictureURL:'upload/i_pic',
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
+      fileList: [],
     };
   },
   computed: {
@@ -144,6 +192,54 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_INSTITUTION_INFO"]),
+
+    onSend(){
+      this.requestSend('upload/i_pic_apply',{});
+    },
+
+    onCancel(){
+      this.addPicture = false;
+    },
+
+    // 删除上传文件
+    handleRemove(file) {
+      // 通过循环找出被选中文件对象
+      let len = this.fileList.length;
+      let index = 0;
+      for(let i = 0; i<len; i++){
+        if(this.fileList[i].uid === file.uid){
+          index = i;
+        }
+      }
+      // 清除前端文件数组中被选中的对象
+      this.fileList.splice(index,1); 
+
+      // 清除后端缓存中的对象
+      this.handleDelete(file);
+    },
+    // 查看上传文件函数
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    // 文件上传成功执行函数
+    handleSuccess(response, file, fileList){
+      this.fileList.push(file);
+      console.log(response, file, fileList);
+    },
+    // 清除后端缓存中的对象函数
+    handleDelete(file){
+      axios({
+        method:'post',
+        url:this.baseUrl+'delete/i_pic',
+        headers:{token: this.user1.token},
+        data:{fileName:file.name},
+      }).then((res)=>{
+        console.log('删除后台缓存中的被选中文件数据成功',res);
+      }).catch((err)=>{
+        console.log('删除后台缓存中的被选中文件数据失败',err);
+      })
+    },
 
     // 提交修改信息函数
     onSubmit() {
@@ -206,7 +302,10 @@ export default {
 
   },
   created(){
-    this.requestFirstSend('search/institution',{});
+    // this.requestFirstSend('search/institution',{});
+    this.institutionForm = this.institutionInfo;
+    this.institutionPicture = this.institutionInfo.institution_pic ? this.institutionInfo.institution_pic.split(";"):'';
+    console.log(this.institutionPicture)
   }
 };
 </script>
@@ -251,6 +350,12 @@ export default {
       .picture-title{
         margin-left: 20px;
       }
+      .add-picture{
+        padding: 20px;
+        .add-button{
+          margin-top: 20px;
+        }
+      }
       .institution-picture{
         margin: 20px;
         display:flex;
@@ -267,16 +372,21 @@ export default {
           }
         }
       }
-      .flex-box{
-        display: flex;
-        align-items:center;
-        .lable{
-          margin: 20px;
-          margin-right: 100px;
+      .base-information{
+        .flex-box{
+          display: flex;
+          align-items:center;
+          .lable{
+            margin: 20px;
+            margin-right: 100px;
+          }
+          .name{
+            color: rgb(153, 153, 153);
+          }
         }
-        .name{
-          color: rgb(153, 153, 153);
-        }
+      }
+      .base-information:hover{
+        background: rgb(248, 248, 248);
       }
       .change-base-information{
         margin-top: 30px;

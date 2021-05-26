@@ -37,7 +37,7 @@
           placeholder="请输入搜索内容"
           class="changestyle"
         ></el-input>
-        <el-button size="small" type="blue" class="H-search">搜索</el-button>
+        <el-button size="small" type="blue" class="H-search" @click="searchItem">搜索</el-button>
       </el-menu-item>
 
       <el-menu-item index="8" v-if="showPostDemand" style="float: right">
@@ -49,7 +49,7 @@
       </el-menu-item>
       <el-menu-item index="10" style="float: right" v-if="user1">
         <div>
-          <el-avatar :src="url"></el-avatar>
+          <el-avatar :src="avartorUrl"></el-avatar>
         </div>
       </el-menu-item>
     </el-menu>
@@ -75,6 +75,7 @@
     <soil-survey v-if="indexlist[21].index"></soil-survey>
     <company-strategy v-if="indexlist[22].index"></company-strategy>
     <user-control v-if="indexlist[23].index"></user-control>
+    <global-seasrch v-if="indexlist[7].index"></global-seasrch>
     <Footer></Footer>
   </div>
 </template>
@@ -83,7 +84,7 @@
 // @ is an alias to /src
 
 // 导入axios
-// import axios from "axios";
+import axios from "axios";
 import RotationChart from "@/components/RotationChart.vue"
 import PostDemand from "@/components/PostDemand.vue"
 import Choose from "@/components/Choose.vue"
@@ -97,7 +98,7 @@ import Footer from '@/components/Footer.vue'
 import TreatmentEquipment from './Treatment-equipment/treatment-equipment.vue'
 import WasteTreatment from './Waste-treatment/waste-treatment.vue'
 import EnvironmentProtection from './Environment-protection/environment-protection.vue'
-import { mapState } from 'vuex';
+import { mapState,mapMutations } from 'vuex';
 import InstitutionMatch from './Institution-match/institution-match.vue'
 import EnvironmentTest from './Environment-test/environment-test.vue'
 import MaterialTest from './Material-Test/material-test.vue'
@@ -108,6 +109,7 @@ import AnnualTest from './Annual-Test/annual-test.vue'
 import SoilSurvey from './Soil-Survey/soil-survey.vue'
 import CompanyStrategy from './Company-Strategy/company-strategy.vue'
 import UserControl from './User-Control/user-control.vue'
+import GlobalSeasrch from '../components/GlobalSeasrch.vue'
 
 export default {
   name: "Home",
@@ -135,8 +137,8 @@ export default {
     SoilSurvey ,
     CompanyStrategy,
     UserControl,
+    GlobalSeasrch,
   },
-
   created(){
     if(!this.user1) return ;
     //权限判定
@@ -161,10 +163,8 @@ export default {
       this.showUser=true;
     }
     console.log(this.user1)
-    //735723058@qq.com
-    //@weAre19502
+    this.avartorUrl = this.user1.user_faces.split(';')[0];
   },
-
 
   data() {
     return {
@@ -196,7 +196,7 @@ export default {
         { index: false },
         { index: false },
       ],
-      url:
+      avartorUrl:
         "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       activeIndex: "",
       input:'',
@@ -206,9 +206,32 @@ export default {
       showPostDemand:true,
     };
   },
-
-  
   methods: {
+    ...mapMutations(['SET_ITEM_LIST']),
+
+    searchItem(){
+      this.requestSend('search/global',{ where:{ search:this.input } })
+    },
+
+    // 请求发起调用函数
+    requestSend(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        // headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("检索机构项目页面请求发送成功", res);
+          // 去除返回数据数组中的末尾
+          this.total = res.data.data1.pop().value;
+          //将处理好的数据赋值给tableData
+          this.SET_ITEM_LIST(res.data.data1);
+        })
+        .catch(err => {
+          console.log("检索机构项目页面请求发送失败", err);
+        });
+    },
 
     // 注册
     Register() {
@@ -216,7 +239,6 @@ export default {
         path: "/register",
       });
     },
-
     // 重新登陆
     Login() {
       if(!this.user1){
@@ -226,7 +248,6 @@ export default {
         this.indexlist[10].index=true;
       }
     },
-
     // 选择页面展示
     handleSelect(key, keyPath) {
       for(let i=0; i<this.indexlist.length; i++){
@@ -248,7 +269,7 @@ export default {
     },
   },
   computed:{
-    ...mapState(['user1',]),
+    ...mapState(['user1','baseUrl']),
   }
 };
 </script>

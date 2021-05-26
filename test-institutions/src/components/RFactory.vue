@@ -48,7 +48,7 @@
 
         <el-form-item label="营业执照" prop="grade">
           <el-upload
-            action="http://26.140.221.230:8556/upload/f_license"
+            :action="baseUrl+'upload/f_license'"
             :headers="{token: this.user1.token}"
             list-type="picture-card"
             :auto-upload="true"
@@ -131,7 +131,6 @@ export default {
       dialogImageUrl: "", // 查看上传文件
       dialogVisible: false, // 查看文件上传弹窗
       disabled: false,
-      documentUrl: "http://26.140.221.230:8556/upload/f_license", // 上传工厂文件专用链接
       fileList: [], // 上传资料对象数组
       ruleForm: {
         name: "",
@@ -210,9 +209,19 @@ export default {
       })
         .then(res => {
           console.log("工厂页面请求发送成功", res);
+          // this.natificationControl()
         })
         .catch(err => {
           console.log("工厂页面请求发送失败", err);
+        });
+    },
+
+    // 弹窗控制函数
+    natificationControl(myMessage,myType){
+        this.$notify({
+           title: "通知",
+           message: myMessage,
+           type: myType,
         });
     },
     
@@ -313,5 +322,13 @@ export default {
   width: 60px !important;
   height: 60px !important;
   line-height: 60px !important;
+}
+.role-transition{
+  height: 100%;
+  width: 80%;
+  margin: 20px auto;
+}
+.rinstitution-test{
+  margin-bottom: 40px;
 }
 </style>

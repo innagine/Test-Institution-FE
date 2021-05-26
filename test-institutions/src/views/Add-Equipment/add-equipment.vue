@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-05-11 14:09:59
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-14 22:49:52
+ * @LastEditTime: 2021-05-22 21:39:37
 -->
 
 <template>
@@ -42,7 +42,8 @@
                 <el-form-item label="设备分类">
                   <el-select v-model="equipmentForm.category" placeholder="请选择">
                     <el-option label="不可出售" value="1"></el-option>
-                    <el-option label="可以出售" value="2"></el-option>
+                    <el-option label="检测设备" value="2"></el-option>
+                    <el-option label="环评设备" value="3"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -54,6 +55,44 @@
                   </el-select>
                 </el-form-item>
               </el-col>
+            </el-row>
+            <el-row>
+              <el-form-item label="设备图片">
+                <el-upload
+                  :action="baseUrl+equipmentUrl"
+                  :headers="{token: user1.token}"
+                  list-type="picture-card"
+                  :auto-upload="true"
+                  :file-list="fileList"
+                  :on-success="handleSuccess">
+                  <i slot="default" class="el-icon-plus"></i>
+                  <div slot="file" slot-scope="{ file }">
+                    <img
+                      class="el-upload-list__item-thumbnail"
+                      :src="file.url"
+                      alt=""
+                    />
+                    <span class="el-upload-list__item-actions">
+                      <span
+                        class="el-upload-list__item-preview"
+                        @click="handlePictureCardPreview(file)"
+                      >
+                        <i class="el-icon-zoom-in"></i>
+                      </span>
+                      <span
+                        v-if="!disabled"
+                        class="el-upload-list__item-delete"
+                        @click="handleRemove(file)"
+                      >
+                        <i class="el-icon-delete"></i>
+                      </span>
+                    </span>
+                  </div>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                  <img width="100%" :src="dialogImageUrl" alt="" />
+                </el-dialog>
+              </el-form-item>
             </el-row>
             <el-row>
               <el-col :span="12">
@@ -134,9 +173,54 @@ export default {
         region:'',
         discount:'',
       },
+      equipmentUrl:'upload/e_pic',
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
+      fileList: [],
     }
   },
   methods:{
+    // 删除上传文件
+    handleRemove(file) {
+      // 通过循环找出被选中文件对象
+      let len = this.fileList.length;
+      let index = 0;
+      for(let i = 0; i<len; i++){
+        if(this.fileList[i].uid === file.uid){
+          index = i;
+        }
+      }
+      // 清除前端文件数组中被选中的对象
+      this.fileList.splice(index,1); 
+
+      // 清除后端缓存中的对象
+      this.handleDelete(file);
+    },
+    // 查看上传文件函数
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    // 文件上传成功执行函数
+    handleSuccess(response, file, fileList){
+      this.fileList.push(file);
+      console.log(response, file, fileList);
+    },
+    // 清除后端缓存中的对象函数
+    handleDelete(file){
+      axios({
+        method:'post',
+        url:this.baseUrl+'delete/e_pic',
+        headers:{token: this.user1.token},
+        data:{fileName:file.name},
+      }).then((res)=>{
+        console.log('删除后台缓存中的被选中文件数据成功',res);
+      }).catch((err)=>{
+        console.log('删除后台缓存中的被选中文件数据失败',err);
+      })
+    },
+
     // 请求发起调用函数
     requestSend(sendUrl, sendData) {
       axios({

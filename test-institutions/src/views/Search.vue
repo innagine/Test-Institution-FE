@@ -6,8 +6,9 @@
         </el-table-column>
         <el-table-column prop="create_time" label="日期" width="180">
         </el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="180">
+        <el-table-column prop="budget" label="需求预算" width="180">
         </el-table-column>
+        <el-table-column prop="category" label="选择服务"></el-table-column>
         <el-table-column prop="quantity" label="样品数量">
         </el-table-column>
         <el-table-column prop="opration" label="操作" width="180">
@@ -15,7 +16,7 @@
         </el-table-column>
       </el-table>
       <div class="choice-institution-box">
-        <div class="choice-institution-text">已选择机构：</div>
+        <div class="choice-institution-text">已选择机构ID：</div>
         <div class="choice-institution-item">
           <el-tag v-for="(tag,index) in choiceInstitutionList" :key="index" closable   @close="handleClose(tag,index)">
             {{ tag }}
@@ -35,90 +36,54 @@
         >
           <el-row>
             <el-col :span="12">
-              <el-form-item label="机构编号" prop="issueId">
-                <el-input v-model="ruleForm.issueId"></el-input>
+              <el-form-item label="项目编号" prop="item_id">
+                <el-input v-model="ruleForm.item_id"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="机构名称" prop="issueId">
-                <el-input v-model="ruleForm.issueId"></el-input>
+              <el-form-item label="项目名称" prop="item_name">
+                <el-input v-model="ruleForm.item_name"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="检测周期">
-            <el-col :span="11">
-              <el-form-item prop="date1">
-                <el-date-picker
-                  type="date"
-                  placeholder="选择日期"
-                  v-model="ruleForm.date1"
-                  style="width: 100%"
-                ></el-date-picker>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="检测对象" prop="item_target">
+                <el-input v-model="ruleForm.item_target"></el-input>
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="2" style="text-align: center"
-              >至</el-col
-            >
-            <el-col :span="11">
-              <el-form-item prop="date2">
-                <el-date-picker
-                  type="date"
-                  placeholder="选择日期"
-                  v-model="ruleForm.date2"
-                  style="width: 100%"
-                ></el-date-picker>
+            <el-col :span="12">
+              <el-form-item label="项目折扣" prop="discount">
+                <el-input v-model="ruleForm.discount"></el-input>
               </el-form-item>
             </el-col>
-          </el-form-item>
+          </el-row>
           <el-form-item label="价格区间">
             <el-col :span="11">
-              <el-form-item prop="price1">
-                <el-input v-model="ruleForm.price1"></el-input>
+              <el-form-item prop="min">
+                <el-input v-model="ruleForm.min"></el-input>
               </el-form-item>
             </el-col>
             <el-col class="line" :span="2" style="text-align: center"
               >至</el-col
             >
             <el-col :span="11">
-              <el-form-item prop="price2">
-                <el-input v-model="ruleForm.price2"></el-input>
+              <el-form-item prop="max">
+                <el-input v-model="ruleForm.max"></el-input>
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item label="检测项目" prop="status">
-            <el-select v-model="ruleForm.status" placeholder="请选择检测项目">
-              <el-option label="A" value="项目A"></el-option>
-              <el-option label="B" value="项目B"></el-option>
-              <el-option label="C" value="项目C"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="机构资质" prop="createMan">
-            <el-select
-              v-model="ruleForm.createMan"
-              placeholder="请选择检测机构资质"
-            >
-              <el-option label="A" value="项目A"></el-option>
-              <el-option label="B" value="项目B"></el-option>
-              <el-option label="C" value="项目C"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="机构地区" prop="updateMan">
-            <el-select
-              v-model="ruleForm.updateMan"
-              placeholder="请选择机构地区"
-            >
-              <el-option label="A" value="项目A"></el-option>
-              <el-option label="B" value="项目B"></el-option>
-              <el-option label="C" value="项目C"></el-option>
+          <el-form-item label="项目类型" prop="category">
+            <el-select v-model="ruleForm.category" placeholder="请选择检测项目">
+              <el-option label="环评服务" value="1"></el-option>
+              <el-option label="检测服务" value="2"></el-option>
+              <el-option label="设备服务" value="3"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')"
-              >立即搜索</el-button
-            >
+            <el-button type="primary" @click="submitForm('ruleForm')">立即搜索</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
             <el-button @click="turnBack">返回</el-button>
-            <el-button @click="showDrawer">需求详情</el-button>
             <el-button @click="show3 = !show3">收起</el-button>
           </el-form-item>
         </el-form>
@@ -143,21 +108,15 @@ export default {
   },
   data() {
     return {
-      drawer: false, // 抽屉是否显示
       show3: true, // 搜索框是否出现
       ruleForm: {
-        iusseId: null,
-        createMan: null,
-        updateMan: null,
-        date1: null,
-        date2: null,
-        price1: null,
-        price2: null,
-        status: null,
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        item_id:null,
+        item_name:null,
+        item_target:null,
+        discount:null,
+        category:null,
+        min:null,
+        max:null,
       },
       rules: {
         date1: [
@@ -196,7 +155,7 @@ export default {
     ...mapState(["user1","baseUrl","choiceInstitutionList","demandRow"])
   },
   methods: {
-    ...mapMutations(['DELETE_INSTITUTION']),
+    ...mapMutations(['DELETE_INSTITUTION','SET_ITEM_LIST','SET_ITEM_TOTAL']),
 
     // 发送推荐机构函数
     sendRecommend(){
@@ -213,15 +172,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$refs.child.getData();
-          this.$notify({
-            title: "消息",
-            message: "搜索完成",
-            type: "success"
-          });
+          // this.natificationControl('搜索成功','success');
+          this.requestList('search/itemAll',{ where:this.ruleForm });
+          console.log(this.ruleForm);
         } else {
-          console.log("error submit!!");
-          return false;
+          this.natificationControl('搜索失败','warning');
         }
       });
     },
@@ -235,15 +190,30 @@ export default {
       this.$router.push("/institution-match");
     },
 
-    // 显示需求详情
-    showDrawer() {
-      this.drawer = true;
-    },
-
     // 关闭标签
     handleClose(tag,index) {
         console.log("标签",tag,index);
         this.DELETE_INSTITUTION();
+    },
+
+    // 请求发起调用函数
+    requestList(sendUrl, sendData) {
+      axios({
+        method: "post",
+        url: this.baseUrl + sendUrl,
+        headers: { token: this.user1.token },
+        data: sendData
+      })
+        .then(res => {
+          console.log("搜索项目请求发送成功", res);
+          this.SET_ITEM_TOTAL(res.data.data1.pop().value);
+          this.SET_ITEM_LIST(res.data.data1);
+          this.natificationControl(res.data.msg,'success')
+        })
+        .catch(err => {
+          console.log("搜索项目请求发送失败", err);
+          this.natificationControl('查询失败','warning')
+        });
     },
 
     // 请求发起调用函数
@@ -255,12 +225,12 @@ export default {
         data: sendData
       })
         .then(res => {
-          console.log("推荐机构请求发送成功", res);
+          console.log("搜索项目请求发送成功", res);
           this.natificationControl(res.data.msg,'success')
         })
         .catch(err => {
-          console.log("推荐机构请求发送失败", err);
-          this.natificationControl('修改失败','warning')
+          console.log("搜索项目请求发送失败", err);
+          this.natificationControl('查询失败','warning')
         });
     },
 

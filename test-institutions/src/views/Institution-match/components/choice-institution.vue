@@ -3,7 +3,7 @@
  * @Author: IMAGINE
  * @Date: 2021-03-09 16:11:27
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 14:18:00
+ * @LastEditTime: 2021-05-20 19:45:49
 -->
 <template>
   <div class="MD2">
@@ -12,10 +12,11 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="demand_id" label="订单编号" width="180"></el-table-column>
-        <el-table-column prop="create_time" label="日期" width="180"></el-table-column>
-        <el-table-column prop="budget" label="检测预算" width="180">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
-        <el-table-column prop="quantity" label="样品数量">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="demand_id" label="订单编号"></el-table-column>
+        <el-table-column prop="create_time" label="日期"></el-table-column>
+        <el-table-column prop="budget" label="检测预算"></el-table-column>
+        <el-table-column prop="category" label="选择服务"></el-table-column>
+        <el-table-column prop="quantity" label="样品数量"></el-table-column>
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
@@ -23,7 +24,7 @@
               disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '待审核':(scope.row.demand_state === 4 ? '审核中' : (scope.row.demand_state===5?'待操作':(scope.row.demand_state===6?'待检测':(scope.row.demand_state===7?'检测中':(scope.row.demand_state===8?'已完成':''))))))}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="option" label="操作"> 
+        <el-table-column prop="option" label="操作"  width="250"> 
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -50,7 +51,7 @@
         </el-pagination>
       </div>
       <el-dialog
-        title="修改需求"
+        title="查看需求"
         :visible.sync="dialogVisible"
         top = '5vh'
         width="80%">

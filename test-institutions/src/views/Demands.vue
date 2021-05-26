@@ -5,10 +5,11 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column prop="demand_id" label="订单编号" width="180"></el-table-column>
-        <el-table-column prop="create_time" label="日期" width="180"></el-table-column>
-        <el-table-column prop="matter" label="检测项目" width="180">{{tableData.matter? tableData.matter:'水'}}</el-table-column>
-        <el-table-column prop="choice" label="检测机构">{{tableData.choice? tableData.choice:'未选定'}}</el-table-column>
+        <el-table-column prop="demand_id" label="订单编号"></el-table-column>
+        <el-table-column prop="create_time" label="日期"></el-table-column>
+        <el-table-column prop="budget" label="需求预算"></el-table-column>
+        <el-table-column prop="category" label="选择服务"></el-table-column>
+        <el-table-column prop="quantity" label="样品数量"></el-table-column>
         <el-table-column prop="demand_state" label="状态"> 
           <template slot-scope="scope">
             <el-tag
@@ -16,7 +17,7 @@
               disable-transitions>{{scope.row.demand_state === 2 ?'已提交':(scope.row.demand_state === 3 ? '待审核':(scope.row.demand_state === 4 ? '审核中' : (scope.row.demand_state===5?'待操作':(scope.row.demand_state===6?'待检测':(scope.row.demand_state===7?'检测中':(scope.row.demand_state===8?'已完成':''))))))}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="option" label="操作"> 
+        <el-table-column prop="option" label="操作" width="250"> 
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -33,7 +34,7 @@
                   title="检测进度"
                   :visible.sync="dialogVisible"
                   width="80%">
-                  <Progress></Progress>
+                  <modification-demand></modification-demand>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -75,22 +76,28 @@
 </style>
 
 <script>
-import Progress from "@/components/Progress.vue"
-import { mapState } from 'vuex';
+
+import { mapState,mapMutations } from 'vuex';
 import axios from 'axios';
+import ModificationDemand from './My-information/components/modification-demand.vue';
 
 export default {
   name: "Demands",
   components:{
-    Progress,
+    ModificationDemand,
   },
   computed:{
     ...mapState(['user1','baseUrl',]),
   },
   methods: {
+    // 获取vuex的方法
+    ...mapMutations(['CHOICE_DEMAND_ROW']),
+
     // 编辑需求任务函数
     handleEdit(index, row) { 
         console.log(index, row);
+        this.CHOICE_DEMAND_ROW(row);
+        console.log('存进vuex中的row',this.demandRow);
         this.dialogVisible = true;
       },
 

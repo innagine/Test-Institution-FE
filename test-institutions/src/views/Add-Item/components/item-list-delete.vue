@@ -3,14 +3,20 @@
  * @Author: IMAGINE
  * @Date: 2021-05-11 23:40:39
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-12 10:55:31
+ * @LastEditTime: 2021-05-23 16:56:22
 -->
 <template>
   <div class="test-item-list">
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="item_id" label="项目编号"></el-table-column>
         <el-table-column prop="other" label="日期" width="180"></el-table-column>
-        <el-table-column prop="category" label="项目分类"></el-table-column>
+        <el-table-column prop="category" label="项目分类">
+          <template slot-scope="scope">
+            <el-tag 
+              type="success"
+              disable-transitions>{{scope.row.category == '1' ?'环评服务': (scope.row.category == '2' ? '检测服务': '设备服务')}}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="item_name" label="检测项目" width="100"></el-table-column>
         <el-table-column prop="price" label="检测价格"> </el-table-column>
         <el-table-column prop="discount" label="折扣"> </el-table-column>

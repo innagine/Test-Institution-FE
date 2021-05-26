@@ -3,11 +3,11 @@
  * @Author: IMAGINE
  * @Date: 2021-04-01 15:12:25
  * @LastEditors: IMAGINE
- * @LastEditTime: 2021-05-15 14:48:55
+ * @LastEditTime: 2021-05-23 22:11:00
 -->
 <template>
-  <div class="PD">
-    <div class="PDcontent">
+  <div class="PD6">
+    <div class="PDcontent6">
       <el-form
         :model="ruleForm"
         ref="ruleForm"
@@ -124,10 +124,10 @@
               label="总额(元)"
               prop="amount"
               :inline="true"
-              v-model="ruleForm.total"
+              v-model="ruleForm.amount"
               :readonly="true"
             >
-              <el-input v-model="ruleForm.version"></el-input> </el-form-item
+              <el-input v-model="ruleForm.amount"></el-input> </el-form-item
           ></el-col>
         </el-row>
 
@@ -219,6 +219,7 @@ export default {
         equipment:this.value2
       }
       this.requestSend('orders/add',data);
+      this.requestSend('demand/setTested',{demand_id:this.demandRow.demand_id});
     },
 
     // 重置表单数据
@@ -305,4 +306,18 @@ export default {
 };
 </script>
 
-
+<style lang="scss" scoped>
+.PD6 {
+  display: flex;
+  margin: 30px 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  .PDcontent6 {
+    height: 100%;
+    width: 80%;
+    margin: 50px auto;
+  }
+}
+</style>
